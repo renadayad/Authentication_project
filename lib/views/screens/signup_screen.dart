@@ -95,7 +95,8 @@ class SignUpScreen extends StatelessWidget {
                       controller: emailController,
                       obscureText: false,
                       prefixIcon: const Icon(
-                        Icons.person_outlined,
+          Icons.person_outline,
+
                         color: mainColor,
                       ),
                       suffixIcon: const Text(''),
@@ -178,9 +179,9 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () {
-                              controller.Visibilty();
+                              controller.Visibilty2();
                             },
-                            icon: controller.isVisibilty
+                            icon: controller.isVisibilty2
                                 ? const Icon(
                                     Icons.visibility_outlined,
                                     color: mainColor,
