@@ -27,7 +27,7 @@ class ChangePassword extends StatelessWidget {
               const Text(
                 "Change Password",
                 style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 16,
                     fontWeight: FontWeight.w300,
                     color: Colors.black),
               ),

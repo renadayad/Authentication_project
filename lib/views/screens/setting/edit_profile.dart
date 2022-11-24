@@ -24,7 +24,7 @@ class EditProfile extends StatelessWidget {
               const Text(
                 "Edit Profile",
                 style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 16,
                     fontWeight: FontWeight.w300,
                     color: Colors.black),
               ),

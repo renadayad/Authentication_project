@@ -13,7 +13,7 @@ class NotificationWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextUtils(
-          fontsize: 22,
+          fontsize: 16,
           fontWeight: FontWeight.w300,
           text: "Notification",
           color: Colors.black,
