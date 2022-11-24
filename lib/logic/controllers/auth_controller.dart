@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../routes.dart';
 
-
 class AuthController extends GetxController {
   bool isVisibilty = false;
   bool isCheckBox = false;
@@ -38,15 +37,12 @@ class AuthController extends GetxController {
     required String password,
   }) async {
     try {
-      await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) =>
-      displayUserName.value = auth.currentUser!.displayName!);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
 
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
       update();
-      Get.toNamed(Routes.signScreen);
+      Get.offNamed(Routes.settingScreen);
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -59,7 +55,7 @@ class AuthController extends GetxController {
       }
       Get.snackbar(title, message,
           snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
           colorText: Colors.white);
     } catch (error) {
       Get.snackbar(
@@ -102,7 +98,7 @@ class AuthController extends GetxController {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
       if (googleUser != null) {
         GoogleSignInAuthentication signInAuthentication =
-        await googleUser.authentication;
+            await googleUser.authentication;
         final AuthCredential credential = GoogleAuthProvider.credential(
             idToken: signInAuthentication.idToken,
             accessToken: signInAuthentication.accessToken);
@@ -138,6 +134,61 @@ class AuthController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.grey,
           colorText: Colors.white);
+    }
+  }
+
+  void signUpUsingFirebase({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      update();
+      Get.offNamed(Routes.settingScreen);
+    } on FirebaseAuthException catch (e) {
+      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
+      String message = '';
+
+      if (e.code == 'email-already-in-use') {
+        message = 'Email already used';
+      } else {
+        message = e.message.toString();
+      }
+
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  Future<void> googleSignUpApp() async {
+    try {
+      final googleUser = await googleSign.signIn();
+
+      isSignedIn = true;
+      update();
+      Get.offNamed(Routes.settingScreen);
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
     }
   }
 }

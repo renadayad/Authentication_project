@@ -6,7 +6,6 @@ import 'package:get/route_manager.dart';
 
 import 'logic/bindings/auth_binding.dart';
 
-
 class AppRoutes {
   static const login = Routes.loginScreen;
 
@@ -17,7 +16,7 @@ class AppRoutes {
         binding: AuthBinding()),
     GetPage(
         name: Routes.signScreen,
-        page: () => Signup_Screen(),
+        page: () => SignUpScreen(),
         binding: AuthBinding()),
     GetPage(
         name: Routes.forgotpasswordScreen,

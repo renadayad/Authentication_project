@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
-
 import '../../../logic/controllers/auth_controller.dart';
 import '../../../routes.dart';
 import '../../../utils/text_utils.dart';
@@ -29,28 +28,28 @@ class CheckWidget extends StatelessWidget {
                   color: labalColor, borderRadius: BorderRadius.circular(4)),
               child: controller.isCheckBox
                   ? Icon(
-                Icons.done,
-                size: 15,
-                color: Colors.white,
-              )
+                      Icons.done,
+                      size: 15,
+                      color: Colors.white,
+                    )
                   : Icon(
-                Icons.crop_square_rounded,
-                size: 15,
-                color: Colors.white,
-              ),
+                      Icons.crop_square_rounded,
+                      size: 15,
+                      color: Colors.white,
+                    ),
             ),
           ),
           SizedBox(
             width: 10,
           ),
           TextUtils(
-              text: "Remember me ",
-              color: labalColor,
-              fontWeight: FontWeight.normal,
-              fontsize: 12,
-              ),
+            text: "Remember me ",
+            color: labalColor,
+            fontWeight: FontWeight.normal,
+            fontsize: 12,
+          ),
           SizedBox(
-            width: 14,
+            width: 12,
           ),
           Row(
             children: [

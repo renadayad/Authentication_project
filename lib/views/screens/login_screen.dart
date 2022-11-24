@@ -1,3 +1,5 @@
+import 'package:auth_app/views/widgets/auth/container_under.dart';
+import 'package:auth_app/views/widgets/auth/icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -9,9 +11,8 @@ import '../../utils/my_string.dart';
 import '../../utils/text_utils.dart';
 import '../../utils/theme.dart';
 import '../widgets/auth/check_widget.dart';
-import '../widgets/auth_button.dart';
-import '../widgets/text_form_field.dart';
-
+import '../widgets/auth/auth_button.dart';
+import '../widgets/auth/text_form_field.dart';
 
 class Login_Screen extends StatelessWidget {
   Login_Screen({super.key});
@@ -25,7 +26,7 @@ class Login_Screen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding:
-        const EdgeInsets.only(left: 55, right: 50, top: 144, bottom: 336),
+            const EdgeInsets.only(top: 154, bottom: 363, right: 45, left: 55),
         child: Column(children: [
           TextUtils(
               text: "Login by",
@@ -89,7 +90,7 @@ class Login_Screen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                AuthTextFormField(
+                AuthTextFromField(
                   controller: emailController,
                   obscureText: false,
                   validator: (value) {
@@ -122,7 +123,7 @@ class Login_Screen extends StatelessWidget {
                   height: 10,
                 ),
                 GetBuilder<AuthController>(builder: (_) {
-                  return AuthTextFormField(
+                  return AuthTextFromField(
                     controller: passwordController,
                     obscureText: controller.isVisibilty ? false : true,
                     validator: (value) {
@@ -142,13 +143,13 @@ class Login_Screen extends StatelessWidget {
                       },
                       icon: controller.isVisibilty
                           ? Icon(
-                        Icons.visibility,
-                        color: labalColor,
-                      )
+                              Icons.visibility,
+                              color: labalColor,
+                            )
                           : Icon(
-                        Icons.visibility_off_outlined,
-                        color: labalColor,
-                      ),
+                              Icons.visibility_off_outlined,
+                              color: labalColor,
+                            ),
                       iconSize: 18,
                     ),
                     hintText: "Enter your password",
