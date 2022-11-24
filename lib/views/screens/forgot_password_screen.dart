@@ -22,7 +22,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Forgot Password',
           style: TextStyle(color: Colors.black),
         ),
@@ -30,45 +30,37 @@ class ForgotPasswordScreen extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black45,),
         ),
       ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
+            padding: const EdgeInsets.all(
+              30
             ),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      Icons.close_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Provide your account's email  for which you want to reset your password",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "Provide your account's email  for which you want to reset your password",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(color: Colors.black),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "Enter your E-mail",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(color: Colors.black),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Enter your E-mail",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

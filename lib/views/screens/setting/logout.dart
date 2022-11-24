@@ -53,7 +53,7 @@ class LogOut extends StatelessWidget {
               const Text(
                 "Logout",
                 style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 16,
                     fontWeight: FontWeight.w300,
                     color: Colors.red),
               ),

@@ -18,6 +18,9 @@ class SettingsScreen extends StatelessWidget {
         body: ListView(
           padding: const EdgeInsets.all(24),
           children: [
+            const SizedBox(
+              height: 30,
+            ),
             TextUtils(
               fontsize: 18,
               fontWeight: FontWeight.bold,
@@ -25,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.black,
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             EditProfile(),
             Divider(
