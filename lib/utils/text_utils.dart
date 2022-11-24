@@ -6,13 +6,13 @@ class TextUtils extends StatelessWidget {
   final Color color;
   final double fontsize;
   final FontWeight fontWeight;
-  final TextDecoration underLine;
+  final TextDecoration? underLine;
   TextUtils({
     required this.text,
     required this.color,
     required this.fontWeight,
     required this.fontsize,
-    required this.underLine,
+    this.underLine,
     Key? key,
   }) : super(key: key);
 
