@@ -142,14 +142,10 @@ class Login_Screen extends StatelessWidget {
                         controller.Visibilty();
                       },
                       icon: controller.isVisibilty
-                          ? Icon(
-                              Icons.visibility,
-                              color: labalColor,
-                            )
-                          : Icon(
-                              Icons.visibility_off_outlined,
-                              color: labalColor,
-                            ),
+                          ? Icon(Icons.visibility_outlined,
+                              color: labalColor, size: 20)
+                          : Icon(Icons.visibility_off_outlined,
+                              color: labalColor, size: 20),
                       iconSize: 18,
                     ),
                     hintText: "Enter your password",
@@ -175,6 +171,9 @@ class Login_Screen extends StatelessWidget {
                     text: "Log In",
                   );
                 }),
+                SizedBox(
+                  height: 10,
+                ),
                 Container_Under(
                   text: 'Dont hava an account?',
                   typetext: "Sign up",
