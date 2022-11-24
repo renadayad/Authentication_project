@@ -1,4 +1,6 @@
+import 'package:auth_app/views/screens/forgot_password_screen.dart';
 import 'package:auth_app/views/screens/login_screen.dart';
+import 'package:auth_app/views/screens/setting/setting.dart';
 import 'package:auth_app/views/screens/signup_screen.dart';
 import 'package:get/route_manager.dart';
 

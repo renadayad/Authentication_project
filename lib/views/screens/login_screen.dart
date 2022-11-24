@@ -8,6 +8,9 @@ import '../../routes.dart';
 import '../../utils/my_string.dart';
 import '../../utils/text_utils.dart';
 import '../../utils/theme.dart';
+import '../widgets/auth/check_widget.dart';
+import '../widgets/auth_button.dart';
+import '../widgets/text_form_field.dart';
 
 
 class Login_Screen extends StatelessWidget {
@@ -86,7 +89,7 @@ class Login_Screen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                AuthTextFromField(
+                AuthTextFormField(
                   controller: emailController,
                   obscureText: false,
                   validator: (value) {
@@ -119,7 +122,7 @@ class Login_Screen extends StatelessWidget {
                   height: 10,
                 ),
                 GetBuilder<AuthController>(builder: (_) {
-                  return AuthTextFromField(
+                  return AuthTextFormField(
                     controller: passwordController,
                     obscureText: controller.isVisibilty ? false : true,
                     validator: (value) {
