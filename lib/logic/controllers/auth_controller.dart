@@ -9,6 +9,7 @@ import '../../routes.dart';
 class AuthController extends GetxController {
   bool isVisibilty = false;
   bool isCheckBox = false;
+  bool isVisibilty2 = false;
 
   var displayUserName = ''.obs;
   var displayUserPhoto = ''.obs;
@@ -24,6 +25,11 @@ class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   void Visibilty() {
     isVisibilty = !isVisibilty;
+    update();
+  }
+
+  void Visibilty2() {
+    isVisibilty2 = !isVisibilty2;
     update();
   }
 
