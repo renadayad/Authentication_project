@@ -1,12 +1,8 @@
 # Authentication_project
 
-تسجيل دخول بالايميل-
-
-تسجيل دخول بحساب قوقل- 
-
-apple تسجيل دخول بحساب
-(راح يتم تنفيذ الخاصية مستقبلا)
-تسجيل خروج-
-
-استرجاع باسورد-
-MVC و بترتيب  getx  التطبيق مبني باستخدام 
+* login with email and password using firebase or google account.
+* signup new account using firebase or google account.
+* login with Apple account(in Future).
+* logout from account.
+* reset password.
+*  this app is built using MVC archeticture and Getx 
