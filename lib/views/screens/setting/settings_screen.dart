@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../widgets/settings/change_password.dart';
-import '../../widgets/settings/edit_profile.dart';
 import '../../widgets/settings/logout.dart';
 import '../../widgets/settings/notification.dart';
 
@@ -38,7 +37,7 @@ class SettingScreen extends StatelessWidget {
               fontsize: 14.sp,
               fontWeight: FontWeight.bold,
               text: "Account",
-              color: Colors.black,
+              color: Colors.grey.shade700,
             ),
             SizedBox(
               height: 3.5.h,

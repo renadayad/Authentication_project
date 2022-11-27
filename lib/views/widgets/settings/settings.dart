@@ -34,7 +34,7 @@ class SettingsWidget extends StatelessWidget {
                     color: Colors.black),
               ),
               Container(
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.all(3),
                 decoration: const BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: Colors.transparent,
