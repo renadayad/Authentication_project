@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../logic/controllers/auth_controller.dart';
 import '../../../routes.dart';
@@ -22,8 +23,8 @@ class CheckWidget extends StatelessWidget {
               controller.CheckBox();
             },
             child: Container(
-              height: 18,
-              width: 18,
+              height: 2.11.h,
+              width: 4.58.w,
               decoration: BoxDecoration(
                   color: labalColor, borderRadius: BorderRadius.circular(4)),
               child: controller.isCheckBox
@@ -40,16 +41,16 @@ class CheckWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 10,
+            width: 2.54.w,
           ),
           TextUtils(
             text: "Remember me ",
             color: labalColor,
             fontWeight: FontWeight.normal,
-            fontsize: 12,
+            fontsize: 9.sp,
           ),
           SizedBox(
-            width: 12,
+            width: 3.05.w,
           ),
           Row(
             children: [
@@ -63,7 +64,7 @@ class CheckWidget extends StatelessWidget {
                       text: "Don't remember the password? ",
                       color: labalColor,
                       fontWeight: FontWeight.normal,
-                      fontsize: 10,
+                      fontsize: 7.sp,
                       underLine: TextDecoration.underline),
                 ),
               )

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../logic/controllers/auth_controller.dart';
 import '../../routes.dart';
@@ -51,7 +52,7 @@ class Login_Screen extends StatelessWidget {
                 );
               }),
               SizedBox(
-                width: 20,
+                width: 5.08.w,
               ),
               IconWidget(
                 conternierColor: Colors.black,
@@ -62,16 +63,16 @@ class Login_Screen extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 60,
+            height: 7.04.h,
           ),
           TextUtils(
               text: "or",
               color: labalColor,
               fontWeight: FontWeight.normal,
-              fontsize: 14,
+              fontsize: 11.sp,
               underLine: TextDecoration.none),
           SizedBox(
-            height: 20,
+            height: 2.34.h,
           ),
           Form(
             key: formKey,
@@ -84,11 +85,11 @@ class Login_Screen extends StatelessWidget {
                       text: 'E-mail',
                       color: labalColor,
                       fontWeight: FontWeight.w400,
-                      fontsize: 14,
+                      fontsize: 11.sp,
                       underLine: TextDecoration.none),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 1.17.h,
                 ),
                 AuthTextFromField(
                   controller: emailController,
@@ -108,7 +109,7 @@ class Login_Screen extends StatelessWidget {
                   hintText: "Enter your Email",
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 1.76.h,
                 ),
                 Align(
                   alignment: Alignment.topLeft,
@@ -116,11 +117,11 @@ class Login_Screen extends StatelessWidget {
                       text: 'Password',
                       color: labalColor,
                       fontWeight: FontWeight.w400,
-                      fontsize: 14,
+                      fontsize: 11.sp,
                       underLine: TextDecoration.none),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 1.17.h,
                 ),
                 GetBuilder<AuthController>(builder: (_) {
                   return AuthTextFromField(
@@ -152,11 +153,11 @@ class Login_Screen extends StatelessWidget {
                   );
                 }),
                 SizedBox(
-                  height: 10,
+                  height: 1.17.h,
                 ),
                 CheckWidget(),
                 SizedBox(
-                  height: 32,
+                  height: 3.75.h,
                 ),
                 GetBuilder<AuthController>(builder: (_) {
                   return AuthButton(
@@ -172,7 +173,7 @@ class Login_Screen extends StatelessWidget {
                   );
                 }),
                 SizedBox(
-                  height: 10,
+                  height: 1.17.h,
                 ),
                 Container_Under(
                   text: 'Dont hava an account?',
