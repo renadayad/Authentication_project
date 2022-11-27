@@ -1,6 +1,7 @@
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../logic/controllers/auth_controller.dart';
 import '../../utils/my_string.dart';
@@ -43,16 +44,16 @@ class ForgotPasswordScreen extends StatelessWidget {
             child: Column(
               children: [
 
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: 2.3.h,
                 ),
                 const Text(
                   "Provide your account's email  for which you want to reset your password",
                   textAlign: TextAlign.left,
                   style: TextStyle(color: Colors.black),
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: 2.3.h,
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
@@ -62,8 +63,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: 2.3.h,
                 ),
                 AuthTextFromField(
                   controller: emailController,
@@ -78,8 +79,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                   suffixIcon: const Text(""),
                   hintText: 'Email',
                 ),
-                const SizedBox(
-                  height: 50,
+                 SizedBox(
+                  height: 5.8.h,
                 ),
                 GetBuilder<AuthController>(builder: (_) {
                   return AuthButton(
@@ -98,7 +99,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     child: TextUtils(
                       text: "Cancel",
                       fontWeight: FontWeight.w500,
-                      fontsize: 13,
+                      fontsize: 10.sp,
                       color: Colors.black,
                       underLine: TextDecoration.underline,
                     ))

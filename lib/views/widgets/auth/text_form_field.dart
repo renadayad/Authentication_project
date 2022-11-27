@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../utils/theme.dart';
 
@@ -33,31 +34,31 @@ class AuthTextFromField extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           hintText: hintText,
-          hintStyle: const TextStyle(
-              color: Color.fromRGBO(153, 162, 165, 0.47),
-              fontSize: 14,
+          hintStyle:  TextStyle(
+              color: const Color.fromRGBO(153, 162, 165, 0.47),
+              fontSize: 11.sp,
               fontWeight: FontWeight.w400),
           filled: true,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: labalColor,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: labalColor,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
           errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.red,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.red,
             ),
             borderRadius: BorderRadius.circular(10),

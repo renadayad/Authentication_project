@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../logic/controllers/auth_controller.dart';
 import '../../routes.dart';
@@ -32,10 +33,10 @@ class Login_Screen extends StatelessWidget {
               text: "Login by",
               color: labalColor,
               fontWeight: FontWeight.normal,
-              fontsize: 14,
+              fontsize: 11.sp,
               underLine: TextDecoration.none),
           SizedBox(
-            height: 50,
+            height: 5.8.h,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../logic/controllers/auth_controller.dart';
 import '../forgot_password_screen.dart';
@@ -24,10 +25,10 @@ class ChangePassword extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+               Text(
                 "Change Password",
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w300,
                     color: Colors.black),
               ),

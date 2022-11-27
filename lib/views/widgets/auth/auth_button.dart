@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../utils/text_utils.dart';
 import '../../../utils/theme.dart';
@@ -16,12 +17,12 @@ class AuthButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor,
-        minimumSize: Size(160, 48),
+        minimumSize: Size(18.7.w, 5.6.h),
       ),
       child: TextUtils(
         color: Colors.white,
         text: text,
-        fontsize: 14,
+        fontsize: 11.sp,
         fontWeight: FontWeight.w500,
         underLine: TextDecoration.none,
       ),
