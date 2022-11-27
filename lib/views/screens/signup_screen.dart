@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -31,12 +32,12 @@ class SignUpScreen extends StatelessWidget {
             children: [
               TextUtils(
                   text: 'Sign Up by',
-                  fontsize: 14,
+                  fontsize: 11.sp,
                   fontWeight: FontWeight.normal,
                   color: mainColor,
                   underLine: TextDecoration.none),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: 3.7.h,
               ),
               Row(
                 children: [
@@ -50,8 +51,8 @@ class SignUpScreen extends StatelessWidget {
                       image: 'assets/images/image 14google.png',
                     );
                   }),
-                  const SizedBox(
-                    width: 16,
+                  SizedBox(
+                    width: 4.w,
                   ),
                   GetBuilder<AuthController>(
                     builder: (_) {
@@ -65,17 +66,17 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 54,
+              SizedBox(
+                height: 6.3.h,
               ),
               TextUtils(
                   text: 'or',
-                  fontsize: 14,
+                  fontsize: 11.sp,
                   fontWeight: FontWeight.normal,
                   color: mainColor,
                   underLine: TextDecoration.none),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: 3.7.h,
               ),
               Form(
                 key: formKey,
@@ -84,19 +85,18 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     TextUtils(
                         text: 'E-mail',
-                        fontsize: 14,
+                        fontsize: 11.sp,
                         fontWeight: FontWeight.normal,
                         color: mainColor,
                         underLine: TextDecoration.none),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 1.1.h,
                     ),
                     AuthTextFromField(
                       controller: emailController,
                       obscureText: false,
                       prefixIcon: const Icon(
-          Icons.person_outline,
-
+                        Icons.person_outline,
                         color: mainColor,
                       ),
                       suffixIcon: const Text(''),
@@ -109,17 +109,17 @@ class SignUpScreen extends StatelessWidget {
                       },
                       hintText: 'Enter your E-mail',
                     ),
-                    const SizedBox(
-                      height: 15,
+                    SizedBox(
+                      height: 1.7.h,
                     ),
                     TextUtils(
                         text: 'Password',
-                        fontsize: 14,
+                        fontsize: 11.sp,
                         fontWeight: FontWeight.normal,
                         color: mainColor,
                         underLine: TextDecoration.none),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 1.1.h,
                     ),
                     GetBuilder<AuthController>(
                       builder: (_) {
@@ -134,15 +134,15 @@ class SignUpScreen extends StatelessWidget {
                               controller.Visibilty();
                             },
                             icon: controller.isVisibilty
-                                ? const Icon(
+                                ? Icon(
                                     Icons.visibility_outlined,
                                     color: mainColor,
-                                    size: 20,
+                                    size: 2.3.h,
                                   )
-                                : const Icon(
+                                : Icon(
                                     Icons.visibility_off_outlined,
                                     color: mainColor,
-                                    size: 20,
+                                    size: 2.3.h,
                                   ),
                           ),
                           obscureText: controller.isVisibilty ? false : true,
@@ -157,17 +157,17 @@ class SignUpScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    const SizedBox(
-                      height: 15,
+                    SizedBox(
+                      height: 1.7.h,
                     ),
                     TextUtils(
                         text: 'Re-Password',
-                        fontsize: 14,
+                        fontsize: 11.sp,
                         fontWeight: FontWeight.normal,
                         color: mainColor,
                         underLine: TextDecoration.none),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 1.1.h,
                     ),
                     GetBuilder<AuthController>(
                       builder: (_) {
@@ -182,15 +182,15 @@ class SignUpScreen extends StatelessWidget {
                               controller.Visibilty2();
                             },
                             icon: controller.isVisibilty2
-                                ? const Icon(
+                                ? Icon(
                                     Icons.visibility_outlined,
                                     color: mainColor,
-                                    size: 20,
+                                    size: 2.3.h,
                                   )
-                                : const Icon(
+                                : Icon(
                                     Icons.visibility_off_outlined,
                                     color: mainColor,
-                                    size: 20,
+                                    size: 2.3.h,
                                   ),
                           ),
                           obscureText: controller.isVisibilty ? false : true,
@@ -205,8 +205,8 @@ class SignUpScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 3.5.h,
                     ),
                     Container(
                       alignment: Alignment.center,
@@ -231,12 +231,12 @@ class SignUpScreen extends StatelessWidget {
                       children: [
                         TextUtils(
                             text: 'Already have account ?',
-                            fontsize: 12,
+                            fontsize: 9.sp,
                             fontWeight: FontWeight.normal,
                             color: mainColor,
                             underLine: TextDecoration.none),
-                        const SizedBox(
-                          width: 2,
+                        SizedBox(
+                          width: 0.5.w,
                         ),
                         TextButton(
                           onPressed: () {
@@ -249,7 +249,7 @@ class SignUpScreen extends StatelessWidget {
                               alignment: Alignment.centerLeft),
                           child: TextUtils(
                               text: 'Login',
-                              fontsize: 12,
+                              fontsize: 9.sp,
                               fontWeight: FontWeight.w400,
                               color: buttonColor,
                               underLine: TextDecoration.underline),

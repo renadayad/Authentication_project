@@ -1,11 +1,11 @@
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class SignUpBy extends StatelessWidget {
   final Color bgcolor;
   final Function() onPressed;
   final String path;
-  // final Color color;
   final String text;
 
   const SignUpBy(
@@ -13,14 +13,13 @@ class SignUpBy extends StatelessWidget {
       required this.bgcolor,
       required this.onPressed,
       required this.path,
-      //required this.color,
       required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 52,
-      width: 138,
+      height: 6.1.h,
+      width: 35.1.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         // color: bgcolor,
@@ -34,16 +33,16 @@ class SignUpBy extends StatelessWidget {
           children: [
             Image.asset(
               path,
-              height: 24,
-              width: 23,
+              height: 2.8.h,
+              width: 5.8.w,
               color: Colors.white,
             ),
-            const SizedBox(
-              width: 6,
+            SizedBox(
+              width: 1.5.w,
             ),
             TextUtils(
               text: text,
-              fontsize: 14,
+              fontsize: 11.sp,
               fontWeight: FontWeight.w400,
               color: Colors.white,
               underLine: TextDecoration.none,
