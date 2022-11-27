@@ -1,6 +1,7 @@
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import 'change_password.dart';
 import 'edit_profile.dart';
@@ -18,41 +19,41 @@ class SettingsScreen extends StatelessWidget {
         body: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            const SizedBox(
-              height: 30,
+             SizedBox(
+              height: 3.5.h,
             ),
             TextUtils(
-              fontsize: 18,
+              fontsize: 14.sp,
               fontWeight: FontWeight.bold,
               text: "Account",
               color: Colors.black,
             ),
-            const SizedBox(
-              height: 30,
+             SizedBox(
+              height: 3.5.h,
             ),
             EditProfile(),
             Divider(
               color: Colors.grey.shade300,
               thickness: 1,
             ),
-            const SizedBox(
-              height: 5,
+             SizedBox(
+              height: 0.5.h,
             ),
             ChangePassword(),
             Divider(
               color: Colors.grey.shade300,
               thickness: 1,
             ),
-            const SizedBox(
-              height: 5,
+             SizedBox(
+              height: 0.5.h,
             ),
             NotificationWidget(),
             Divider(
               color: Colors.grey.shade300,
               thickness: 1,
             ),
-            const SizedBox(
-              height: 5,
+             SizedBox(
+              height: 0.5.h,
             ),
             LogOut(),
           ],

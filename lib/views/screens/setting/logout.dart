@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../logic/controllers/auth_controller.dart';
 
@@ -19,14 +20,14 @@ class LogOut extends StatelessWidget {
           onTap: () {
             Get.defaultDialog(
               title: "Logout From App",
-              titleStyle: const TextStyle(
-                fontSize: 18,
+              titleStyle:  TextStyle(
+                fontSize: 14.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
               middleText: 'Are you sure you need to logout?',
-              middleTextStyle: const TextStyle(
-                fontSize: 18,
+              middleTextStyle:  TextStyle(
+                fontSize: 14.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
@@ -50,10 +51,10 @@ class LogOut extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+               Text(
                 "Logout",
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w300,
                     color: Colors.red),
               ),

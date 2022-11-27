@@ -1,6 +1,7 @@
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 
 
@@ -13,7 +14,7 @@ class NotificationWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextUtils(
-          fontsize: 16,
+          fontsize: 12.sp,
           fontWeight: FontWeight.w300,
           text: "Notification",
           color: Colors.black,
