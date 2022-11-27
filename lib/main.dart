@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(fontFamily: 'Ubuntu'),
-          initialRoute: AppRoutes.login,
+          initialRoute: Routes.settingsScreen,
           getPages: AppRoutes.routes,
         );
       },

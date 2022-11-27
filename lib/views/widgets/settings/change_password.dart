@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../logic/controllers/auth_controller.dart';
+import '../../screens/forgot_password_screen.dart';
 
 
 
 
-class EditProfile extends StatelessWidget {
-  EditProfile({super.key});
+class ChangePassword extends StatelessWidget {
+  ChangePassword({super.key});
 
   final controller = Get.put(AuthController());
 
@@ -18,12 +19,14 @@ class EditProfile extends StatelessWidget {
       builder: (_) => Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Get.to(()=> ForgotPasswordScreen());
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
                Text(
-                "Edit Profile",
+                "Change Password",
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,

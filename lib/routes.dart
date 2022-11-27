@@ -1,6 +1,8 @@
 import 'package:auth_app/views/screens/forgot_password_screen.dart';
 import 'package:auth_app/views/screens/login_screen.dart';
-import 'package:auth_app/views/screens/setting/setting.dart';
+import 'package:auth_app/views/screens/setting/edit_profile_screen.dart';
+import 'package:auth_app/views/screens/setting/profile.dart';
+import 'package:auth_app/views/screens/setting/settings_screen.dart';
 import 'package:auth_app/views/screens/signup_screen.dart';
 import 'package:get/route_manager.dart';
 
@@ -23,8 +25,16 @@ class AppRoutes {
         page: () => ForgotPasswordScreen(),
         binding: AuthBinding()),
     GetPage(
-        name: Routes.settingScreen,
-        page: () => SettingsScreen(),
+        name: Routes.profileScreen,
+        page: () => ProfileScreen(),
+        binding: AuthBinding()),
+    GetPage(
+        name: Routes.editProfileScreen,
+        page: () => EditProfileScreen(),
+        binding: AuthBinding()),
+    GetPage(
+        name: Routes.settingsScreen,
+        page: () => SettingScreen(),
         binding: AuthBinding()),
   ];
 }
@@ -33,5 +43,7 @@ class Routes {
   static const loginScreen = '/loginScreen';
   static const signScreen = '/signScreen';
   static const forgotpasswordScreen = '/forgotpasswordScreen';
-  static const settingScreen = '/settingScreen';
+  static const profileScreen = '/profileScreen';
+  static const editProfileScreen = '/editProfileScreen';
+  static const settingsScreen = '/settingsScreen';
 }

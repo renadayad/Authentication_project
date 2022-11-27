@@ -1,13 +1,16 @@
+import 'package:auth_app/views/screens/setting/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../logic/controllers/auth_controller.dart';
+import '../../../routes.dart';
 
 
 
-class LogOut extends StatelessWidget {
-  LogOut({super.key});
+
+class EditProfile extends StatelessWidget {
+  EditProfile({super.key});
 
   final controller = Get.put(AuthController());
 
@@ -18,45 +21,17 @@ class LogOut extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Get.defaultDialog(
-              title: "Logout From App",
-              titleStyle:  TextStyle(
-                fontSize: 14.sp,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-              middleText: 'Are you sure you need to logout?',
-              middleTextStyle:  TextStyle(
-                fontSize: 14.sp,
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-              backgroundColor: Colors.white,
-              radius: 4,
-              textCancel: " Cancel ",
-              cancelTextColor: Colors.black,
-              textConfirm: " Log Out ",
-              confirmTextColor: Colors.red,
-              onCancel: () {
-                Get.back();
-              },
-              onConfirm: () {
-                controller.signOut();
-              },
-              buttonColor: Colors.white,
-            );
+            Get.toNamed(Routes.editProfileScreen);
           },
-          splashColor: Colors.black,
-          borderRadius: BorderRadius.circular(0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
                Text(
-                "Logout",
+                "Edit Profile",
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,
-                    color: Colors.red),
+                    color: Colors.black),
               ),
               Container(
                 padding: const EdgeInsets.all(6),
@@ -69,6 +44,8 @@ class LogOut extends StatelessWidget {
                   color: Colors.black26,
                 ),
               ),
+
+
             ],
           ),
         ),

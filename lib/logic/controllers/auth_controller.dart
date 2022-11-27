@@ -17,8 +17,13 @@ class AuthController extends GetxController {
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
+  User? get userProfile => auth.currentUser;
 
   void onInit() {
+
+    displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+
+
     super.onInit();
   }
 
@@ -48,7 +53,7 @@ class AuthController extends GetxController {
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -116,7 +121,7 @@ class AuthController extends GetxController {
       update();
       authBox.write("auth", isSignedIn);
 
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } catch (error) {
       Get.snackbar('Error!', error.toString(),
           snackPosition: SnackPosition.TOP,
@@ -151,7 +156,7 @@ class AuthController extends GetxController {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } on FirebaseAuthException catch (e) {
       String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -186,7 +191,7 @@ class AuthController extends GetxController {
 
       isSignedIn = true;
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } catch (error) {
       Get.snackbar(
         'Error!',
@@ -196,5 +201,20 @@ class AuthController extends GetxController {
         colorText: Colors.white,
       );
     }
+  }
+
+  updateEmail(String value) async {
+
+    // value is the email user inputs in a textfield and is validated
+    userProfile?.updateEmail(value);
+  }
+
+  updateDisplayName(String value) async {
+
+    userProfile?.updateDisplayName(value);
+  }
+
+  updatePhotoUrl(String value) async {
+    userProfile?.updatePhotoURL(value);
   }
 }
