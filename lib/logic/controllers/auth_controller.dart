@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,20 +16,36 @@ class AuthController extends GetxController {
   var displayUserName = ''.obs;
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
+  var displayUserEmail1 = ''.obs;
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
+  FirebaseFirestore firestore=FirebaseFirestore.instance;
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
   User? get userProfile => auth.currentUser;
 
+
+ // add()
+ // {
+ //   var userId=FirebaseAuth.instance.currentUser!.uid.toString();
+ //   displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+ //   DocumentReference doc=FirebaseFirestore.instance.collection("users").doc(displayUserEmail.value);
+ //   return doc;
+ // }
   void onInit() {
+
 
     displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
 
+    print("useremail ${userProfile!.email}");
+    getEmailDoc();
 
     super.onInit();
   }
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+
   void Visibilty() {
     isVisibilty = !isVisibilty;
     update();
@@ -155,6 +173,8 @@ class AuthController extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+
       update();
       Get.offNamed(Routes.profileScreen);
     } on FirebaseAuthException catch (e) {
@@ -207,6 +227,16 @@ class AuthController extends GetxController {
 
     // value is the email user inputs in a textfield and is validated
     userProfile?.updateEmail(value);
+  }
+
+  Future getEmailDoc() async{
+
+    var doc1= await FirebaseFirestore.instance.collection("users").doc(displayUserEmail.value).get();
+    displayUserEmail1.value=doc1["email"];
+    print("display email ${displayUserEmail1.value}");
+    return displayUserEmail1.value;
+
+
   }
 
   updateDisplayName(String value) async {

@@ -6,6 +6,8 @@ import 'package:auth_app/utils/theme.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:auth_app/views/widgets/auth/icon_widget.dart';
 import 'package:auth_app/views/widgets/auth/text_form_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/src/widgets/framework.dart';
@@ -219,6 +221,9 @@ class SignUpScreen extends StatelessWidget {
 
                                   controller.signUpUsingFirebase(
                                       email: email, password: password);
+                                  DocumentReference doc=FirebaseFirestore.instance.collection("users").doc(email);
+                                  doc.set({"email":email, "password":password});
+
                                 }
                               },
                               text: 'Sign Up');

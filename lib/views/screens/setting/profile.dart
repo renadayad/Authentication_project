@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                 height: 1.3.h,
               ),
               Align(alignment: Alignment.center,
-                child: TextUtils(text: "description",color: Colors.black45,fontsize: 9.sp,fontWeight: FontWeight.w500,),),
+                child: TextUtils(text: authController.displayUserEmail.value,color: Colors.black45,fontsize: 9.sp,fontWeight: FontWeight.w500,),),
 
                SizedBox(
                 height: 5.h,
