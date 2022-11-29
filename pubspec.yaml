@@ -43,6 +43,12 @@ dependencies:
   get: ^4.6.5
   google_sign_in: ^5.4.2
   sizer: ^2.0.15
+  firebase_storage: ^11.0.6
+  image_picker: ^0.8.6
+  transparent_image: ^2.0.0
+  image_cropper: ^3.0.1
+  image_downloader: ^0.31.0
+
 
 dev_dependencies:
   flutter_test:

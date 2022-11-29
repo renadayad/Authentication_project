@@ -52,8 +52,7 @@ class ProfileScreen extends StatelessWidget {
                         ? NetworkImage(
                       authController.displayUserPhoto.value,
                     )
-                        : NetworkImage(
-                        "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"),
+                        :AssetImage("assets/images/avtar.png") as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),

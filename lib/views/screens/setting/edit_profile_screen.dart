@@ -67,22 +67,32 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(
                       height: 4.h,
                     ),
-                    Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: authController.displayUserPhoto.isNotEmpty
-                              ? NetworkImage(
-                                  authController.displayUserPhoto.value,
-                                )
-                              : NetworkImage(
-                                  "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"),
-                          fit: BoxFit.cover,
+                    Stack(
+
+                      children:[Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: authController.displayUserPhoto.isNotEmpty
+                                ? NetworkImage(
+                              authController.displayUserPhoto.value,
+                            )
+                                : AssetImage("assets/images/avtar.png") as ImageProvider,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                        Positioned(
+                          bottom: -2, right: -1, //give the values according to your requirement
+                          child: IconButton( onPressed: () {
+
+                          }, icon: Icon(Icons.camera_alt_outlined,),),
+                        ),
+
+                      ]
                     ),
                      SizedBox(
                       height: 5.h,
