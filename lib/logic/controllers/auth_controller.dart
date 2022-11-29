@@ -8,7 +8,6 @@ import '../../routes.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
-
   bool isVisibilty = false;
   bool isCheckBox = false;
   bool isVisibilty2 = false;
@@ -24,7 +23,6 @@ class AuthController extends GetxController
   String verificationId = '';
 
   void onInit() {
-
     tabController = TabController(length: 2, vsync: this);
 
     super.onInit();
@@ -54,7 +52,6 @@ class AuthController extends GetxController
     try {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
-
           .then((value) {
         displayUserName = name;
         auth.currentUser!.updateDisplayName(name);
@@ -125,7 +122,7 @@ class AuthController extends GetxController
             accessToken: signInAuthentication.accessToken);
         await auth.signInWithCredential(credential);
       }
-      displayUserName= googleUser!.displayName!;
+      displayUserName = googleUser!.displayName!;
       isSignedIn = true;
 
       update();
@@ -237,7 +234,7 @@ class AuthController extends GetxController
         PhoneAuthProvider.credential(
             verificationId: this.verificationId, smsCode: otp));
     if (credential.user != null) {
-      Get.to(Routes.settingScreen);
+      Get.toNamed(Routes.settingScreen);
     }
   }
 

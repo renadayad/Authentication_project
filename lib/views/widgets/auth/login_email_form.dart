@@ -17,6 +17,8 @@ class Login_Email_Form extends StatelessWidget {
   Login_Email_Form({super.key});
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
   final controller = Get.find<AuthController>();
   @override
@@ -110,10 +112,11 @@ class Login_Email_Form extends StatelessWidget {
             return AuthButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
+                  String name = nameController.text;
                   String email = emailController.text.trim();
                   String password = passwordController.text;
                   controller.loginUsingFierbase(
-                      email: email, password: password);
+                      name: name, email: email, password: password);
                 }
               },
               text: "Log In",
