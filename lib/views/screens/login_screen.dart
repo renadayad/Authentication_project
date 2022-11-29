@@ -163,10 +163,11 @@ class Login_Screen extends StatelessWidget {
                   return AuthButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
+                        String name = emailController.text;
                         String email = emailController.text.trim();
                         String password = passwordController.text;
                         controller.loginUsingFierbase(
-                            email: email, password: password);
+                          name: name,  email: email, password: password);
                       }
                     },
                     text: "Log In",
