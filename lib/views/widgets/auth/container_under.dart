@@ -1,6 +1,7 @@
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:auth_app/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class Container_Under extends StatelessWidget {
   final String text;
@@ -23,20 +24,20 @@ class Container_Under extends StatelessWidget {
               text: text,
               color: labalColor,
               fontWeight: FontWeight.normal,
-              fontsize: 12,
+              fontsize: 10.sp,
               underLine: TextDecoration.none),
           TextButton(
               onPressed: onPressed,
               style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
-                  minimumSize: Size(50, 30),
+                  minimumSize: Size(12.72.w, 3.52.h),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   alignment: Alignment.centerLeft),
               child: TextUtils(
                   text: typetext,
                   color: buttonColor,
                   fontWeight: FontWeight.w400,
-                  fontsize: 12,
+                  fontsize: 10.sp,
                   underLine: TextDecoration.underline))
         ],
       ),

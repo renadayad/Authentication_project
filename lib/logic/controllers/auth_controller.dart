@@ -8,19 +8,25 @@ import '../../routes.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
+
   bool isVisibilty = false;
   bool isCheckBox = false;
   bool isVisibilty2 = false;
   late TabController tabController;
   var displayUserName = '';
+
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
+  var authState = ''.obs;
+  String verificationId = '';
 
   void onInit() {
-    tabController = TabController(vsync: this, length: 2);
+
+    tabController = TabController(length: 2, vsync: this);
+
     super.onInit();
   }
 
@@ -48,10 +54,12 @@ class AuthController extends GetxController
     try {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
+
           .then((value) {
         displayUserName = name;
         auth.currentUser!.updateDisplayName(name);
       });
+
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
       update();
@@ -184,6 +192,52 @@ class AuthController extends GetxController
         backgroundColor: Colors.red[400],
         colorText: Colors.white,
       );
+    }
+  }
+
+  verifyPhone({required String phone, required String password}) async {
+    try {
+      await auth.verifyPhoneNumber(
+        timeout: Duration(seconds: 40),
+        phoneNumber: phone,
+        verificationCompleted: (AuthCredential authCredential) {},
+        verificationFailed: (error) {
+          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
+          String message = '';
+          if (error.code == 'user-not-found') {
+            message = 'No user found for that phone Number.';
+          } else if (error.code == 'wrong-password') {
+            message = 'Wrong Password ';
+          } else {
+            message = error.message.toString();
+          }
+          Get.snackbar(title, message,
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.red,
+              colorText: Colors.white);
+        },
+        codeSent: (String id, int? resendToken) {
+          this.verificationId = id;
+          authState.value = "login Success";
+        },
+        codeAutoRetrievalTimeout: (String id) {
+          this.verificationId = id;
+        },
+      );
+    } catch (error) {
+      Get.snackbar('Error!', error.toString(),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    }
+  }
+
+  verifyOTP(String otp) async {
+    var credential = await auth.signInWithCredential(
+        PhoneAuthProvider.credential(
+            verificationId: this.verificationId, smsCode: otp));
+    if (credential.user != null) {
+      Get.to(Routes.settingScreen);
     }
   }
 
