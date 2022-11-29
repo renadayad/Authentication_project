@@ -202,7 +202,7 @@ class AuthController extends GetxController
           if (error.code == 'user-not-found') {
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
-            message = 'Wrong password ';
+            message = 'Wrong Password ';
           } else {
             message = error.message.toString();
           }
