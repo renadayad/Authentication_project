@@ -58,47 +58,47 @@ class Login_PhoneNumber_Form extends StatelessWidget {
           SizedBox(
             height: 1.76.h,
           ),
-          // Align(
-          //   alignment: Alignment.topLeft,
-          //   child: TextUtils(
-          //       text: 'Password',
-          //       color: labalColor,
-          //       fontWeight: FontWeight.w400,
-          //       fontsize: 11.sp,
-          //       underLine: TextDecoration.none),
-          // ),
-          // SizedBox(
-          //   height: 1.17.h,
-          // ),
-          // GetBuilder<AuthController>(builder: (_) {
-          //   return AuthTextFromField(
-          //     controller: passwordController,
-          //     obscureText: controller.isVisibilty ? false : true,
-          //     validator: (value) {
-          //       if (value.toString().length < 6) {
-          //         return " Worng password";
-          //       } else {
-          //         return null;
-          //       }
-          //     },
-          //     prefixIcon: Icon(
-          //       Icons.lock_outline,
-          //       color: labalColor,
-          //     ),
-          //     suffixIcon: IconButton(
-          //       onPressed: () {
-          //         controller.Visibilty();
-          //       },
-          //       icon: controller.isVisibilty
-          //           ? Icon(Icons.visibility_outlined,
-          //               color: labalColor, size: 20)
-          //           : Icon(Icons.visibility_off_outlined,
-          //               color: labalColor, size: 20),
-          //       iconSize: 18,
-          //     ),
-          //     hintText: "Enter your password",
-          //   );
-          // }),
+          Align(
+            alignment: Alignment.topLeft,
+            child: TextUtils(
+                text: 'Password',
+                color: labalColor,
+                fontWeight: FontWeight.w400,
+                fontsize: 11.sp,
+                underLine: TextDecoration.none),
+          ),
+          SizedBox(
+            height: 1.17.h,
+          ),
+          GetBuilder<AuthController>(builder: (_) {
+            return AuthTextFromField(
+              controller: passwordController,
+              obscureText: controller.isVisibilty ? false : true,
+              validator: (value) {
+                if (value.toString().length < 6) {
+                  return " Worng password";
+                } else {
+                  return null;
+                }
+              },
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                color: labalColor,
+              ),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  controller.Visibilty();
+                },
+                icon: controller.isVisibilty
+                    ? Icon(Icons.visibility_outlined,
+                        color: labalColor, size: 20)
+                    : Icon(Icons.visibility_off_outlined,
+                        color: labalColor, size: 20),
+                iconSize: 18,
+              ),
+              hintText: "Enter your password",
+            );
+          }),
           SizedBox(
             height: 1.17.h,
           ),
@@ -109,7 +109,9 @@ class Login_PhoneNumber_Form extends StatelessWidget {
           GetBuilder<AuthController>(builder: (_) {
             return AuthButton(
               onPressed: () async {
-                controller.verifyPhone(phoneController.text);
+                controller.verifyPhone(
+                    phone: phoneController.text,
+                    password: passwordController.text);
                 // Get.to(otoScreen);
               },
               text: "Log In",
