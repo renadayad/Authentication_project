@@ -3,6 +3,7 @@ import 'package:auth_app/routes.dart';
 import 'package:auth_app/utils/my_string.dart';
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:auth_app/utils/theme.dart';
+import 'package:auth_app/views/screens/otp_screen.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:auth_app/views/widgets/auth/check_widget.dart';
 import 'package:auth_app/views/widgets/auth/container_under.dart';
@@ -112,7 +113,7 @@ class Login_PhoneNumber_Form extends StatelessWidget {
                 controller.verifyPhone(
                     phone: phoneController.text,
                     password: passwordController.text);
-                // Get.to(otoScreen);
+                Get.to(OTPScreen());
               },
               text: "Log In",
             );

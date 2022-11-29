@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:auth_app/logic/controllers/auth_controller.dart';
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:auth_app/utils/theme.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPScreen extends StatelessWidget {
@@ -12,11 +14,12 @@ class OTPScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String phoneNumber = '55555555';
-    TextEditingController textEditingController = TextEditingController();
+    TextEditingController otpController = TextEditingController();
     StreamController<ErrorAnimationType>? errorController;
     bool hasError = false;
     String currentText = "";
     final formKey = GlobalKey<FormState>();
+    final controller = Get.find<AuthController>();
 
     @override
     void initState() {
@@ -127,7 +130,7 @@ class OTPScreen extends StatelessWidget {
                       animationDuration: const Duration(milliseconds: 300),
                       enableActiveFill: false,
                       errorAnimationController: errorController,
-                      controller: textEditingController,
+                      controller: otpController,
                       keyboardType: TextInputType.number,
 
                       onCompleted: (v) {
@@ -166,14 +169,12 @@ class OTPScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30),
                 // ignore: sort_child_properties_last
                 child: ButtonTheme(
-                  height: 32,
-                  child: 
-                  
-                  
-                  AuthButton(onPressed: (){}, text: 'Verify code')
-                  
-                  
-                ),
+                    height: 32,
+                    child: AuthButton(
+                        onPressed: () {
+                          controller.verifyOTP(otpController.text);
+                        },
+                        text: 'Verify code')),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                 ),
