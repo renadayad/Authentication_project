@@ -8,12 +8,12 @@ import '../../routes.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  late TabController tabController;
+
   bool isVisibilty = false;
   bool isCheckBox = false;
   bool isVisibilty2 = false;
-  var groupvalue1 = 0.obs;
-  var displayUserName = ''.obs;
+  late TabController tabController;
+  var displayUserName = '';
 
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
@@ -24,7 +24,9 @@ class AuthController extends GetxController
   String verificationId = '';
 
   void onInit() {
+
     tabController = TabController(length: 2, vsync: this);
+
     super.onInit();
   }
 
@@ -45,15 +47,18 @@ class AuthController extends GetxController
   }
 
   void loginUsingFierbase({
+    required String name,
     required String email,
     required String password,
   }) async {
     try {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) =>
-              displayUserName.value = auth.currentUser!.displayName!);
-      ;
+
+          .then((value) {
+        displayUserName = name;
+        auth.currentUser!.updateDisplayName(name);
+      });
 
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
@@ -120,7 +125,7 @@ class AuthController extends GetxController
             accessToken: signInAuthentication.accessToken);
         await auth.signInWithCredential(credential);
       }
-      displayUserName.value = googleUser!.displayName!;
+      displayUserName= googleUser!.displayName!;
       isSignedIn = true;
 
       update();
@@ -139,7 +144,7 @@ class AuthController extends GetxController
     try {
       await auth.signOut();
       await googleSign.signOut();
-      displayUserName.value = "";
+      displayUserName = "";
       displayUserPhoto.value = '';
       isSignedIn = false;
       authBox.remove("auth");
