@@ -16,9 +16,9 @@ class AuthController extends GetxController {
   var displayUserName = ''.obs;
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
-  var displayUserEmail1 = ''.obs;
+  var displayUserEmailUpdate = ''.obs;
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
-  FirebaseFirestore firestore=FirebaseFirestore.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -26,25 +26,12 @@ class AuthController extends GetxController {
   final GetStorage authBox = GetStorage();
   User? get userProfile => auth.currentUser;
 
-
- // add()
- // {
- //   var userId=FirebaseAuth.instance.currentUser!.uid.toString();
- //   displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
- //   DocumentReference doc=FirebaseFirestore.instance.collection("users").doc(displayUserEmail.value);
- //   return doc;
- // }
   void onInit() {
-
-
     displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
-
     print("useremail ${userProfile!.email}");
     getEmailDoc();
-
     super.onInit();
   }
-
 
   void Visibilty() {
     isVisibilty = !isVisibilty;
@@ -173,7 +160,9 @@ class AuthController extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
+      DocumentReference doc =
+          FirebaseFirestore.instance.collection("users").doc(email);
+      doc.set({"email": email, "password": password});
 
       update();
       Get.offNamed(Routes.profileScreen);
@@ -223,24 +212,47 @@ class AuthController extends GetxController {
     }
   }
 
-  updateEmail(String value) async {
+  Future updateEmail(TextEditingController value) async {
+    try {
+      // value is the email user inputs in a textfield and is validated
+      DocumentReference doc = FirebaseFirestore.instance
+          .collection("users")
+          .doc(displayUserEmail.value);
+      await doc.update({"email": value.text});
+      print(displayUserEmail.value);
+      displayUserEmailUpdate.value = value.text;
 
-    // value is the email user inputs in a textfield and is validated
-    userProfile?.updateEmail(value);
+
+      Get.snackbar(
+        'Success!',
+        "Updated successfully!",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.greenAccent,
+        colorText: Colors.white,
+      );
+
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
+    }
   }
 
-  Future getEmailDoc() async{
-
-    var doc1= await FirebaseFirestore.instance.collection("users").doc(displayUserEmail.value).get();
-    displayUserEmail1.value=doc1["email"];
-    print("display email ${displayUserEmail1.value}");
-    return displayUserEmail1.value;
-
-
+  Future getEmailDoc() async {
+    var doc1 = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(displayUserEmail.value)
+        .get();
+    displayUserEmailUpdate.value = doc1["email"];
+    print("display email ${displayUserEmailUpdate.value}");
+    return displayUserEmailUpdate.value;
   }
 
   updateDisplayName(String value) async {
-
     userProfile?.updateDisplayName(value);
   }
 

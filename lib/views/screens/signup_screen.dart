@@ -221,8 +221,7 @@ class SignUpScreen extends StatelessWidget {
 
                                   controller.signUpUsingFirebase(
                                       email: email, password: password);
-                                  DocumentReference doc=FirebaseFirestore.instance.collection("users").doc(email);
-                                  doc.set({"email":email, "password":password});
+
 
                                 }
                               },

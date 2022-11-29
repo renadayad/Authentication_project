@@ -21,7 +21,7 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("this is ${authController.displayUserEmail1.value}");
+    print("this is ${authController.displayUserEmailUpdate.value}");
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
@@ -43,14 +43,17 @@ class EditProfileScreen extends StatelessWidget {
               ),
               actions: [
                 TextButton(onPressed: () async{
-                  var email= authController.displayUserEmail.value;
-
-                  DocumentReference doc=FirebaseFirestore.instance.collection("users").doc(email);
-
-                  doc.update({"email":emailController.text});
-                  print(authController.displayUserEmail.value);
-                  email=emailController.text;
                   authController.getEmailDoc();
+                  if (emailController.text.isNotEmpty){authController.updateEmail(emailController);}else{
+                    Get.snackbar(
+                      'Error!',
+                      "error",
+                      snackPosition: SnackPosition.TOP,
+                      backgroundColor: Colors.red[400],
+                      colorText: Colors.white,
+                    );
+                  }
+
 
 
                 }, child: TextUtils(text: "save", color: Colors.green, fontWeight: FontWeight.w700, fontsize: 12.sp))
@@ -113,7 +116,7 @@ class EditProfileScreen extends StatelessWidget {
                             },
 
                             suffixIcon: const Text(''),
-                            hintText:authController.displayUserEmail1.value,
+                            hintText:authController.displayUserEmailUpdate.value,
                           ),)
                         ],
                       ) ,)
