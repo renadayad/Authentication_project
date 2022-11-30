@@ -1,4 +1,8 @@
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -6,8 +10,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../routes.dart';
 
+
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
+
   bool isVisibilty = false;
   bool isCheckBox = false;
   bool isVisibilty2 = false;
@@ -16,19 +22,33 @@ class AuthController extends GetxController
 
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
+  var displayUserEmailUpdate = ''.obs;
+
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
+  User? get userProfile => auth.currentUser;
+
+  
+
+
+
   var authState = ''.obs;
   String verificationId = '';
 
   void onInit() {
+  displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+    print("useremail ${userProfile!.email}");
+    getEmailDoc();
     tabController = TabController(length: 2, vsync: this);
 
     super.onInit();
   }
 
-  FirebaseAuth auth = FirebaseAuth.instance;
   void Visibilty() {
     isVisibilty = !isVisibilty;
     update();
@@ -60,7 +80,7 @@ class AuthController extends GetxController
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -128,7 +148,7 @@ class AuthController extends GetxController
       update();
       authBox.write("auth", isSignedIn);
 
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } catch (error) {
       Get.snackbar('Error!', error.toString(),
           snackPosition: SnackPosition.TOP,
@@ -160,10 +180,15 @@ class AuthController extends GetxController
     required String password,
   }) async {
     try {
+
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      DocumentReference doc =
+          FirebaseFirestore.instance.collection("users").doc(email);
+      doc.set({"email": email, "password": password, "displayName":"", "image":""});
+
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } on FirebaseAuthException catch (e) {
       String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -244,7 +269,7 @@ class AuthController extends GetxController
 
       isSignedIn = true;
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } catch (error) {
       Get.snackbar(
         'Error!',
@@ -254,5 +279,53 @@ class AuthController extends GetxController
         colorText: Colors.white,
       );
     }
+  }
+
+  Future updateEmail(TextEditingController value) async {
+    try {
+      // value is the email user inputs in a textfield and is validated
+      DocumentReference doc = FirebaseFirestore.instance
+          .collection("users")
+          .doc(displayUserEmail.value);
+      await doc.update({"email": value.text});
+      print(displayUserEmail.value);
+      displayUserEmailUpdate.value = value.text;
+
+
+      Get.snackbar(
+        'Success!',
+        "Updated successfully!",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.greenAccent,
+        colorText: Colors.white,
+      );
+
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  Future getEmailDoc() async {
+    var doc1 = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(displayUserEmail.value)
+        .get();
+    displayUserEmailUpdate.value = doc1["email"];
+    print("display email ${displayUserEmailUpdate.value}");
+    return displayUserEmailUpdate.value;
+  }
+
+  updateDisplayName(String value) async {
+    userProfile?.updateDisplayName(value);
+  }
+
+  updatePhotoUrl(String value) async {
+    userProfile?.updatePhotoURL(value);
   }
 }

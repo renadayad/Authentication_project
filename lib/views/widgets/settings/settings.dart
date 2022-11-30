@@ -1,14 +1,16 @@
+import 'package:auth_app/views/screens/setting/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../logic/controllers/auth_controller.dart';
+import '../../../routes.dart';
 
 
 
 
-class EditProfile extends StatelessWidget {
-  EditProfile({super.key});
+class SettingsWidget extends StatelessWidget {
+  SettingsWidget({super.key});
 
   final controller = Get.put(AuthController());
 
@@ -18,19 +20,21 @@ class EditProfile extends StatelessWidget {
       builder: (_) => Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(Routes.settingsScreen);
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Text(
-                "Edit Profile",
+              Text(
+                "Settings",
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,
                     color: Colors.black),
               ),
               Container(
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.all(3),
                 decoration: const BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: Colors.transparent,

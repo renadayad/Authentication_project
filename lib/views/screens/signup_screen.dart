@@ -6,7 +6,12 @@ import 'package:auth_app/utils/theme.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:auth_app/views/widgets/auth/icon_widget.dart';
 import 'package:auth_app/views/widgets/auth/text_form_field.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/src/widgets/framework.dart';
@@ -92,11 +97,13 @@ class SignUpScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                     ),
+
                     Tab(
                       child: Text(
                         'Phone number',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
+
                       ),
                     ),
                   ],
