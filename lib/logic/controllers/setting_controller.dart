@@ -18,7 +18,7 @@ class SettingController extends GetxController {
 
   @override
   void onInit() {
-    getImageFeild();
+
     super.onInit();
   }
   String capitalize(String profileName) {
@@ -57,6 +57,7 @@ class SettingController extends GetxController {
 
     }catch (error) {
       Get.snackbar(
+
         'Error!',
         error.toString(),
         snackPosition: SnackPosition.TOP,

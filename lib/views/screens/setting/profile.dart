@@ -22,6 +22,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     print("image path ${controller.imagePath}");
+    print("username ${authController.displayUserName.value}");
     return SafeArea(
 
       child: Scaffold(
@@ -64,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                 height: 2.5.h,
               ),
               Align(alignment: Alignment.center,
-                child: TextUtils(text: "Username",color: Colors.black,fontsize: 11.sp,fontWeight: FontWeight.bold,),),
+                child: TextUtils(text: controller.capitalize(authController.displayUserName.value),color: Colors.black,fontsize: 11.sp,fontWeight: FontWeight.bold,),),
               SizedBox(
                 height: 1.3.h,
               ),

@@ -14,8 +14,7 @@ class AuthController extends GetxController
   bool isCheckBox = false;
   bool isVisibilty2 = false;
   late TabController tabController;
-  var displayUserName = '';
-
+  var displayUserName = ''.obs;
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
   var displayUserEmailUpdate = ''.obs;
@@ -33,9 +32,11 @@ class AuthController extends GetxController
   String verificationId = '';
 
   void onInit() {
-    displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
-    print("useremail ${userProfile!.email}");
-    getEmailDoc();
+
+  displayUserName.value=(userProfile != null ? userProfile!.displayName : "")!;
+  displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+
+
     tabController = TabController(length: 2, vsync: this);
 
     super.onInit();
@@ -65,7 +66,7 @@ class AuthController extends GetxController
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        displayUserName = name;
+        displayUserName.value = name;
         auth.currentUser!.updateDisplayName(name);
       });
 
@@ -73,6 +74,7 @@ class AuthController extends GetxController
       authBox.write("auth", isSignedIn);
       update();
       Get.offNamed(Routes.profileScreen);
+      getEmailDoc();
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -134,7 +136,7 @@ class AuthController extends GetxController
             accessToken: signInAuthentication.accessToken);
         await auth.signInWithCredential(credential);
       }
-      displayUserName = googleUser!.displayName!;
+      displayUserName.value = googleUser!.displayName!;
       isSignedIn = true;
 
       update();
@@ -153,7 +155,7 @@ class AuthController extends GetxController
     try {
       await auth.signOut();
       await googleSign.signOut();
-      displayUserName = "";
+      displayUserName.value = "";
       displayUserPhoto.value = '';
       isSignedIn = false;
       authBox.remove("auth");
@@ -169,19 +171,24 @@ class AuthController extends GetxController
 
   void signUpUsingFirebase({
     required String email,
+    required String name,
     required String password,
   }) async {
     try {
       await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email, password: password).then((value)  {
+        displayUserName.value=name;
+        // auth.currentUser!.updateDisplayName(name);
+        print(" this is username ${displayUserName.value}");
+        displayUserEmail.value=email;
+
+      }
+      );
       DocumentReference doc =
           FirebaseFirestore.instance.collection("users").doc(email);
-      doc.set({
-        "email": email,
-        "password": password,
-        "displayName": "",
-        "image": ""
-      });
+
+      doc.set({"email": email, "password": password, "displayName":name, "image":""});
+
 
       update();
       Get.offNamed(Routes.profileScreen);
@@ -311,6 +318,7 @@ class AuthController extends GetxController
         .doc(displayUserEmail.value)
         .get();
     displayUserEmailUpdate.value = doc1["email"];
+
     print("display email ${displayUserEmailUpdate.value}");
     return displayUserEmailUpdate.value;
   }

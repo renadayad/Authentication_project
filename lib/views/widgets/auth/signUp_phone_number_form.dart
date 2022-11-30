@@ -193,9 +193,10 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                       if (formKey.currentState!.validate()) {
                         String email = phoneNumberController.text.trim();
                         String password = passwordController.text;
+                        String name = nameController.text;
 
                         controller.signUpUsingFirebase(
-                            email: email, password: password);
+                            email: email, password: password,name: name);
                       }
                     },
                     text: 'Sign Up');
