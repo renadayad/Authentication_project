@@ -1,5 +1,8 @@
 import 'package:auth_app/views/widgets/auth/container_under.dart';
 import 'package:auth_app/views/widgets/auth/icon_widget.dart';
+import 'package:auth_app/views/widgets/auth/login_email_form.dart';
+import 'package:auth_app/views/widgets/auth/login_phone_number.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -17,9 +20,6 @@ import '../widgets/auth/text_form_field.dart';
 
 class Login_Screen extends StatelessWidget {
   Login_Screen({super.key});
-  final formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   final controller = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
@@ -30,11 +30,12 @@ class Login_Screen extends StatelessWidget {
             const EdgeInsets.only(top: 154, bottom: 363, right: 45, left: 55),
         child: Column(children: [
           TextUtils(
-              text: "Login by",
-              color: labalColor,
-              fontWeight: FontWeight.normal,
-              fontsize: 11.sp,
-              underLine: TextDecoration.none),
+            text: "Login by",
+            color: labalColor,
+            fontWeight: FontWeight.normal,
+            fontsize: 11.sp,
+            underLine: TextDecoration.none,
+          ),
           SizedBox(
             height: 5.8.h,
           ),
@@ -74,117 +75,29 @@ class Login_Screen extends StatelessWidget {
           SizedBox(
             height: 2.34.h,
           ),
-          Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: TextUtils(
-                      text: 'E-mail',
-                      color: labalColor,
-                      fontWeight: FontWeight.w400,
-                      fontsize: 11.sp,
-                      underLine: TextDecoration.none),
-                ),
-                SizedBox(
-                  height: 1.17.h,
-                ),
-                AuthTextFromField(
-                  controller: emailController,
-                  obscureText: false,
-                  validator: (value) {
-                    if (!RegExp(validationEmail).hasMatch(value)) {
-                      return "Worng E-mail";
-                    } else {
-                      return null;
-                    }
-                  },
-                  prefixIcon: Icon(
-                    Icons.person_outline,
-                    color: labalColor,
+          Container(
+            height: 4.69.h,
+            child: TabBar(
+                controller: controller.tabController,
+                indicatorColor: Colors.black,
+                labelColor: Colors.black,
+                unselectedLabelColor: labalColor,
+                tabs: [
+                  Tab(
+                    child: Text("Email", style: TextStyle(fontSize: 12.sp)),
                   ),
-                  suffixIcon: const Text(''),
-                  hintText: "Enter your Email",
-                ),
-                SizedBox(
-                  height: 1.76.h,
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: TextUtils(
-                      text: 'Password',
-                      color: labalColor,
-                      fontWeight: FontWeight.w400,
-                      fontsize: 11.sp,
-                      underLine: TextDecoration.none),
-                ),
-                SizedBox(
-                  height: 1.17.h,
-                ),
-                GetBuilder<AuthController>(builder: (_) {
-                  return AuthTextFromField(
-                    controller: passwordController,
-                    obscureText: controller.isVisibilty ? false : true,
-                    validator: (value) {
-                      if (value.toString().length < 6) {
-                        return " Worng password";
-                      } else {
-                        return null;
-                      }
-                    },
-                    prefixIcon: Icon(
-                      Icons.lock_outline,
-                      color: labalColor,
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        controller.Visibilty();
-                      },
-                      icon: controller.isVisibilty
-                          ? Icon(Icons.visibility_outlined,
-                              color: labalColor, size: 20)
-                          : Icon(Icons.visibility_off_outlined,
-                              color: labalColor, size: 20),
-                      iconSize: 18,
-                    ),
-                    hintText: "Enter your password",
-                  );
-                }),
-                SizedBox(
-                  height: 1.17.h,
-                ),
-                CheckWidget(),
-                SizedBox(
-                  height: 3.75.h,
-                ),
-                GetBuilder<AuthController>(builder: (_) {
-                  return AuthButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        String email = emailController.text.trim();
-                        String password = passwordController.text;
-                        controller.loginUsingFierbase(
-                            email: email, password: password);
-                      }
-                    },
-                    text: "Log In",
-                  );
-                }),
-                SizedBox(
-                  height: 1.17.h,
-                ),
-                Container_Under(
-                  text: 'Dont hava an account?',
-                  typetext: "Sign up",
-                  onPressed: () {
-                    Get.offNamed(Routes.signScreen);
-                  },
-                ),
-              ],
-            ),
-          )
+
+                  Tab(
+                      child: Text("Phone number",
+                          style: TextStyle(fontSize: 12.sp)))
+                ]),
+          ),
+          Container(
+            height: 46.60.h,
+            child: TabBarView(
+                controller: controller.tabController,
+                children: [Login_Email_Form(), Login_PhoneNumber_Form()]),
+          ),
         ]),
       ),
     );

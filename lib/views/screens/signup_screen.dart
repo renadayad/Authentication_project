@@ -6,29 +6,32 @@ import 'package:auth_app/utils/theme.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:auth_app/views/widgets/auth/icon_widget.dart';
 import 'package:auth_app/views/widgets/auth/text_form_field.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../widgets/auth/signUp_email_form.dart';
+import '../widgets/auth/signUp_phone_number_form.dart';
+
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
-  final formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController rePasswordController = TextEditingController();
-  final controller = Get.find<AuthController>();
 
+  final controller = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding:
-              const EdgeInsets.only(top: 154, bottom: 363, right: 45, left: 55),
+              const EdgeInsets.only(top: 90, bottom: 363, right: 40, left: 50),
           child: Column(
             children: [
               TextUtils(
@@ -77,193 +80,45 @@ class SignUpScreen extends StatelessWidget {
                   color: mainColor,
                   underLine: TextDecoration.none),
               SizedBox(
-                height: 3.7.h,
+                height: 2.3.h,
               ),
-              Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextUtils(
-                        text: 'E-mail',
-                        fontsize: 11.sp,
-                        fontWeight: FontWeight.normal,
-                        color: mainColor,
-                        underLine: TextDecoration.none),
-                    SizedBox(
-                      height: 1.1.h,
-                    ),
-                    AuthTextFromField(
-                      controller: emailController,
-                      obscureText: false,
-                      prefixIcon: const Icon(
-                        Icons.person_outline,
-                        color: mainColor,
-                      ),
-                      suffixIcon: const Text(''),
-                      validator: (value) {
-                        if (!RegExp(validationEmail).hasMatch(value)) {
-                          return 'Invalid Email';
-                        } else {
-                          return null;
-                        }
-                      },
-                      hintText: 'Enter your E-mail',
-                    ),
-                    SizedBox(
-                      height: 1.7.h,
-                    ),
-                    TextUtils(
-                        text: 'Password',
-                        fontsize: 11.sp,
-                        fontWeight: FontWeight.normal,
-                        color: mainColor,
-                        underLine: TextDecoration.none),
-                    SizedBox(
-                      height: 1.1.h,
-                    ),
-                    GetBuilder<AuthController>(
-                      builder: (_) {
-                        return AuthTextFromField(
-                          controller: passwordController,
-                          prefixIcon: const Icon(
-                            Icons.lock_outline,
-                            color: mainColor,
-                          ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              controller.Visibilty();
-                            },
-                            icon: controller.isVisibilty
-                                ? Icon(
-                                    Icons.visibility_outlined,
-                                    color: mainColor,
-                                    size: 2.3.h,
-                                  )
-                                : Icon(
-                                    Icons.visibility_off_outlined,
-                                    color: mainColor,
-                                    size: 2.3.h,
-                                  ),
-                          ),
-                          obscureText: controller.isVisibilty ? false : true,
-                          validator: (value) {
-                            if (!RegExp(validationPassword).hasMatch(value)) {
-                              return 'Password length must be 8 and contain a number,\n a special symbol, and an uppercase letter.';
-                            } else {
-                              return null;
-                            }
-                          },
-                          hintText: 'Enter your password',
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      height: 1.7.h,
-                    ),
-                    TextUtils(
-                        text: 'Re-Password',
-                        fontsize: 11.sp,
-                        fontWeight: FontWeight.normal,
-                        color: mainColor,
-                        underLine: TextDecoration.none),
-                    SizedBox(
-                      height: 1.1.h,
-                    ),
-                    GetBuilder<AuthController>(
-                      builder: (_) {
-                        return AuthTextFromField(
-                          controller: rePasswordController,
-                          prefixIcon: const Icon(
-                            Icons.lock_outline,
-                            color: mainColor,
-                          ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              controller.Visibilty2();
-                            },
-                            icon: controller.isVisibilty2
-                                ? Icon(
-                                    Icons.visibility_outlined,
-                                    color: mainColor,
-                                    size: 2.3.h,
-                                  )
-                                : Icon(
-                                    Icons.visibility_off_outlined,
-                                    color: mainColor,
-                                    size: 2.3.h,
-                                  ),
-                          ),
-                          obscureText: controller.isVisibilty ? false : true,
-                          validator: (value) {
-                            if (value != passwordController.text) {
-                              return 'The entered password does not match.';
-                            } else {
-                              return null;
-                            }
-                          },
-                          hintText: 'Enter your password again',
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      height: 3.5.h,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: GetBuilder<AuthController>(
-                        builder: (_) {
-                          return AuthButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  String email = emailController.text.trim();
-                                  String password = passwordController.text;
-
-                                  controller.signUpUsingFirebase(
-                                      email: email, password: password);
-
-
-                                }
-                              },
-                              text: 'Sign Up');
-                        },
+              Container(
+                height: 40,
+                child: TabBar(
+                  controller: controller.tabController,
+                  indicatorColor: Colors.black,
+                  labelColor: Colors.black,
+                  unselectedLabelColor: mainColor,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        'Email',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextUtils(
-                            text: 'Already have account ?',
-                            fontsize: 9.sp,
-                            fontWeight: FontWeight.normal,
-                            color: mainColor,
-                            underLine: TextDecoration.none),
-                        SizedBox(
-                          width: 0.5.w,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Get.offNamed(Routes.loginScreen);
-                          },
-                          style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size(50, 30),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              alignment: Alignment.centerLeft),
-                          child: TextUtils(
-                              text: 'Login',
-                              fontsize: 9.sp,
-                              fontWeight: FontWeight.w400,
-                              color: buttonColor,
-                              underLine: TextDecoration.underline),
-                        ),
-                      ],
+
+                    Tab(
+                      child: Text(
+                        'Phone number',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14),
+
+                      ),
                     ),
                   ],
                 ),
               ),
+              Container(
+                height: 650,
+                child:
+                    TabBarView(controller: controller.tabController, children: [
+                  SignUp_Email_Form(),
+                  SignUp_Phone_Number_Form(),
+                ]),
+              )
             ],
-          ),
+          ), // end page
         ),
       ),
     );
