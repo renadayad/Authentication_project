@@ -20,6 +20,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    print("image path ${controller.imagePath}");
     return SafeArea(
 
       child: Scaffold(
@@ -47,7 +49,8 @@ class ProfileScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
-                  image: DecorationImage(
+                  image:
+                  DecorationImage(
                     image: authController.displayUserPhoto.isNotEmpty
                         ? NetworkImage(
                       authController.displayUserPhoto.value,

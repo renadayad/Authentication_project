@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:auth_app/views/widgets/auth/text_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,9 +21,11 @@ class EditProfileScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
 
 
+
+
   @override
   Widget build(BuildContext context) {
-    print("this is ${authController.displayUserEmailUpdate.value}");
+    print("this is ${controller.imagePath1}");
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
@@ -43,6 +47,7 @@ class EditProfileScreen extends StatelessWidget {
               ),
               actions: [
                 TextButton(onPressed: () async{
+                  controller.getImageFeild();
                   authController.getEmailDoc();
                   if (emailController.text.isNotEmpty){authController.updateEmail(emailController);}else{
                     Get.snackbar(
@@ -61,39 +66,38 @@ class EditProfileScreen extends StatelessWidget {
 
 
             ),
-            body: Obx(() => Padding(
+            body: Padding(
                  padding: EdgeInsets.all(20),
                   child: Column(children: [
                     SizedBox(
                       height: 4.h,
                     ),
-                    Stack(
+                   GetBuilder<SettingController>(init: SettingController(),builder:(value)=>
+                       Stack(
 
-                      children:[Container(
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: authController.displayUserPhoto.isNotEmpty
-                                ? NetworkImage(
-                              authController.displayUserPhoto.value,
-                            )
-                                : AssetImage("assets/images/avtar.png") as ImageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                        Positioned(
-                          bottom: -2, right: -1, //give the values according to your requirement
-                          child: IconButton( onPressed: () {
+                           children:[Container(
+                             height: 120,
+                             width: 120,
+                             decoration: BoxDecoration(
+                               color: Colors.white,
+                               shape: BoxShape.circle,
+                               image: DecorationImage(
+                                 image: NetworkImage("${controller.imagePath1}")
+                                 // FileImage(controller.image!),
+                                 ,
+                                 fit: BoxFit.cover,
+                               ),
+                             ),
+                           ),
+                             Positioned(
+                               bottom: -2, right: -1, //give the values according to your requirement
+                               child: IconButton( onPressed: () {
+                                 _onPictureSelection();
+                               }, icon: Icon(Icons.camera_alt_outlined,),),
+                             ),
 
-                          }, icon: Icon(Icons.camera_alt_outlined,),),
-                        ),
-
-                      ]
-                    ),
+                           ]
+                       ),),
                      SizedBox(
                       height: 5.h,
                     ),
@@ -132,6 +136,11 @@ class EditProfileScreen extends StatelessWidget {
                       ) ,)
                     ),
                   ]),
-                ))));
+                )));
   }
+  _onPictureSelection() async {
+    await controller.getImageFeild();
+    await controller.getImage();
+  }
+
 }

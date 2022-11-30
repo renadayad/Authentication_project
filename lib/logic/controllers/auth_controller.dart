@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,6 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../routes.dart';
 
 class AuthController extends GetxController {
+
   bool isVisibilty = false;
   bool isCheckBox = false;
   bool isVisibilty2 = false;
@@ -17,6 +20,7 @@ class AuthController extends GetxController {
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
   var displayUserEmailUpdate = ''.obs;
+
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -25,6 +29,7 @@ class AuthController extends GetxController {
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
   User? get userProfile => auth.currentUser;
+
 
   void onInit() {
     displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
@@ -158,11 +163,12 @@ class AuthController extends GetxController {
     required String password,
   }) async {
     try {
+
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       DocumentReference doc =
           FirebaseFirestore.instance.collection("users").doc(email);
-      doc.set({"email": email, "password": password});
+      doc.set({"email": email, "password": password, "displayName":"", "image":""});
 
       update();
       Get.offNamed(Routes.profileScreen);
