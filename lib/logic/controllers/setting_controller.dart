@@ -57,6 +57,7 @@ class SettingController extends GetxController {
 
     }catch (error) {
       Get.snackbar(
+
         'Error!',
         error.toString(),
         snackPosition: SnackPosition.TOP,
