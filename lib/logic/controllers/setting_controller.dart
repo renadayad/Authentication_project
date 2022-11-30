@@ -18,7 +18,7 @@ class SettingController extends GetxController {
 
   @override
   void onInit() {
-    getImageFeild();
+
     super.onInit();
   }
   String capitalize(String profileName) {
