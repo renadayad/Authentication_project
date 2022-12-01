@@ -15,7 +15,7 @@ import '../../../utils/theme.dart';
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({Key? key}) : super(key: key);
 
-  final controller = Get.find<SettingController>();
+  final controller = Get.put(SettingController());
   final authController = Get.find<AuthController>();
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -47,9 +47,8 @@ class EditProfileScreen extends StatelessWidget {
               ),
               actions: [
                 TextButton(onPressed: () async{
-                  controller.getImageFeild();
                   authController.getEmailDoc();
-                  if (emailController.text.isNotEmpty){authController.updateEmail(emailController);}else{
+                  if (emailController.text.isNotEmpty  ){authController.updateEmail(emailController);}else{
                     Get.snackbar(
                       'Error!',
                       "error",
@@ -82,7 +81,8 @@ class EditProfileScreen extends StatelessWidget {
                                color: Colors.white,
                                shape: BoxShape.circle,
                                image: DecorationImage(
-                                 image: NetworkImage("${controller.imagePath1}")
+                                 image:controller.image != null ? NetworkImage("${controller.imagePath1}")
+                                     : AssetImage("assets/images/avtar.png") as ImageProvider
                                  // FileImage(controller.image!),
                                  ,
                                  fit: BoxFit.cover,
@@ -130,7 +130,7 @@ class EditProfileScreen extends StatelessWidget {
                             },
 
                             suffixIcon: const Text(''),
-                            hintText:authController.displayUserEmailUpdate.value,
+                            hintText:authController.displayUserName.value,
                           ),)
                         ],
                       ) ,)
