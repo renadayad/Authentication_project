@@ -6,10 +6,18 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../model/userModel.dart';
 import '../../routes.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  final Rx<UserModel> _userModel =
+      UserModel(email: '', name: '', uid: '', password: '', image: '').obs;
+
+  UserModel get user => _userModel.value;
+
+  set user(UserModel value) => _userModel.value = value;
+
   bool isVisibilty = false;
   bool isCheckBox = false;
   bool isVisibilty2 = false;
@@ -19,6 +27,7 @@ class AuthController extends GetxController
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
   var displayUserEmailUpdate = ''.obs;
+  var displayUsernameUpdate = ''.obs;
 
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -37,6 +46,7 @@ class AuthController extends GetxController
   final time = '00:00'.obs;
   var isbuttonDisable = false;
 
+  @override
   void onInit() {
     // displayUserName.value =
     //     (userProfile != null ? userProfile!.displayName : "")!;
@@ -61,6 +71,7 @@ class AuthController extends GetxController
     super.onClose();
   }
 
+
   void Visibilty() {
     isVisibilty = !isVisibilty;
     update();
@@ -81,19 +92,28 @@ class AuthController extends GetxController
     required String password,
   }) async {
     try {
+      await auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(displayUserEmail.value)
+            .get();
+        Map<String, dynamic> docData = userDoc.data() as Map<String, dynamic>;
+        displayUserName.value = docData['displayName'];
+      });
+
       // showDialog(
       //   context: context,
       //   builder: (context) {
       //     return CircularProgressIndicator();
       //   },
       // );
-      await auth.signInWithEmailAndPassword(email: email, password: password);
 
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
       update();
       Get.offNamed(Routes.profileScreen);
-      getEmailDoc();
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -200,8 +220,10 @@ class AuthController extends GetxController
         displayUserName.value = name;
         auth.currentUser!.updateDisplayName(name);
         print(" this is username ${displayUserName.value}");
+        print(" this is userprofile ${userProfile!.displayName}");
         displayUserEmail.value = email;
       });
+
       DocumentReference doc =
           FirebaseFirestore.instance.collection("users").doc(email);
 
@@ -356,9 +378,9 @@ class AuthController extends GetxController
       DocumentReference doc = FirebaseFirestore.instance
           .collection("users")
           .doc(displayUserEmail.value);
-      await doc.update({"email": value.text});
+      await doc.update({"displayName": value.text});
       print(displayUserEmail.value);
-      displayUserEmailUpdate.value = value.text;
+      displayUsernameUpdate.value = value.text;
 
       Get.snackbar(
         'Success!',
@@ -402,14 +424,21 @@ class AuthController extends GetxController
   }
 
   Future getEmailDoc() async {
-    var doc1 = await FirebaseFirestore.instance
-        .collection("users")
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
         .doc(displayUserEmail.value)
         .get();
-    displayUserEmailUpdate.value = doc1["email"];
+    Map<String, dynamic> docData = userDoc.data() as Map<String, dynamic>;
+    displayUserName.value = docData['displayName'];
 
-    print("display email ${displayUserEmailUpdate.value}");
-    return displayUserEmailUpdate.value;
+    // var doc1 = await FirebaseFirestore.instance
+    //     .collection("users")
+    //     .doc(displayUserEmail.value)
+    //     .get();
+    // displayUsernameUpdate.value = doc1["displayName"];
+    //
+    // print("display username111111 ${displayUsernameUpdate.value}");
+    return displayUserName.value;
   }
 
   updateDisplayName(String value) async {
@@ -418,5 +447,20 @@ class AuthController extends GetxController
 
   updatePhotoUrl(String value) async {
     userProfile?.updatePhotoURL(value);
+
+
+  }
+
+  Future getUserFromDB(String uid) async {
+    try {
+      var userData =
+          await FirebaseFirestore.instance.collection("users").doc(uid).get();
+      var map = userData.data();
+      //debugPrint(map!['email']);
+      return UserModel.fromData(userData.data());
+    } on FirebaseException catch (e) {
+      return e.message;
+    }
+
   }
 }

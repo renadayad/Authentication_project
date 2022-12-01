@@ -116,9 +116,9 @@ class Login_PhoneNumber_Form extends StatelessWidget {
                   controller.verifyPhone(
                       phone: phoneController.text,
                       password: passwordController.text);
-                  Get.to(OTPScreen(
-                    phoneNumber: phoneController.text,
-                  ));
+
+                
+                  Get.to(OTPScreen(phoneNumber: phoneController.text,));
                 }
 
                 controller.verifyPhone(

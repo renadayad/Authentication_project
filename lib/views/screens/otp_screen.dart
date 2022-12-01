@@ -160,8 +160,11 @@ class OTPScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 90),
                 // ignore: sort_child_properties_last
                 child: ButtonTheme(
-                  height: 32,
-                  child: Column(
+
+
+                    height: 32,
+                    child:  Column(
+
                     children: [
                       AuthButton(
                           onPressed: () {
