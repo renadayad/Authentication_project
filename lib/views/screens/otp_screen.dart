@@ -160,6 +160,20 @@ class OTPScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 90),
                 // ignore: sort_child_properties_last
                 child: ButtonTheme(
+
+                    height: 32,
+                    child: AuthButton(
+                        onPressed: () {
+                          controller.verifyOTP(otpController.text);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              });
+                        },
+                        text: 'Verify code')),
+
                   height: 3.7.h,
                   child: Column(
                     children: [
@@ -186,6 +200,7 @@ class OTPScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                 ),
