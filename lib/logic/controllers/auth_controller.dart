@@ -1,5 +1,6 @@
-import 'dart:async';
 
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,13 +15,20 @@ class AuthController extends GetxController
   bool isCheckBox = false;
   bool isVisibilty2 = false;
   late TabController tabController;
-  var displayUserName = '';
-
+  var displayUserName = ''.obs;
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
+  var displayUserEmailUpdate = ''.obs;
+
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
+  User? get userProfile => auth.currentUser;
+
   var authState = ''.obs;
   String verificationId = '';
 
@@ -30,10 +38,16 @@ class AuthController extends GetxController
   var isbuttonDisable = false;
 
   void onInit() {
+
+  displayUserName.value=(userProfile != null ? userProfile!.displayName : "")!;
+  displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+
+
     tabController = TabController(length: 2, vsync: this);
 
     super.onInit();
   }
+
 
   @override
   void onReady() {
@@ -50,6 +64,7 @@ class AuthController extends GetxController
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
+
   void Visibilty() {
     isVisibilty = !isVisibilty;
     update();
@@ -74,14 +89,15 @@ class AuthController extends GetxController
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        displayUserName = name;
+        displayUserName.value = name;
         auth.currentUser!.updateDisplayName(name);
       });
 
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
+      getEmailDoc();
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -143,13 +159,13 @@ class AuthController extends GetxController
             accessToken: signInAuthentication.accessToken);
         await auth.signInWithCredential(credential);
       }
-      displayUserName = googleUser!.displayName!;
+      displayUserName.value = googleUser!.displayName!;
       isSignedIn = true;
 
       update();
       authBox.write("auth", isSignedIn);
 
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } catch (error) {
       Get.snackbar('Error!', error.toString(),
           snackPosition: SnackPosition.TOP,
@@ -162,7 +178,7 @@ class AuthController extends GetxController
     try {
       await auth.signOut();
       await googleSign.signOut();
-      displayUserName = "";
+      displayUserName.value = "";
       displayUserPhoto.value = '';
       isSignedIn = false;
       authBox.remove("auth");
@@ -178,13 +194,27 @@ class AuthController extends GetxController
 
   void signUpUsingFirebase({
     required String email,
+    required String name,
     required String password,
   }) async {
     try {
       await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email, password: password).then((value)  {
+        displayUserName.value=name;
+        // auth.currentUser!.updateDisplayName(name);
+        print(" this is username ${displayUserName.value}");
+        displayUserEmail.value=email;
+
+      }
+      );
+      DocumentReference doc =
+          FirebaseFirestore.instance.collection("users").doc(email);
+
+      doc.set({"email": email, "password": password, "displayName":name, "image":""});
+
+
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } on FirebaseAuthException catch (e) {
       String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -251,6 +281,7 @@ class AuthController extends GetxController
   }
 
   verifyOTP(String otp) async {
+
     try {
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
@@ -299,6 +330,7 @@ class AuthController extends GetxController
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white);
+
     }
   }
 
@@ -308,7 +340,7 @@ class AuthController extends GetxController
 
       isSignedIn = true;
       update();
-      Get.offNamed(Routes.settingScreen);
+      Get.offNamed(Routes.profileScreen);
     } catch (error) {
       Get.snackbar(
         'Error!',
@@ -319,6 +351,35 @@ class AuthController extends GetxController
       );
     }
   }
+
+  Future updateEmail(TextEditingController value) async {
+    try {
+      // value is the email user inputs in a textfield and is validated
+      DocumentReference doc = FirebaseFirestore.instance
+          .collection("users")
+          .doc(displayUserEmail.value);
+      await doc.update({"email": value.text});
+      print(displayUserEmail.value);
+      displayUserEmailUpdate.value = value.text;
+
+      Get.snackbar(
+        'Success!',
+        "Updated successfully!",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.greenAccent,
+        colorText: Colors.white,
+      );
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
+    }
+  }
+
 
   void startTimer(int sec) {
     const duration = Duration(seconds: 1);
@@ -342,5 +403,24 @@ class AuthController extends GetxController
   void buttonDisable() {
     isbuttonDisable = !isbuttonDisable;
     update();
+
+  Future getEmailDoc() async {
+    var doc1 = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(displayUserEmail.value)
+        .get();
+    displayUserEmailUpdate.value = doc1["email"];
+
+    print("display email ${displayUserEmailUpdate.value}");
+    return displayUserEmailUpdate.value;
+  }
+
+  updateDisplayName(String value) async {
+    userProfile?.updateDisplayName(value);
+  }
+
+  updatePhotoUrl(String value) async {
+    userProfile?.updatePhotoURL(value);
+
   }
 }
