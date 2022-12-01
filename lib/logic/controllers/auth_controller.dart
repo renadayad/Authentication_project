@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,9 +9,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../model/userModel.dart';
 import '../../routes.dart';
 
-
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
+
 
   final Rx<UserModel> _userModel = UserModel(
     email: '',
@@ -26,6 +24,8 @@ class AuthController extends GetxController
   UserModel get user => _userModel.value;
 
   set user(UserModel value) => _userModel.value = value;
+
+
 
 
 
@@ -50,16 +50,17 @@ class AuthController extends GetxController
   final GetStorage authBox = GetStorage();
   User? get userProfile => auth.currentUser;
 
-  
-
-
-
   var authState = ''.obs;
   String verificationId = '';
 
   @override
   void onInit() {
-   //displayUserName.value = (userProfile != null ? userProfile!.displayName : "")!;
+
+
+
+
+  //displayUserName.value=(userProfile != null ? userProfile!.displayName : "")!;
+
   displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
 
 
@@ -207,7 +208,6 @@ class AuthController extends GetxController
     required String password,
   }) async {
     try {
-
       await auth.createUserWithEmailAndPassword(
           email: email, password: password).then((value)  {
         displayUserName.value=name;
@@ -220,7 +220,9 @@ class AuthController extends GetxController
       );
       DocumentReference doc =
           FirebaseFirestore.instance.collection("users").doc(email);
+
       doc.set({"email": email, "password": password, "displayName":name, "image":""});
+
 
       update();
       Get.offNamed(Routes.profileScreen);
@@ -327,7 +329,6 @@ class AuthController extends GetxController
       print(displayUserEmail.value);
       displayUsernameUpdate.value = value.text;
 
-
       Get.snackbar(
         'Success!',
         "Updated successfully!",
@@ -335,7 +336,6 @@ class AuthController extends GetxController
         backgroundColor: Colors.greenAccent,
         colorText: Colors.white,
       );
-
     } catch (error) {
       Get.snackbar(
         'Error!',
