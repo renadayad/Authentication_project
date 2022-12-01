@@ -7,37 +7,42 @@ import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:sizer/sizer.dart';
 
 class OTPScreen extends StatelessWidget {
-  OTPScreen({super.key});
+  String phoneNumber;
+  OTPScreen({super.key, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
-    final String phoneNumber = '55555555';
     TextEditingController otpController = TextEditingController();
     StreamController<ErrorAnimationType>? errorController;
     bool hasError = false;
     String currentText = "";
     final formKey = GlobalKey<FormState>();
     final controller = Get.find<AuthController>();
+    var isbuttonDisable = controller.isbuttonDisable;
 
     @override
     void initState() {
       errorController = StreamController<ErrorAnimationType>();
-      //super.initState();
     }
 
     @override
     void dispose() {
       errorController!.close();
-
-      //super.dispose();
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Code verification'),
+        backgroundColor: Colors.white,
+        title: TextUtils(
+            text: 'Code verification',
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontsize: 13.sp),
         elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black, size: 20),
       ),
       body: GestureDetector(
         onTap: () {},
@@ -46,21 +51,19 @@ class OTPScreen extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: <Widget>[
-              const SizedBox(height: 35),
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height / 3,
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.circular(30),
-              //     //child: Image.asset(Constants.otpGifImage),
-              //   ),
-              // ),
-              const SizedBox(height: 8),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  'Enter OTP',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
-                  textAlign: TextAlign.center,
+              SizedBox(height: 4.1.h),
+
+              SizedBox(height: 0.9.h),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextUtils(
+                    text: 'Enter OTP',
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontsize: 11.sp,
+                    underLine: TextDecoration.none,
+                  ),
                 ),
               ),
               Padding(
@@ -72,13 +75,12 @@ class OTPScreen extends StatelessWidget {
                       children: [
                         TextSpan(
                             text: "$phoneNumber",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 14)),
+                                fontSize: 11.sp)),
                       ],
-                      style:
-                          const TextStyle(color: Colors.black54, fontSize: 15)),
+                      style: TextStyle(color: Colors.black54, fontSize: 11.sp)),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -86,16 +88,18 @@ class OTPScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Didn't receive the code? ",
-                    style: TextStyle(color: Colors.black54, fontSize: 15),
+                    style: TextStyle(color: Colors.black54, fontSize: 11.sp),
                   ),
-                  // timer
+                  Obx(
+                    () => Text('${controller.time.value}'),
+                  ),
                 ],
               ),
 
               SizedBox(
-                height: 10,
+                height: 1.1.h,
               ),
               Form(
                 key: formKey,
@@ -104,24 +108,17 @@ class OTPScreen extends StatelessWidget {
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
                       appContext: context,
-                      // pastedTextStyle: TextStyle(
-                      //   color: Colors.green.shade600,
-                      //   fontWeight: FontWeight.bold,
-                      // ),
+
                       length: 6,
-                      //obscureText: true,
-                      // obscuringCharacter: '*',
-                      // obscuringWidget: const FlutterLogo(
-                      //   size: 24,
-                      // ),
+
                       blinkWhenObscuring: true,
                       animationType: AnimationType.fade,
                       validator: (value) {},
                       pinTheme: PinTheme(
                           shape: PinCodeFieldShape.box,
-                          borderRadius: BorderRadius.circular(4),
-                          fieldHeight: 48,
-                          fieldWidth: 43.5,
+                          borderRadius: BorderRadius.circular(7),
+                          fieldHeight: 5.6.h,
+                          fieldWidth: 11.w,
                           activeColor: mainColor,
                           selectedColor: mainColor,
                           inactiveColor: mainColor,
@@ -145,51 +142,69 @@ class OTPScreen extends StatelessWidget {
                         //   currentText = value;
                         // });
                       },
-                      // beforeTextPaste: (text) {
-                      //   debugPrint("Allowing to paste $text");
-                      //   //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //   //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      //   return true;
-                      // },
                     )),
               ),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Text(
-                  hasError ? "*Please fill up all the cells " : "",
-                  style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              //   child: Text(
+              //     hasError ? "*Please fill up all the cells " : "",
+              //     style:  TextStyle(
+              //         color: Colors.red,
+              //         fontSize: 10.sp,
+              //         fontWeight: FontWeight.w400),
+              //   ),
+              // ),
               Container(
-                margin: // auth button
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 90),
                 // ignore: sort_child_properties_last
                 child: ButtonTheme(
+
                     height: 32,
                     child: AuthButton(
                         onPressed: () {
                           controller.verifyOTP(otpController.text);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              });
                         },
                         text: 'Verify code')),
+
+                  height: 3.7.h,
+                  child: Column(
+                    children: [
+                      AuthButton(
+                          onPressed: () {
+                            controller.verifyOTP(otpController.text);
+                          },
+                          text: 'Verify code'),
+                      GetBuilder<AuthController>(builder: (_) {
+                        
+                        return TextButton(
+                          onPressed: controller.isbuttonDisable? () async {
+                            controller.reSendOTP(phone: phoneNumber);
+                          }:null,
+                          child: TextUtils(
+                            text: 'Resend code',
+                            color:isbuttonDisable?Colors.green: mainColor,
+                            fontWeight: FontWeight.w400,
+                            fontsize: 11.sp,
+                            underLine: TextDecoration.underline,
+                          ),
+                        );
+                      })
+                    ],
+                  ),
+                ),
+
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Resend code",
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14),
-                ),
-              )
             ],
           ),
         ),
