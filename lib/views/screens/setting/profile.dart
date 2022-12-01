@@ -15,13 +15,13 @@ import '../../widgets/settings/notification.dart';
 class ProfileScreen extends StatelessWidget {
    ProfileScreen({Key? key}) : super(key: key);
 
-  final controller = Get.find<SettingController>();
+  final controller = Get.put(SettingController());
   final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
 
-    print("image path ${controller.imagePath}");
+    print("image path ${controller.imagePath1}");
     print("username ${authController.displayUserName.value}");
     return SafeArea(
 
@@ -37,70 +37,71 @@ class ProfileScreen extends StatelessWidget {
             onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ) ,
         ),
-        body:  Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
+        body:Obx (()=>
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
 
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  image:
-                  DecorationImage(
-                    image: authController.displayUserPhoto.isNotEmpty
-                        ? NetworkImage(
-                      authController.displayUserPhoto.value,
-                    )
-                        :AssetImage("assets/images/avtar.png") as ImageProvider,
-                    fit: BoxFit.cover,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        image:
+                        DecorationImage(
+                          image: controller.image !=null
+                              ? NetworkImage(
+                            controller.imagePath1!,
+                          )
+                              :AssetImage("assets/images/avtar.png") as ImageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),),
+                  SizedBox(
+                    height: 2.5.h,
                   ),
-                ),
-              ),),
-              SizedBox(
-                height: 2.5.h,
-              ),
-              Align(alignment: Alignment.center,
-                child: TextUtils(text: controller.capitalize(authController.displayUserName.value),color: Colors.black,fontsize: 11.sp,fontWeight: FontWeight.bold,),),
-              SizedBox(
-                height: 1.3.h,
-              ),
-              Align(alignment: Alignment.center,
-                child: TextUtils(text: authController.displayUserEmail.value,color: Colors.black45,fontsize: 9.sp,fontWeight: FontWeight.w500,),),
+                  Align(alignment: Alignment.center,
+                    child: TextUtils(text:authController.displayUserName.value,color: Colors.black,fontsize: 11.sp,fontWeight: FontWeight.bold,),),
+                  SizedBox(
+                    height: 1.3.h,
+                  ),
+                  Align(alignment: Alignment.center,
+                    child: TextUtils(text: authController.displayUserEmail.value,color: Colors.black45,fontsize: 9.sp,fontWeight: FontWeight.w500,),),
 
-               SizedBox(
-                height: 5.h,
-              ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
 
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextUtils(
-                  fontsize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  text: "Account",
-                  color: Colors.grey.shade700,
-                ),
-              ),
-               SizedBox(
-                height: 2.5.h,
-              ),
-              EditProfile(),
-              Divider(
-                color: Colors.grey.shade300,
-                thickness: 1,
-              ),
-               SizedBox(
-                height: 0.5.h,
-              ),
-              SettingsWidget(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextUtils(
+                      fontsize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      text: "Account",
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.5.h,
+                  ),
+                  EditProfile(),
+                  Divider(
+                    color: Colors.grey.shade300,
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 0.5.h,
+                  ),
+                  SettingsWidget(),
 
-            ],
-          ),
-        ),
+                ],
+              ),
+            ))
       ),
     );
   }

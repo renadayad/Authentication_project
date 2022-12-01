@@ -1,4 +1,5 @@
 import 'package:auth_app/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(fontFamily: 'Ubuntu'),
-          initialRoute: Routes.profileScreen,
+          initialRoute: FirebaseAuth.instance.currentUser != null
+              || GetStorage().read<bool>("auth")== true ? Routes.profileScreen :AppRoutes.login ,
+          // initialRoute: Routes.profileScreen,
           getPages: AppRoutes.routes,
         );
       },

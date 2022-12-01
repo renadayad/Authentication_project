@@ -17,7 +17,10 @@ class SettingController extends GetxController {
   final ref =FirebaseStorage.instance.ref().child("profileImage").child("${DateTime.now()}"+'.jpg');
 
   @override
-  void onInit() {
+  void onInit() async {
+
+    await getImageFeild();
+   await authController.getEmailDoc();
 
     super.onInit();
   }
@@ -39,6 +42,7 @@ class SettingController extends GetxController {
       saveImageInStorage();
       print(imagePath);
       update();
+
     } else {
       print('No image selected.');
     }
