@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,13 +40,12 @@ class AuthController extends GetxController
   void onInit() {
     // displayUserName.value =
     //     (userProfile != null ? userProfile!.displayName : "")!;
-    displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+    // displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
 
     tabController = TabController(length: 2, vsync: this);
 
     super.onInit();
   }
-
 
   @override
   void onReady() {
@@ -62,8 +60,6 @@ class AuthController extends GetxController
     }
     super.onClose();
   }
-
-  FirebaseAuth auth = FirebaseAuth.instance;
 
   void Visibilty() {
     isVisibilty = !isVisibilty;
@@ -285,14 +281,13 @@ class AuthController extends GetxController
   }
 
   verifyOTP(String otp) async {
-
     try {
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: this.verificationId, smsCode: otp));
 
       if (credential.user != null) {
-        Get.toNamed(Routes.settingScreen);
+        Get.toNamed(Routes.profileScreen);
       }
     } catch (error) {
       Get.snackbar('Error !', error.toString(),
@@ -334,7 +329,6 @@ class AuthController extends GetxController
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white);
-
     }
   }
 
@@ -384,7 +378,6 @@ class AuthController extends GetxController
     }
   }
 
-
   void startTimer(int sec) {
     const duration = Duration(seconds: 1);
     remainSec = sec;
@@ -399,7 +392,6 @@ class AuthController extends GetxController
             ':' +
             sec.toString().padLeft(2, '0');
         remainSec--;
-        
       }
     });
   }
@@ -407,6 +399,7 @@ class AuthController extends GetxController
   void buttonDisable() {
     isbuttonDisable = !isbuttonDisable;
     update();
+  }
 
   Future getEmailDoc() async {
     var doc1 = await FirebaseFirestore.instance
@@ -425,6 +418,5 @@ class AuthController extends GetxController
 
   updatePhotoUrl(String value) async {
     userProfile?.updatePhotoURL(value);
-
   }
 }
