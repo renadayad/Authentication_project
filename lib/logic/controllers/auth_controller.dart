@@ -13,6 +13,7 @@ class AuthController extends GetxController
   bool isVisibilty = false;
   bool isCheckBox = false;
   bool isVisibilty2 = false;
+
   late TabController tabController;
   var displayUserName = ''.obs;
   var displayUserPhoto = ''.obs;
@@ -32,10 +33,9 @@ class AuthController extends GetxController
   String verificationId = '';
 
   void onInit() {
-
-  displayUserName.value=(userProfile != null ? userProfile!.displayName : "")!;
-  displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
-
+    // displayUserName.value =
+    //     (userProfile != null ? userProfile!.displayName : "")!;
+    displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
 
     tabController = TabController(length: 2, vsync: this);
 
@@ -58,17 +58,17 @@ class AuthController extends GetxController
   }
 
   void loginUsingFierbase({
-    required String name,
     required String email,
     required String password,
   }) async {
     try {
-      await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        displayUserName.value = name;
-        auth.currentUser!.updateDisplayName(name);
-      });
+      // showDialog(
+      //   context: context,
+      //   builder: (context) {
+      //     return CircularProgressIndicator();
+      //   },
+      // );
+      await auth.signInWithEmailAndPassword(email: email, password: password);
 
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
@@ -175,23 +175,27 @@ class AuthController extends GetxController
     required String password,
   }) async {
     try {
-      await auth.createUserWithEmailAndPassword(
-          email: email, password: password).then((value)  {
-        displayUserName.value=name;
-        // auth.currentUser!.updateDisplayName(name);
+      await auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        displayUserName.value = name;
+        auth.currentUser!.updateDisplayName(name);
         print(" this is username ${displayUserName.value}");
-        displayUserEmail.value=email;
-
-      }
-      );
+        displayUserEmail.value = email;
+      });
       DocumentReference doc =
           FirebaseFirestore.instance.collection("users").doc(email);
 
-      doc.set({"email": email, "password": password, "displayName":name, "image":""});
-
+      doc.set({
+        "email": email,
+        "password": password,
+        "displayName": name,
+        "image": ""
+      });
 
       update();
       Get.offNamed(Routes.profileScreen);
+      getEmailDoc();
     } on FirebaseAuthException catch (e) {
       String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';

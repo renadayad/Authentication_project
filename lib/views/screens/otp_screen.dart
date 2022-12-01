@@ -173,6 +173,12 @@ class OTPScreen extends StatelessWidget {
                     child: AuthButton(
                         onPressed: () {
                           controller.verifyOTP(otpController.text);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              });
                         },
                         text: 'Verify code')),
                 decoration: BoxDecoration(

@@ -24,14 +24,10 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(fontFamily: 'Ubuntu'),
-          initialRoute: Routes.profileScreen,
+          initialRoute: Routes.loginScreen,
           getPages: AppRoutes.routes,
         );
       },
     );
-
-
-
-
   }
 }

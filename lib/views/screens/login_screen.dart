@@ -86,7 +86,6 @@ class Login_Screen extends StatelessWidget {
                   Tab(
                     child: Text("Email", style: TextStyle(fontSize: 12.sp)),
                   ),
-
                   Tab(
                       child: Text("Phone number",
                           style: TextStyle(fontSize: 12.sp)))
