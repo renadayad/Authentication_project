@@ -110,6 +110,7 @@ class Login_PhoneNumber_Form extends StatelessWidget {
           GetBuilder<AuthController>(builder: (_) {
             return AuthButton(
               onPressed: () async {
+
                 if (formKey.currentState!.validate()) {
                   String phone = phoneController.text;
                   String password = passwordController.text;
@@ -118,6 +119,13 @@ class Login_PhoneNumber_Form extends StatelessWidget {
                       password: passwordController.text);
                   Get.to(OTPScreen());
                 }
+
+                
+                controller.verifyPhone(
+                    phone: phoneController.text.trim(),
+                    password: passwordController.text);
+                Get.to(OTPScreen(phoneNumber: phoneController.text));
+
               },
               text: "Log In",
             );
