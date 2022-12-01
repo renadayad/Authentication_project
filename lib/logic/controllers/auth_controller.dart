@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,25 +11,12 @@ import '../../routes.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
-
-
-  final Rx<UserModel> _userModel = UserModel(
-    email: '',
-    name: '',
-    uid: '',
-    password: '',
-    image: ''
-  ).obs;
+  final Rx<UserModel> _userModel =
+      UserModel(email: '', name: '', uid: '', password: '', image: '').obs;
 
   UserModel get user => _userModel.value;
 
   set user(UserModel value) => _userModel.value = value;
-
-
-
-
-
-
 
   bool isVisibilty = false;
   bool isCheckBox = false;
@@ -55,25 +41,21 @@ class AuthController extends GetxController
   var authState = ''.obs;
   String verificationId = '';
 
-
   Timer? timer;
   int remainSec = 1;
   final time = '00:00'.obs;
   var isbuttonDisable = false;
 
-
-@override
+  @override
   void onInit() {
     // displayUserName.value =
     //     (userProfile != null ? userProfile!.displayName : "")!;
     displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
 
-
     tabController = TabController(length: 2, vsync: this);
 
     super.onInit();
   }
-
 
   @override
   void onReady() {
@@ -89,7 +71,6 @@ class AuthController extends GetxController
     super.onClose();
   }
 
-  FirebaseAuth auth = FirebaseAuth.instance;
 
   void Visibilty() {
     isVisibilty = !isVisibilty;
@@ -111,18 +92,16 @@ class AuthController extends GetxController
     required String password,
   }) async {
     try {
-
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async{
-        DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(displayUserEmail.value).get();
+          .then((value) async {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(displayUserEmail.value)
+            .get();
         Map<String, dynamic> docData = userDoc.data() as Map<String, dynamic>;
         displayUserName.value = docData['displayName'];
-
-
-          })
-      ;
-
+      });
 
       // showDialog(
       //   context: context,
@@ -130,14 +109,11 @@ class AuthController extends GetxController
       //     return CircularProgressIndicator();
       //   },
       // );
- 
-
 
       isSignedIn = true;
       authBox.write("auth", isSignedIn);
       update();
       Get.offNamed(Routes.profileScreen);
-
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -238,17 +214,15 @@ class AuthController extends GetxController
     required String password,
   }) async {
     try {
-
-      await auth.createUserWithEmailAndPassword(
-          email: email, password: password).then((value)  {
-        displayUserName.value=name;
+      await auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        displayUserName.value = name;
         auth.currentUser!.updateDisplayName(name);
         print(" this is username ${displayUserName.value}");
         print(" this is userprofile ${userProfile!.displayName}");
-        displayUserEmail.value=email;
-
-      }
-      );
+        displayUserEmail.value = email;
+      });
 
       DocumentReference doc =
           FirebaseFirestore.instance.collection("users").doc(email);
@@ -329,14 +303,13 @@ class AuthController extends GetxController
   }
 
   verifyOTP(String otp) async {
-
     try {
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: this.verificationId, smsCode: otp));
 
       if (credential.user != null) {
-        Get.toNamed(Routes.settingScreen);
+        Get.toNamed(Routes.profileScreen);
       }
     } catch (error) {
       Get.snackbar('Error !', error.toString(),
@@ -378,7 +351,6 @@ class AuthController extends GetxController
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white);
-
     }
   }
 
@@ -428,7 +400,6 @@ class AuthController extends GetxController
     }
   }
 
-
   void startTimer(int sec) {
     const duration = Duration(seconds: 1);
     remainSec = sec;
@@ -443,7 +414,6 @@ class AuthController extends GetxController
             ':' +
             sec.toString().padLeft(2, '0');
         remainSec--;
-        
       }
     });
   }
@@ -451,9 +421,13 @@ class AuthController extends GetxController
   void buttonDisable() {
     isbuttonDisable = !isbuttonDisable;
     update();
+  }
 
   Future getEmailDoc() async {
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(displayUserEmail.value).get();
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(displayUserEmail.value)
+        .get();
     Map<String, dynamic> docData = userDoc.data() as Map<String, dynamic>;
     displayUserName.value = docData['displayName'];
 
@@ -467,19 +441,18 @@ class AuthController extends GetxController
     return displayUserName.value;
   }
 
-
   updateDisplayName(String value) async {
     userProfile?.updateDisplayName(value);
   }
 
   updatePhotoUrl(String value) async {
     userProfile?.updatePhotoURL(value);
-
   }
 
   Future getUserFromDB(String uid) async {
     try {
-      var userData = await FirebaseFirestore.instance.collection("users").doc(uid).get();
+      var userData =
+          await FirebaseFirestore.instance.collection("users").doc(uid).get();
       var map = userData.data();
       //debugPrint(map!['email']);
       return UserModel.fromData(userData.data());
