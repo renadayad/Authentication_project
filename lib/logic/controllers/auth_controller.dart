@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,10 +24,29 @@ class AuthController extends GetxController
   var authState = ''.obs;
   String verificationId = '';
 
+  Timer? timer;
+  int remainSec = 1;
+  final time = '00:00'.obs;
+  var isbuttonDisable = false;
+
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
 
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    startTimer(120);
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    super.onClose();
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -201,7 +222,7 @@ class AuthController extends GetxController
         verificationFailed: (error) {
           String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
           String message = '';
-          if (error.code == 'user-not-found') {
+          if (error.code == 'invalid-phone-number') {
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
             message = 'Wrong Password ';
@@ -230,11 +251,54 @@ class AuthController extends GetxController
   }
 
   verifyOTP(String otp) async {
-    var credential = await auth.signInWithCredential(
-        PhoneAuthProvider.credential(
-            verificationId: this.verificationId, smsCode: otp));
-    if (credential.user != null) {
-      Get.toNamed(Routes.settingScreen);
+    try {
+      var credential = await auth.signInWithCredential(
+          PhoneAuthProvider.credential(
+              verificationId: this.verificationId, smsCode: otp));
+
+      if (credential.user != null) {
+        Get.toNamed(Routes.settingScreen);
+      }
+    } catch (error) {
+      Get.snackbar('Error !', error.toString(),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    }
+  }
+
+  reSendOTP({required String phone}) async {
+    try {
+      await auth.verifyPhoneNumber(
+        timeout: Duration(seconds: 120),
+        phoneNumber: phone,
+        verificationCompleted: (AuthCredential authCredential) {},
+        verificationFailed: (error) {
+          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
+          String message = '';
+          if (error.code == 'user-not-found') {
+            message = 'No user found for that phone Number.';
+          } else {
+            message = error.message.toString();
+          }
+          Get.snackbar(title, message,
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.red,
+              colorText: Colors.white);
+        },
+        codeSent: (String id, int? resendToken) {
+          this.verificationId = id;
+          authState.value = "Resend Success";
+        },
+        codeAutoRetrievalTimeout: (String id) {
+          this.verificationId = id;
+        },
+      );
+    } catch (error) {
+      Get.snackbar('Error!', error.toString(),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
     }
   }
 
@@ -254,5 +318,29 @@ class AuthController extends GetxController
         colorText: Colors.white,
       );
     }
+  }
+
+  void startTimer(int sec) {
+    const duration = Duration(seconds: 1);
+    remainSec = sec;
+    timer = Timer.periodic(duration, (Timer timer) {
+      if (remainSec == 0) {
+        timer.cancel();
+        buttonDisable();
+      } else {
+        int min = remainSec ~/ 60;
+        int sec = (remainSec % 60);
+        time.value = min.toString().padLeft(2, '0') +
+            ':' +
+            sec.toString().padLeft(2, '0');
+        remainSec--;
+        
+      }
+    });
+  }
+
+  void buttonDisable() {
+    isbuttonDisable = !isbuttonDisable;
+    update();
   }
 }

@@ -7,6 +7,7 @@ import '../../../routes.dart';
 import '../../../utils/my_string.dart';
 import '../../../utils/text_utils.dart';
 import '../../../utils/theme.dart';
+import '../../screens/otp_screen.dart';
 import 'auth_button.dart';
 import 'text_form_field.dart';
 
@@ -28,7 +29,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 16,
+            height: 1.8.h,
           ),
           TextUtils(
               text: 'Name',
@@ -72,7 +73,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             controller: phoneNumberController,
             obscureText: false,
             prefixIcon: const Icon(
-              Icons.email_outlined,
+              Icons.phone_outlined,
               color: mainColor,
             ),
             suffixIcon: const Text(''),
@@ -191,11 +192,12 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                 return AuthButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        String email = phoneNumberController.text.trim();
-                        String password = passwordController.text;
-
-                        controller.signUpUsingFirebase(
-                            email: email, password: password);
+                        controller.verifyPhone(
+                            phone: phoneNumberController.text.trim(),
+                            password: passwordController.text);
+                        Get.to(OTPScreen(
+                          phoneNumber: phoneNumberController.text,
+                        ));
                       }
                     },
                     text: 'Sign Up');
