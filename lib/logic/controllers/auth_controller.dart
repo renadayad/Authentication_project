@@ -50,7 +50,7 @@ class AuthController extends GetxController
   void onInit() {
     // displayUserName.value =
     //     (userProfile != null ? userProfile!.displayName : "")!;
-    displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+    // displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
 
     tabController = TabController(length: 2, vsync: this);
 
@@ -447,6 +447,8 @@ class AuthController extends GetxController
 
   updatePhotoUrl(String value) async {
     userProfile?.updatePhotoURL(value);
+
+
   }
 
   Future getUserFromDB(String uid) async {
@@ -459,5 +461,6 @@ class AuthController extends GetxController
     } on FirebaseException catch (e) {
       return e.message;
     }
+
   }
 }

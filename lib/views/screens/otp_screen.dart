@@ -161,23 +161,32 @@ class OTPScreen extends StatelessWidget {
                 // ignore: sort_child_properties_last
                 child: ButtonTheme(
 
+
                     height: 32,
                     child:  Column(
+
                     children: [
                       AuthButton(
                           onPressed: () {
                             controller.verifyOTP(otpController.text);
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                });
                           },
                           text: 'Verify code'),
                       GetBuilder<AuthController>(builder: (_) {
-                        
                         return TextButton(
-                          onPressed: controller.isbuttonDisable? () async {
-                            controller.reSendOTP(phone: phoneNumber);
-                          }:null,
+                          onPressed: controller.isbuttonDisable
+                              ? () async {
+                                  controller.reSendOTP(phone: phoneNumber);
+                                }
+                              : null,
                           child: TextUtils(
                             text: 'Resend code',
-                            color:isbuttonDisable?Colors.green: mainColor,
+                            color: isbuttonDisable ? Colors.green : mainColor,
                             fontWeight: FontWeight.w400,
                             fontsize: 11.sp,
                             underLine: TextDecoration.underline,

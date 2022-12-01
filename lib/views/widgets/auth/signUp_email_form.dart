@@ -22,7 +22,6 @@ class SignUp_Email_Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
       key: formKey,
       child: Column(
@@ -197,8 +196,14 @@ class SignUp_Email_Form extends StatelessWidget {
                         String name = nameController.text;
 
                         controller.signUpUsingFirebase(
-                            email: email, password: password,name: name);
+                            email: email, password: password, name: name);
                       }
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      );
                     },
                     text: 'Sign Up');
               },
