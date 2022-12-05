@@ -49,7 +49,7 @@ class SignUpScreen extends StatelessWidget {
                     return IconWidget(
                       conternierColor: googleColor,
                       onPressed: () async {
-                        await controller.googleSignUpApp();
+                        await controller.loginUsinggoogle();
                       },
                       textUtils: 'with Google',
                       image: 'assets/images/image 14google.png',

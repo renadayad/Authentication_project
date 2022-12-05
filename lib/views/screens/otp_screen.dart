@@ -23,15 +23,15 @@ class OTPScreen extends StatelessWidget {
     final controller = Get.find<AuthController>();
     var isbuttonDisable = controller.isbuttonDisable;
 
-    @override
-    void initState() {
-      errorController = StreamController<ErrorAnimationType>();
-    }
+    // @override
+    // void initState() {
+    //   errorController = StreamController<ErrorAnimationType>();
+    // }
 
-    @override
-    void dispose() {
-      errorController!.close();
-    }
+    // @override
+    // void dispose() {
+    //   errorController!.close();
+    // }
 
     return Scaffold(
       appBar: AppBar(
