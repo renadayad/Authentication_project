@@ -74,6 +74,7 @@ class Login_PhoneNumber_Form extends StatelessWidget {
           ),
           GetBuilder<AuthController>(builder: (_) {
             return AuthTextFromField(
+              maxLines: 1,
               controller: passwordController,
               obscureText: controller.isVisibilty ? false : true,
               validator: (value) {

@@ -24,7 +24,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
         title: const Text(
-          'Forgot Password',
+          'Reset Password',
           style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(

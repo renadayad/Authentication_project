@@ -9,12 +9,17 @@ class AuthTextFromField extends StatelessWidget {
   final Function validator;
   final Widget? prefixIcon;
   final Widget suffixIcon;
-  final String? hintText;
+  final String hintText;
+  final maxLength;
+  final int? maxLines;
   final String? numCode;
+
   const AuthTextFromField({
     required this.controller,
     required this.obscureText,
     required this.validator,
+    this.maxLines,
+    this.maxLength,
     this.prefixIcon,
     this.numCode,
     required this.suffixIcon,
@@ -28,6 +33,8 @@ class AuthTextFromField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       cursorColor: labalColor,
+      maxLength: maxLength,
+      maxLines:maxLines ,
       keyboardType: TextInputType.text,
       validator: (value) => validator(value),
       decoration: InputDecoration(

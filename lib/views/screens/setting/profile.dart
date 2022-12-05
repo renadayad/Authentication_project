@@ -11,37 +11,40 @@ import '../../widgets/settings/edit_profile.dart';
 import '../../widgets/settings/logout.dart';
 import '../../widgets/settings/notification.dart';
 
-
 class ProfileScreen extends StatelessWidget {
-   ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
 
   final controller = Get.put(SettingController());
   final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
-
     print("image path ${controller.imagePath1}");
     print("username ${authController.displayUserName.value}");
     return SafeArea(
-
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Get.isDarkMode ? Colors.black :Colors.white ,
-          centerTitle: true,
-          elevation: 0,
-          title: Text('Profile' ,style: TextStyle(
-              color: Colors.black
+          appBar: AppBar(
+            backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
+            centerTitle: true,
+            elevation: 0,
+            title: Text(
+              'Profile',
+              style: TextStyle(color: Colors.black),
+            ),
+            leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+            ),
           ),
-          ),
-          leading: IconButton(
-            onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
-          ) ,
-        ),
-        body:Obx (()=>
-            Padding(
+          body: GetBuilder<AuthController>(builder: (_){
+            return  Obx(() => Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-
                 children: [
                   Align(
                     alignment: Alignment.center,
@@ -51,32 +54,57 @@ class ProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
-                        image:
-                        DecorationImage(
-                          image: controller.image !=null
-                              ? NetworkImage(
-                            controller.imagePath1!,
-                          )
-                              :AssetImage("assets/images/avtar.png") as ImageProvider,
+                        image: DecorationImage(
+                          image: authController.displayUserPhoto.value == ""
+                              ? const AssetImage("assets/images/avtar.png")
+                          as ImageProvider
+                              : NetworkImage(
+                            authController.displayUserPhoto.value,
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
-                    ),),
+                    ),
+                  ),
                   SizedBox(
                     height: 2.5.h,
                   ),
-                  Align(alignment: Alignment.center,
-                    child: TextUtils(text:authController.displayUserName.value,color: Colors.black,fontsize: 11.sp,fontWeight: FontWeight.bold,),),
-                  SizedBox(
-                    height: 1.3.h,
+                  Align(
+                    alignment: Alignment.center,
+                    child: TextUtils(
+                      text: authController.displayUserName.value,
+                      color: Colors.black,
+                      fontsize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  Align(alignment: Alignment.center,
-                    child: TextUtils(text: authController.displayUserEmail.value,color: Colors.black45,fontsize: 9.sp,fontWeight: FontWeight.w500,),),
-
+                  SizedBox(
+                    height: 0.6.h,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: TextUtils(
+                      text: authController.displayDescription.value,
+                      color: Colors.black87,
+                      fontsize: 9.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 0.6.h,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: TextUtils(
+                      text: authController.displayUserEmail.value,
+                      color: Colors.black45,
+                      fontsize: 9.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   SizedBox(
                     height: 5.h,
                   ),
-
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextUtils(
@@ -98,11 +126,11 @@ class ProfileScreen extends StatelessWidget {
                     height: 0.5.h,
                   ),
                   SettingsWidget(),
-
                 ],
               ),
             ))
-      ),
+              ;
+          }) ),
     );
   }
 }
