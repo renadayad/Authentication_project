@@ -73,6 +73,7 @@ class Login_Email_Form extends StatelessWidget {
           ),
           GetBuilder<AuthController>(builder: (_) {
             return AuthTextFromField(
+              maxLines: 1,
               controller: passwordController,
               obscureText: controller.isVisibilty ? false : true,
               validator: (value) {
@@ -107,14 +108,18 @@ class Login_Email_Form extends StatelessWidget {
           SizedBox(
             height: 3.75.h,
           ),
-          GetBuilder<AuthController>(builder: (_) {
+          GetBuilder<AuthController>(builder: (_)  {
             return AuthButton(
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   String email = emailController.text.trim();
                   String password = passwordController.text;
-                  controller.loginUsingFierbase(
+                  print("dubg: ${email}");
+                   controller.displayUserEmail.value = email;
+                   controller.loginUsingFierbase(
                       email: email, password: password);
+
+
                 }
                 // show loding page after press login in button
                 showDialog(

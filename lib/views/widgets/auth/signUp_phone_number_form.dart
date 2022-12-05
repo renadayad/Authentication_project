@@ -101,6 +101,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
           GetBuilder<AuthController>(
             builder: (_) {
               return AuthTextFromField(
+                maxLines: 1,
                 controller: passwordController,
                 prefixIcon: const Icon(
                   Icons.lock_outline,
@@ -149,6 +150,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
           GetBuilder<AuthController>(
             builder: (_) {
               return AuthTextFromField(
+                maxLines: 1,
                 controller: rePasswordController,
                 prefixIcon: const Icon(
                   Icons.lock_outline,

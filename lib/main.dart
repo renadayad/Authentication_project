@@ -1,3 +1,4 @@
+import 'package:auth_app/logic/bindings/auth_binding.dart';
 import 'package:auth_app/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           // initialRoute: Routes.profileScreen,
 
           getPages: AppRoutes.routes,
+          initialBinding: AuthBinding(),
         );
       },
     );

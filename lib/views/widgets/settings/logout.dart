@@ -29,7 +29,7 @@ class LogOut extends StatelessWidget {
               middleTextStyle:  TextStyle(
                 fontSize: 14.sp,
                 color: Colors.black,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w300,
               ),
               backgroundColor: Colors.white,
               radius: 4,
