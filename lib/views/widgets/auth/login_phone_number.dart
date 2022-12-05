@@ -49,12 +49,13 @@ class Login_PhoneNumber_Form extends StatelessWidget {
                 return null;
               }
             },
+            numCode: "+966 ",
             prefixIcon: Icon(
               Icons.phone_outlined,
               color: labalColor,
             ),
             suffixIcon: const Text(''),
-            hintText: "Enter your phone number",
+            hintText: "",
           ),
           SizedBox(
             height: 1.76.h,
@@ -113,19 +114,11 @@ class Login_PhoneNumber_Form extends StatelessWidget {
                 if (formKey.currentState!.validate()) {
                   String phone = phoneController.text;
                   String password = passwordController.text;
-                  controller.verifyPhone(
-                      phone: phoneController.text,
-                      password: passwordController.text);
-
-                
-                  Get.to(OTPScreen(phoneNumber: phoneController.text,));
+                  controller.verifyPhone(phone: phone, password: password);
+                  Get.to(OTPScreen(
+                    phoneNumber: phoneController.text,
+                  ));
                 }
-
-                controller.verifyPhone(
-                    phone: phoneController.text.trim(),
-                    password: passwordController.text);
-
-                Get.to(OTPScreen(phoneNumber: phoneController.text));
               },
               text: "Log In",
             );

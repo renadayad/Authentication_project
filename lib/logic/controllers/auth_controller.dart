@@ -71,7 +71,6 @@ class AuthController extends GetxController
     super.onClose();
   }
 
-
   void Visibilty() {
     isVisibilty = !isVisibilty;
     update();
@@ -164,7 +163,7 @@ class AuthController extends GetxController
     }
   }
 
-  void loginUsinggoogle() async {
+  Future<void> loginUsinggoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
       if (googleUser != null) {
@@ -265,12 +264,16 @@ class AuthController extends GetxController
     }
   }
 
-  verifyPhone({required String phone, required String password}) async {
+  verifyPhone({required String phone, required String password}) {
     try {
-      await auth.verifyPhoneNumber(
+      auth.verifyPhoneNumber(
         timeout: Duration(seconds: 40),
-        phoneNumber: phone,
-        verificationCompleted: (AuthCredential authCredential) {},
+        phoneNumber: "+966" + phone,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth
+              .signInWithCredential(credential)
+              .then((value) => {print("you are logged in successfully")});
+        },
         verificationFailed: (error) {
           String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
           String message = '';
@@ -354,24 +357,6 @@ class AuthController extends GetxController
     }
   }
 
-  Future<void> googleSignUpApp() async {
-    try {
-      final googleUser = await googleSign.signIn();
-
-      isSignedIn = true;
-      update();
-      Get.offNamed(Routes.profileScreen);
-    } catch (error) {
-      Get.snackbar(
-        'Error!',
-        error.toString(),
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red[400],
-        colorText: Colors.white,
-      );
-    }
-  }
-
   Future updateEmail(TextEditingController value) async {
     try {
       // value is the email user inputs in a textfield and is validated
@@ -447,8 +432,6 @@ class AuthController extends GetxController
 
   updatePhotoUrl(String value) async {
     userProfile?.updatePhotoURL(value);
-
-
   }
 
   Future getUserFromDB(String uid) async {
@@ -461,6 +444,5 @@ class AuthController extends GetxController
     } on FirebaseException catch (e) {
       return e.message;
     }
-
   }
 }
