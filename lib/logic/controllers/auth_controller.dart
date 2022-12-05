@@ -163,7 +163,9 @@ class AuthController extends GetxController
     }
   }
 
+
  Future <void> loginUsinggoogle() async {
+
     try {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
       if (googleUser != null) {
@@ -264,12 +266,17 @@ class AuthController extends GetxController
     }
   }
 
-  verifyPhone({required String phone, required String password}) async {
+  verifyPhone({required String phone, required String password}) {
     try {
-      await auth.verifyPhoneNumber(
+      auth.verifyPhoneNumber(
         timeout: Duration(seconds: 40),
-        phoneNumber: phone,
-        verificationCompleted: (AuthCredential authCredential) async {},
+
+        phoneNumber: "+966" + phone,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth
+              .signInWithCredential(credential)
+              .then((value) => {print("you are logged in successfully")});
+        },
         verificationFailed: (error) {
           String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
           String message = '';
@@ -358,6 +365,7 @@ class AuthController extends GetxController
     }
   }
 
+
   // Future<void> googleSignUpApp() async {
   //   try {
   //     final googleUser = await googleSign.signIn();
@@ -375,6 +383,7 @@ class AuthController extends GetxController
   //     );
   //   }
   // }
+
 
   Future updateEmail(TextEditingController value) async {
     try {

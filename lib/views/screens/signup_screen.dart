@@ -50,6 +50,14 @@ class SignUpScreen extends StatelessWidget {
                       conternierColor: googleColor,
                       onPressed: () async {
                         await controller.loginUsinggoogle();
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(child: CircularProgressIndicator());
+                          },
+                        );
+
                       },
                       textUtils: 'with Google',
                       image: 'assets/images/image 14google.png',
@@ -97,13 +105,11 @@ class SignUpScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                     ),
-
                     Tab(
                       child: Text(
                         'Phone number',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
-
                       ),
                     ),
                   ],
