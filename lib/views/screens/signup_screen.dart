@@ -50,12 +50,14 @@ class SignUpScreen extends StatelessWidget {
                       conternierColor: googleColor,
                       onPressed: () async {
                         await controller.loginUsinggoogle();
+
                         showDialog(
                           context: context,
                           builder: (context) {
                             return Center(child: CircularProgressIndicator());
                           },
                         );
+
                       },
                       textUtils: 'with Google',
                       image: 'assets/images/image 14google.png',

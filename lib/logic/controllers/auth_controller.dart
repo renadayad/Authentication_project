@@ -50,7 +50,7 @@ class AuthController extends GetxController
   void onInit() {
     // displayUserName.value =
     //     (userProfile != null ? userProfile!.displayName : "")!;
-    // displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
+   // displayUserEmail.value = (userProfile != null ? userProfile!.email : "")!;
 
     tabController = TabController(length: 2, vsync: this);
 
@@ -163,7 +163,9 @@ class AuthController extends GetxController
     }
   }
 
-  Future<void> loginUsinggoogle() async {
+
+ Future <void> loginUsinggoogle() async {
+
     try {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
       if (googleUser != null) {
@@ -268,6 +270,7 @@ class AuthController extends GetxController
     try {
       auth.verifyPhoneNumber(
         timeout: Duration(seconds: 40),
+
         phoneNumber: "+966" + phone,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth
@@ -281,7 +284,12 @@ class AuthController extends GetxController
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
             message = 'Wrong Password ';
-          } else {
+          } 
+          // else if (error.code == 'phone-number-already-exists') {
+          //   message = 'Phone number already used ';
+          // } 
+          
+          else {
             message = error.message.toString();
           }
           Get.snackbar(title, message,
@@ -356,6 +364,26 @@ class AuthController extends GetxController
           colorText: Colors.white);
     }
   }
+
+
+  // Future<void> googleSignUpApp() async {
+  //   try {
+  //     final googleUser = await googleSign.signIn();
+
+  //     isSignedIn = true;
+  //     update();
+  //     Get.offNamed(Routes.profileScreen);
+  //   } catch (error) {
+  //     Get.snackbar(
+  //       'Error!',
+  //       error.toString(),
+  //       snackPosition: SnackPosition.TOP,
+  //       backgroundColor: Colors.red[400],
+  //       colorText: Colors.white,
+  //     );
+  //   }
+  // }
+
 
   Future updateEmail(TextEditingController value) async {
     try {

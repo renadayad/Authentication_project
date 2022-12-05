@@ -20,9 +20,6 @@ class EditProfileScreen extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
 
-
-
-
   @override
   Widget build(BuildContext context) {
     print("this is ${controller.imagePath1}");
@@ -46,64 +43,76 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ),
               actions: [
-                TextButton(onPressed: () async{
-                  authController.getEmailDoc();
-                  if (emailController.text.isNotEmpty  ){authController.updateEmail(emailController);}else{
-                    Get.snackbar(
-                      'Error!',
-                      "error",
-                      snackPosition: SnackPosition.TOP,
-                      backgroundColor: Colors.red[400],
-                      colorText: Colors.white,
-                    );
-                  }
-
-
-
-                }, child: TextUtils(text: "save", color: Colors.green, fontWeight: FontWeight.w700, fontsize: 12.sp))
+                TextButton(
+                    onPressed: () async {
+                      authController.getEmailDoc();
+                      if (emailController.text.isNotEmpty) {
+                        authController.updateEmail(emailController);
+                      } else {
+                        Get.snackbar(
+                          'Error!',
+                          "error",
+                          snackPosition: SnackPosition.TOP,
+                          backgroundColor: Colors.red[400],
+                          colorText: Colors.white,
+                        );
+                      }
+                    },
+                    child: TextUtils(
+                        text: "save",
+                        color: Colors.green,
+                        fontWeight: FontWeight.w700,
+                        fontsize: 12.sp))
               ],
-
-
             ),
             body: Padding(
-                 padding: EdgeInsets.all(20),
-                  child: Column(children: [
-                    SizedBox(
-                      height: 4.h,
+              padding: EdgeInsets.all(20),
+              child: Column(children: [
+                SizedBox(
+                  height: 4.h,
+                ),
+                GetBuilder<SettingController>(
+                  init: SettingController(),
+                  builder: (value) => Stack(children: [
+                    Container(
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: controller.image != null
+                              ? NetworkImage("${controller.imagePath1}")
+                              : AssetImage("assets/images/avtar.png")
+                                  as ImageProvider
+                          // FileImage(controller.image!),
+                          ,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                   GetBuilder<SettingController>(init: SettingController(),builder:(value)=>
-                       Stack(
-
-                           children:[Container(
-                             height: 120,
-                             width: 120,
-                             decoration: BoxDecoration(
-                               color: Colors.white,
-                               shape: BoxShape.circle,
-                               image: DecorationImage(
-                                 image:controller.image != null ? NetworkImage("${controller.imagePath1}")
-                                     : AssetImage("assets/images/avtar.png") as ImageProvider
-                                 // FileImage(controller.image!),
-                                 ,
-                                 fit: BoxFit.cover,
-                               ),
-                             ),
-                           ),
-                             Positioned(
-                               bottom: -2, right: -1, //give the values according to your requirement
-                               child: IconButton( onPressed: () {
-                                 _onPictureSelection();
-                               }, icon: Icon(Icons.camera_alt_outlined,),),
-                             ),
-
-                           ]
-                       ),),
-                     SizedBox(
-                      height: 5.h,
+                    Positioned(
+                      bottom: -2,
+                      right: -1, //give the values according to your requirement
+                      child: IconButton(
+                        onPressed: () {
+                          _onPictureSelection();
+                        },
+                        icon: Icon(
+                          Icons.camera_alt_outlined,
+                        ),
+                      ),
                     ),
-                    Form(
-                      key: formKey,
-                      child: Padding(padding: EdgeInsets.only(left: 30,right: 30), child:Column(
+                  ]),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Form(
+                    key: formKey,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 30, right: 30),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Align(
@@ -118,29 +127,30 @@ class EditProfileScreen extends StatelessWidget {
                           SizedBox(
                             height: 1.17.h,
                           ),
-                          Obx(()=> AuthTextFromField(
-                            controller: emailController,
-                            obscureText: false,
-                            validator: (value) {
-                              if (!RegExp(validationEmail).hasMatch(value)) {
-                                return "Worng E-mail";
-                              } else {
-                                return null;
-                              }
-                            },
-
-                            suffixIcon: const Text(''),
-                            hintText:authController.displayUserName.value,
-                          ),)
+                          Obx(
+                            () => AuthTextFromField(
+                              controller: emailController,
+                              obscureText: false,
+                              validator: (value) {
+                                if (!RegExp(validationEmail).hasMatch(value)) {
+                                  return "Worng E-mail";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              suffixIcon: const Text(''),
+                              hintText: authController.displayUserName.value,
+                            ),
+                          )
                         ],
-                      ) ,)
-                    ),
-                  ]),
-                )));
+                      ),
+                    )),
+              ]),
+            )));
   }
+
   _onPictureSelection() async {
     await controller.getImageFeild();
     await controller.getImage();
   }
-
 }
