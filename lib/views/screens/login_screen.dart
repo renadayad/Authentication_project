@@ -47,6 +47,12 @@ class Login_Screen extends StatelessWidget {
                   conternierColor: conternierColor,
                   onPressed: () {
                     controller.loginUsinggoogle();
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    );
                   },
                   image: 'assets/images/image 14google.png',
                   textUtils: "with Google",

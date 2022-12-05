@@ -19,9 +19,6 @@ class EditProfileScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-
-
-
   @override
   Widget build(BuildContext context) {
     print("this is image in edit ${authController.displayUserPhoto.value}");
@@ -47,6 +44,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ),
               actions: [
+
                 TextButton(onPressed: () async{
                   controller.getNameField();
                   controller.getDescriptionFeild();
@@ -64,16 +62,17 @@ class EditProfileScreen extends StatelessWidget {
                   }
 
                 , child: TextUtils(text: "save", color: Colors.green, fontWeight: FontWeight.w700, fontsize: 12.sp))
+
               ],
-
-
             ),
             body: Padding(
-                 padding: EdgeInsets.all(20),
-                  child: Column(children: [
-                    SizedBox(
-                      height: 4.h,
-                    ),
+              padding: EdgeInsets.all(20),
+              child: Column(children: [
+                SizedBox(
+                  height: 4.h,
+                ),
+                
+
 
                       Obx(() =>
                           Stack(
@@ -112,6 +111,7 @@ class EditProfileScreen extends StatelessWidget {
                     Form(
                       key: formKey,
                       child: Padding(padding: const EdgeInsets.only(left: 30,right: 30), child:Column(
+
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Align(
@@ -126,6 +126,7 @@ class EditProfileScreen extends StatelessWidget {
                           SizedBox(
                             height: 1.17.h,
                           ),
+
                           Obx(()=> AuthTextFromField(
                             controller: nameController,
                             obscureText: false,
@@ -162,10 +163,12 @@ class EditProfileScreen extends StatelessWidget {
                               validator: (value) {
                                 if (!RegExp(validationName).hasMatch(value)) {
                                   return "Invalid name";
+
                                 } else {
                                   return null;
                                 }
                               },
+
 
                               suffixIcon: const Text(''),
                               maxLength: 100,
@@ -179,14 +182,14 @@ class EditProfileScreen extends StatelessWidget {
 
 
                         ],
-                      ) ,)
-                    ),
-                  ]),
-                )));
+                      ),
+                    )),
+              ]),
+            )));
   }
+
   _onPictureSelection() async {
     await controller.getImageFeild();
     await controller.getImage();
   }
-
 }

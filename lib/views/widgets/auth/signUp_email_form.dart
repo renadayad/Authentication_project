@@ -193,19 +193,21 @@ class SignUp_Email_Form extends StatelessWidget {
                 return AuthButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
+                        
                         String email = emailController.text.trim();
                         String password = passwordController.text;
                         String name = nameController.text;
 
                         controller.signUpUsingFirebase(
                             email: email, password: password, name: name);
-                      }
+
                       showDialog(
                         context: context,
                         builder: (context) {
                           return Center(child: CircularProgressIndicator());
                         },
                       );
+                      }
                     },
                     text: 'Sign Up');
               },

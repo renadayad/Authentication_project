@@ -1,6 +1,3 @@
-
-
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,21 +9,23 @@ import 'package:image_picker/image_picker.dart';
 
 import 'auth_controller.dart';
 
-
 class SettingController extends GetxController {
+
   AuthController authController=Get.find();
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
   final ref =FirebaseStorage.instance.ref().child("profileImage").child("${DateTime.now()}"+'.jpg');
 
+
   @override
   void onInit() async {
-
     await getImageFeild();
    await getNameField();
    await getDescriptionFeild();
 
+
     super.onInit();
   }
+
   String capitalize(String profileName) {
     return profileName.split(" ").map((name) => name.capitalize).join(" ");
   }
@@ -46,36 +45,36 @@ class SettingController extends GetxController {
       saveImageInStorage();
       print(imagePath);
       update();
-
     } else {
       print('No image selected.');
     }
   }
-  
-  saveImageInStorage() async{
-    try{
+
+  saveImageInStorage() async {
+    try {
       await ref.putFile(image!);
-      imagePath=await ref.getDownloadURL();
+      imagePath = await ref.getDownloadURL();
       print(imagePath);
       DocumentReference doc = FirebaseFirestore.instance
           .collection("users")
           .doc(authController.displayUserEmail.value);
+
       // await doc.update({"image": imagePath}).whenComplete(() =>
       // imagePath== null );
       // print(imagePath);
        authController.displayUserPhoto.value=imagePath!;
 
-    }catch (error) {
-      Get.snackbar(
+    } catch (error) {
 
+      Get.snackbar(
         'Error!',
         error.toString(),
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
       );
     }
-
   }
+
 
    getImageFeild() async {
 
@@ -131,9 +130,6 @@ class SettingController extends GetxController {
       return "";
     }
 
+
   }
-
-
-
-
 }

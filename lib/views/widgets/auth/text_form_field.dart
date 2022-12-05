@@ -12,6 +12,8 @@ class AuthTextFromField extends StatelessWidget {
   final String hintText;
   final maxLength;
   final int? maxLines;
+  final String? numCode;
+
   const AuthTextFromField({
     required this.controller,
     required this.obscureText,
@@ -19,6 +21,7 @@ class AuthTextFromField extends StatelessWidget {
     this.maxLines,
     this.maxLength,
     this.prefixIcon,
+    this.numCode,
     required this.suffixIcon,
     required this.hintText,
     Key? key,
@@ -38,9 +41,11 @@ class AuthTextFromField extends StatelessWidget {
           contentPadding: EdgeInsets.all(10),
           fillColor: Colors.white,
           prefixIcon: prefixIcon,
+          prefixText: numCode,
+          prefixStyle: TextStyle(color: labalColor),
           suffixIcon: suffixIcon,
           hintText: hintText,
-          hintStyle:  TextStyle(
+          hintStyle: TextStyle(
               color: const Color.fromRGBO(153, 162, 165, 0.47),
               fontSize: 11.sp,
               fontWeight: FontWeight.w400),

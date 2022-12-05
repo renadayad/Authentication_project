@@ -192,13 +192,13 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             child: GetBuilder<AuthController>(
               builder: (_) {
                 return AuthButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         controller.verifyPhone(
                             phone: phoneNumberController.text.trim(),
                             password: passwordController.text);
 
-                        Get.to(OTPScreen(
+                    await    Get.to(OTPScreen(
                           phoneNumber: phoneNumberController.text,
                         ));
                       }
