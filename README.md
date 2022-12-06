@@ -9,30 +9,17 @@
   * [Features](#Features)
 
 - [App Screenshots](#App-Screenshots)
-  * [Signing the app](#Signing-the-app)
-
-- [Technologies used](#Technologies-used)
-  * [Documentation](#Documentation)
-  * [Video Links](#Video-Links)
-
-
+ 
+- [Technologies and Packages](#Technologies-and-Packages)
+  * [Technologies Used](#Technologies)
+  * [Packages Used](#Packages)
 
 <a name="Intorduction"/>
 <a name="App-Screenshots"/>
-<a name="Technologies-used"/>
+<a name="Technologies-and-Packages"/>
 <a name="Features"/>
-<a name="Documentation"/>
-<a name="Video-Links"/>
-<a name="Privacy-Policy"/>
-<a name="Resources"/>
-<a name="Signing-the-app"/>
-<a name="Adding-a-Launcher-Icon"/>
-<a name="Prepare-your-release"/>
-<a name="Adding-a-Launcher-Icon"/>
-<a name="Adding-a-Launcher-Icon"/>
-
-
-
+<a name="Technologies"/>
+<a name="Packages"/>
 
 
 
@@ -55,9 +42,24 @@ This sample project demonstrates how to set up a user authentication which can b
 
 ### App Screenshots
 
+![Image 1](https://c.top4top.io/p_25318l9xj1.png)
 
 
-### Technologies used
+
+
+### Technologies and Packages
+
+#### Technologies Used:
+
+* MVC Design Pattern
+* Getx Framework
+* Firebase Database
+* 
+
+
+#### Packages & tools Used:
+* 
+
 
 
 
