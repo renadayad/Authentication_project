@@ -31,7 +31,7 @@ This sample project demonstrates how to set up a user authentication which can b
 
 ### Features
 
-* Login with email and password using firebase email,google account or phone mumber.
+* Login with email and password using firebase email,google account or phone number.
 * Signup new account using firebase or google account.
 * Logout from account.
 * Reset password.
