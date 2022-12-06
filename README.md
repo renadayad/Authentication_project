@@ -65,6 +65,7 @@ This sample project demonstrates how to set up a user authentication which can b
 * [Google SignIn](https://pub.dev/packages/google_sign_in)
 * [Image Picker](https://pub.dev/packages/image_picker)
 * [Pin Code Field](https://pub.dev/packages/pin_code_fields)
+* [Sizer](https://pub.dev/packages/sizer)
 
 
 
