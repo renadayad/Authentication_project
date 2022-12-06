@@ -40,25 +40,32 @@ This sample project demonstrates how to set up a user authentication which can b
 
 
 
-### App Screenshots
+## App Screenshots
 
 ![Image 1](https://c.top4top.io/p_25318l9xj1.png)
 
 
 
 
-### Technologies and Packages
+## Technologies and Packages
 
 #### Technologies Used:
 
 * MVC Design Pattern
-* Getx Framework
+* Getx Framework (State management, Dependency Injection and Routing)
 * Firebase Database
-* 
+* Responsive layout.
 
 
 #### Packages & tools Used:
-* 
+* [Get](https://pub.dev/packages/get)
+* [Firebase Auth](https://pub.dev/packages/firebase_auth/install)
+* [Cloud Firestore](https://pub.dev/packages/cloud_firestore/install)
+* [Firebase Storage](https://pub.dev/packages/firebase_storage/install)
+* [Google SignIn](https://pub.dev/packages/google_sign_in)
+* [Image Picker](https://pub.dev/packages/image_picker)
+* [Pin Code Field](https://pub.dev/packages/pin_code_fields)
+* [Get](https://pub.dev/packages/get)
 
 
 
