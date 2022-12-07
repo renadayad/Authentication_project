@@ -71,6 +71,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
           ),
           AuthTextFromField(
             controller: phoneNumberController,
+            numCode: "+966 ",
             obscureText: false,
             prefixIcon: const Icon(
               Icons.phone_outlined,
@@ -198,7 +199,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                             phone: phoneNumberController.text.trim(),
                             password: passwordController.text);
 
-                    await    Get.to(OTPScreen(
+                        Get.to(OTPScreen(
                           phoneNumber: phoneNumberController.text,
                         ));
                       }

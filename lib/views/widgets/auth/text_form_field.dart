@@ -34,7 +34,7 @@ class AuthTextFromField extends StatelessWidget {
       obscureText: obscureText,
       cursorColor: labalColor,
       maxLength: maxLength,
-      maxLines:maxLines ,
+      maxLines: maxLines,
       keyboardType: TextInputType.text,
       validator: (value) => validator(value),
       decoration: InputDecoration(
