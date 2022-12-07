@@ -42,19 +42,16 @@ class AuthController extends GetxController
 
   Timer? timer;
   int remainSec = 1;
-  final time = '00:00'.obs;
+  var time = '00:00'.obs;
   var isbuttonDisable = false;
 
   @override
   void onInit() {
-
-
-    displayUserPhoto.value=(userProfile != null ? userProfile!.photoURL : "")??"";
+    displayUserPhoto.value =
+        (userProfile != null ? userProfile!.photoURL : "") ?? "";
 
     displayUserEmail.value =
-
-    (userProfile != null ? userProfile!.email : "")??"";
-
+        (userProfile != null ? userProfile!.email : "") ?? "";
 
     tabController = TabController(length: 2, vsync: this);
 
@@ -63,7 +60,7 @@ class AuthController extends GetxController
 
   @override
   void onReady() {
-    startTimer(120);
+    startTimer(60);
     super.onReady();
   }
 
@@ -90,7 +87,7 @@ class AuthController extends GetxController
     update();
   }
 
-   loginUsingFierbase({
+  loginUsingFierbase({
     required String email,
     required String password,
   }) async {
@@ -109,7 +106,7 @@ class AuthController extends GetxController
         displayUserName.value = docData['displayName'];
         displayUserEmail.value = docData['email'];
         displayDescription.value = docData['description'];
-        displayUserPhoto.value= docData['image'];
+        displayUserPhoto.value = docData['image'];
       });
 
       // showDialog(
@@ -124,7 +121,6 @@ class AuthController extends GetxController
       update();
       Get.offNamed(Routes.profileScreen);
       //getEmailDoc();
-
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -146,7 +142,6 @@ class AuthController extends GetxController
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
       );
-
     }
   }
 
@@ -176,9 +171,7 @@ class AuthController extends GetxController
     }
   }
 
-
- Future <void> loginUsinggoogle() async {
-
+  Future<void> loginUsinggoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
       if (googleUser != null) {
@@ -191,9 +184,9 @@ class AuthController extends GetxController
       }
       displayUserName.value = googleUser!.displayName!;
       displayUserName.value =
-         (userProfile != null ? userProfile!.displayName : "")??"";
-      displayUserEmail.value=googleUser.email;
-      displayUserPhoto.value=googleUser.photoUrl!;
+          (userProfile != null ? userProfile!.displayName : "") ?? "";
+      displayUserEmail.value = googleUser.email;
+      displayUserPhoto.value = googleUser.photoUrl!;
 
       isSignedIn = true;
 
@@ -216,7 +209,7 @@ class AuthController extends GetxController
       displayUserName.value = "";
       displayUserPhoto.value = '';
       displayUserEmail.value = '';
-      displayDescription.value='';
+      displayDescription.value = '';
       isSignedIn = false;
       authBox.remove("auth");
       update();
@@ -253,7 +246,7 @@ class AuthController extends GetxController
         "password": password,
         "displayName": name,
         "image": "",
-        "description":"",
+        "description": "",
       });
 
       update();
@@ -290,8 +283,7 @@ class AuthController extends GetxController
   verifyPhone({required String phone, required String password}) {
     try {
       auth.verifyPhoneNumber(
-        timeout: Duration(seconds: 40),
-
+        timeout: Duration(seconds: 60),
         phoneNumber: "+966" + phone,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth
@@ -305,18 +297,12 @@ class AuthController extends GetxController
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
             message = 'Wrong Password ';
-          } 
-          // else if (error.code == 'phone-number-already-exists') {
-          //   message = 'Phone number already used ';
-          // } 
-          
-          else {
-            message = error.message.toString();
+          } else {
+            Get.snackbar('Error!', error.toString(),
+                snackPosition: SnackPosition.TOP,
+                backgroundColor: Colors.red,
+                colorText: Colors.white);
           }
-          Get.snackbar(title, message,
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
         },
         codeSent: (String id, int? resendToken) {
           this.verificationId = id;
@@ -341,7 +327,7 @@ class AuthController extends GetxController
               verificationId: this.verificationId, smsCode: otp));
 
       if (credential.user != null) {
-        Get.toNamed(Routes.profileScreen);
+        Get.offNamed(Routes.settingsScreen);
       }
     } catch (error) {
       Get.snackbar('Error !', error.toString(),
@@ -355,7 +341,7 @@ class AuthController extends GetxController
     try {
       await auth.verifyPhoneNumber(
         timeout: Duration(seconds: 120),
-        phoneNumber: phone,
+        phoneNumber: "+966" + phone,
         verificationCompleted: (AuthCredential authCredential) {},
         verificationFailed: (error) {
           String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
@@ -384,8 +370,9 @@ class AuthController extends GetxController
           backgroundColor: Colors.red,
           colorText: Colors.white);
     }
-  }
 
+    update();
+  }
 
   // Future<void> googleSignUpApp() async {
   //   try {
@@ -405,30 +392,26 @@ class AuthController extends GetxController
   //   }
   // }
 
-
-  Future updateFields(TextEditingController value,
-      TextEditingController value1, String imageUrl) async {
+  Future updateFields(TextEditingController value, TextEditingController value1,
+      String imageUrl) async {
     try {
       // value is the email user inputs in a textfield and is validated
       DocumentReference doc = FirebaseFirestore.instance
           .collection("users")
           .doc(displayUserEmail.value);
-      if(value.text.isNotEmpty ){
+      if (value.text.isNotEmpty) {
         await doc.update({"displayName": value.text});
         displayUserName.value = value.text;
-
       }
-      if(value1.text.isNotEmpty ){
+      if (value1.text.isNotEmpty) {
         await doc.update({"description": value1.text});
-        displayDescription.value=value1.text;
-
+        displayDescription.value = value1.text;
       }
-      if (imageUrl.isNotEmpty){
-         await doc.update({"image":imageUrl});
-         displayUserPhoto.value=imageUrl;
+      if (imageUrl.isNotEmpty) {
+        await doc.update({"image": imageUrl});
+        displayUserPhoto.value = imageUrl;
       }
       print(displayUserEmail.value);
-
 
       Get.snackbar(
         'Success!',
@@ -451,12 +434,13 @@ class AuthController extends GetxController
   void startTimer(int sec) {
     const duration = Duration(seconds: 1);
     remainSec = sec;
-    timer = Timer.periodic(duration, (Timer timer) {
+    timer = Timer.periodic(duration, (timer) {
       if (remainSec == 0) {
         timer.cancel();
+
         buttonDisable();
       } else {
-        int min = remainSec ~/ 60;
+        int min = (remainSec ~/ 60);
         int sec = (remainSec % 60);
         time.value = min.toString().padLeft(2, '0') +
             ':' +
@@ -470,7 +454,6 @@ class AuthController extends GetxController
     isbuttonDisable = !isbuttonDisable;
     update();
   }
-
 
   Future getUserFromDB(String uid) async {
     try {
