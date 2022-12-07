@@ -28,12 +28,12 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(fontFamily: 'Ubuntu'),
 
 
-          // initialRoute: FirebaseAuth.instance.currentUser != null ||
-          //         GetStorage().read<bool>("auth") == true
-          //     ? Routes.profileScreen
-          //     : AppRoutes.login,
+          initialRoute: FirebaseAuth.instance.currentUser != null ||
+                  GetStorage().read<bool>("auth") == true
+              ? Routes.profileScreen
+              : AppRoutes.login,
 
-          initialRoute: Routes.loginScreen,
+        //  initialRoute: Routes.loginScreen,
 
           getPages: AppRoutes.routes,
           initialBinding: AuthBinding(),

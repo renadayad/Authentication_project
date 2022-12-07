@@ -200,7 +200,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                             password: passwordController.text);
 
 
-                        Get.to(OTPScreen(
+                    await    Get.to(OTPScreen(
 
                           phoneNumber: phoneNumberController.text,
                         ));
