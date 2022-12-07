@@ -29,6 +29,7 @@ class AuthController extends GetxController
   var displayDescription = ''.obs;
 
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -36,7 +37,6 @@ class AuthController extends GetxController
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
   User? get userProfile => auth.currentUser;
-
   var authState = ''.obs;
   String verificationId = '';
 
@@ -47,14 +47,11 @@ class AuthController extends GetxController
 
   @override
   void onInit() {
-
-
-    displayUserPhoto.value=(userProfile != null ? userProfile!.photoURL : "")??"";
+    displayUserPhoto.value =
+        (userProfile != null ? userProfile!.photoURL : "") ?? "";
 
     displayUserEmail.value =
-
-    (userProfile != null ? userProfile!.email : "")??"";
-
+        (userProfile != null ? userProfile!.email : "") ?? "";
 
     tabController = TabController(length: 2, vsync: this);
 
@@ -90,7 +87,7 @@ class AuthController extends GetxController
     update();
   }
 
-   loginUsingFierbase({
+  loginUsingFierbase({
     required String email,
     required String password,
   }) async {
@@ -109,7 +106,7 @@ class AuthController extends GetxController
         displayUserName.value = docData['displayName'];
         displayUserEmail.value = docData['email'];
         displayDescription.value = docData['description'];
-        displayUserPhoto.value= docData['image'];
+        displayUserPhoto.value = docData['image'];
       });
 
       // showDialog(
@@ -124,7 +121,6 @@ class AuthController extends GetxController
       update();
       Get.offNamed(Routes.profileScreen);
       //getEmailDoc();
-
     } on FirebaseAuthException catch (error) {
       String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = '';
@@ -146,7 +142,6 @@ class AuthController extends GetxController
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
       );
-
     }
   }
 
@@ -176,9 +171,7 @@ class AuthController extends GetxController
     }
   }
 
-
- Future <void> loginUsinggoogle() async {
-
+  Future<void> loginUsinggoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
       if (googleUser != null) {
@@ -191,9 +184,9 @@ class AuthController extends GetxController
       }
       displayUserName.value = googleUser!.displayName!;
       displayUserName.value =
-         (userProfile != null ? userProfile!.displayName : "")??"";
-      displayUserEmail.value=googleUser.email;
-      displayUserPhoto.value=googleUser.photoUrl!;
+          (userProfile != null ? userProfile!.displayName : "") ?? "";
+      displayUserEmail.value = googleUser.email;
+      displayUserPhoto.value = googleUser.photoUrl!;
 
       isSignedIn = true;
 
@@ -216,7 +209,7 @@ class AuthController extends GetxController
       displayUserName.value = "";
       displayUserPhoto.value = '';
       displayUserEmail.value = '';
-      displayDescription.value='';
+      displayDescription.value = '';
       isSignedIn = false;
       authBox.remove("auth");
       update();
@@ -253,7 +246,7 @@ class AuthController extends GetxController
         "password": password,
         "displayName": name,
         "image": "",
-        "description":"",
+        "description": "",
       });
 
       update();
@@ -291,12 +284,9 @@ class AuthController extends GetxController
     try {
       auth.verifyPhoneNumber(
         timeout: Duration(seconds: 40),
-
         phoneNumber: "+966" + phone,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth
-              .signInWithCredential(credential)
-              .then((value) => {print("you are logged in successfully")});
+          await auth.signInWithCredential(credential);
         },
         verificationFailed: (error) {
           String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
@@ -305,11 +295,11 @@ class AuthController extends GetxController
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
             message = 'Wrong Password ';
-          } 
+          }
           // else if (error.code == 'phone-number-already-exists') {
           //   message = 'Phone number already used ';
-          // } 
-          
+          // }
+
           else {
             message = error.message.toString();
           }
@@ -341,7 +331,7 @@ class AuthController extends GetxController
               verificationId: this.verificationId, smsCode: otp));
 
       if (credential.user != null) {
-        Get.toNamed(Routes.profileScreen);
+        Get.offNamed(Routes.settingsScreen);
       }
     } catch (error) {
       Get.snackbar('Error !', error.toString(),
@@ -386,7 +376,6 @@ class AuthController extends GetxController
     }
   }
 
-
   // Future<void> googleSignUpApp() async {
   //   try {
   //     final googleUser = await googleSign.signIn();
@@ -405,30 +394,26 @@ class AuthController extends GetxController
   //   }
   // }
 
-
-  Future updateFields(TextEditingController value,
-      TextEditingController value1, String imageUrl) async {
+  Future updateFields(TextEditingController value, TextEditingController value1,
+      String imageUrl) async {
     try {
       // value is the email user inputs in a textfield and is validated
       DocumentReference doc = FirebaseFirestore.instance
           .collection("users")
           .doc(displayUserEmail.value);
-      if(value.text.isNotEmpty ){
+      if (value.text.isNotEmpty) {
         await doc.update({"displayName": value.text});
         displayUserName.value = value.text;
-
       }
-      if(value1.text.isNotEmpty ){
+      if (value1.text.isNotEmpty) {
         await doc.update({"description": value1.text});
-        displayDescription.value=value1.text;
-
+        displayDescription.value = value1.text;
       }
-      if (imageUrl.isNotEmpty){
-         await doc.update({"image":imageUrl});
-         displayUserPhoto.value=imageUrl;
+      if (imageUrl.isNotEmpty) {
+        await doc.update({"image": imageUrl});
+        displayUserPhoto.value = imageUrl;
       }
       print(displayUserEmail.value);
-
 
       Get.snackbar(
         'Success!',
@@ -470,7 +455,6 @@ class AuthController extends GetxController
     isbuttonDisable = !isbuttonDisable;
     update();
   }
-
 
   Future getUserFromDB(String uid) async {
     try {

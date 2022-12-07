@@ -5,6 +5,7 @@ import 'package:auth_app/utils/text_utils.dart';
 import 'package:auth_app/utils/theme.dart';
 import 'package:auth_app/views/screens/otp_screen.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
+import 'package:auth_app/views/widgets/auth/check_widget%20copy.dart';
 import 'package:auth_app/views/widgets/auth/check_widget.dart';
 import 'package:auth_app/views/widgets/auth/container_under.dart';
 import 'package:auth_app/views/widgets/auth/text_form_field.dart';
@@ -55,7 +56,7 @@ class Login_PhoneNumber_Form extends StatelessWidget {
               color: labalColor,
             ),
             suffixIcon: const Text(''),
-            hintText: "",
+            hintText: "53*******",
           ),
           SizedBox(
             height: 1.76.h,
@@ -105,7 +106,7 @@ class Login_PhoneNumber_Form extends StatelessWidget {
           SizedBox(
             height: 1.17.h,
           ),
-          CheckWidget(),
+          CheckWidget2(),
           SizedBox(
             height: 3.75.h,
           ),
@@ -121,7 +122,6 @@ class Login_PhoneNumber_Form extends StatelessWidget {
                     phoneNumber: phoneController.text,
                   ));
                 }
-
               },
               text: "Log In",
             );

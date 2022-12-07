@@ -1,3 +1,4 @@
+import 'package:auth_app/logic/controllers/auth_controller.dart';
 import 'package:auth_app/utils/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,25 +8,31 @@ import '../../widgets/settings/change_password.dart';
 import '../../widgets/settings/logout.dart';
 import '../../widgets/settings/notification.dart';
 
-
 class SettingScreen extends StatelessWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+  SettingScreen({Key? key}) : super(key: key);
+  final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent ,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
           centerTitle: true,
           elevation: 0,
-          title: Text('Settings' ,style: TextStyle(
-              color: Colors.black
-          ),
+          title: Text(
+            'Settings',
+            style: TextStyle(color: Colors.black),
           ),
           leading: IconButton(
-            onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
-          ) ,
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
         ),
         body: ListView(
           padding: const EdgeInsets.all(24),
@@ -42,7 +49,6 @@ class SettingScreen extends StatelessWidget {
             SizedBox(
               height: 3.5.h,
             ),
-
             ChangePassword(),
             Divider(
               color: Colors.grey.shade300,

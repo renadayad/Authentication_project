@@ -108,26 +108,24 @@ class Login_Email_Form extends StatelessWidget {
           SizedBox(
             height: 3.75.h,
           ),
-          GetBuilder<AuthController>(builder: (_)  {
+          GetBuilder<AuthController>(builder: (_) {
             return AuthButton(
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   String email = emailController.text.trim();
                   String password = passwordController.text;
                   print("dubg: ${email}");
-                   controller.displayUserEmail.value = email;
-                   controller.loginUsingFierbase(
+                  controller.displayUserEmail.value = email;
+                  controller.loginUsingFierbase(
                       email: email, password: password);
-
-
+                  // show loding page after press login in button
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  );
                 }
-                // show loding page after press login in button
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return Center(child: CircularProgressIndicator());
-                  },
-                );
               },
               text: "Log In",
             );
