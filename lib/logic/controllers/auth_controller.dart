@@ -29,6 +29,7 @@ class AuthController extends GetxController
   var displayDescription = ''.obs;
 
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -36,7 +37,6 @@ class AuthController extends GetxController
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
   User? get userProfile => auth.currentUser;
-
   var authState = ''.obs;
   String verificationId = '';
 
@@ -283,12 +283,13 @@ class AuthController extends GetxController
   verifyPhone({required String phone, required String password}) {
     try {
       auth.verifyPhoneNumber(
+
+
         timeout: Duration(seconds: 60),
+
         phoneNumber: "+966" + phone,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth
-              .signInWithCredential(credential)
-              .then((value) => {print("you are logged in successfully")});
+          await auth.signInWithCredential(credential);
         },
         verificationFailed: (error) {
           String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
@@ -297,6 +298,7 @@ class AuthController extends GetxController
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
             message = 'Wrong Password ';
+
           } else {
             Get.snackbar('Error!', error.toString(),
                 snackPosition: SnackPosition.TOP,
@@ -371,8 +373,10 @@ class AuthController extends GetxController
           colorText: Colors.white);
     }
 
+
     update();
   }
+
 
   // Future<void> googleSignUpApp() async {
   //   try {

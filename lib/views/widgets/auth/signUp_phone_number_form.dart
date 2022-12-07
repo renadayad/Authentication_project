@@ -85,7 +85,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                 return null;
               }
             },
-            hintText: 'Enter your phone number',
+            hintText: '53*******',
           ),
           SizedBox(
             height: 1.7.h,
@@ -199,7 +199,9 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                             phone: phoneNumberController.text.trim(),
                             password: passwordController.text);
 
+
                         Get.to(OTPScreen(
+
                           phoneNumber: phoneNumberController.text,
                         ));
                       }
