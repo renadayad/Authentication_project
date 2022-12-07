@@ -42,7 +42,7 @@ class AuthController extends GetxController
 
   Timer? timer;
   int remainSec = 1;
-  final time = '00:00'.obs;
+  var time = '00:00'.obs;
   var isbuttonDisable = false;
 
   @override
@@ -60,7 +60,7 @@ class AuthController extends GetxController
 
   @override
   void onReady() {
-    startTimer(120);
+    startTimer(60);
     super.onReady();
   }
 
@@ -283,7 +283,10 @@ class AuthController extends GetxController
   verifyPhone({required String phone, required String password}) {
     try {
       auth.verifyPhoneNumber(
-        timeout: Duration(seconds: 40),
+
+
+        timeout: Duration(seconds: 60),
+
         phoneNumber: "+966" + phone,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
@@ -295,18 +298,13 @@ class AuthController extends GetxController
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
             message = 'Wrong Password ';
-          }
-          // else if (error.code == 'phone-number-already-exists') {
-          //   message = 'Phone number already used ';
-          // }
 
-          else {
-            message = error.message.toString();
+          } else {
+            Get.snackbar('Error!', error.toString(),
+                snackPosition: SnackPosition.TOP,
+                backgroundColor: Colors.red,
+                colorText: Colors.white);
           }
-          Get.snackbar(title, message,
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
         },
         codeSent: (String id, int? resendToken) {
           this.verificationId = id;
@@ -345,7 +343,7 @@ class AuthController extends GetxController
     try {
       await auth.verifyPhoneNumber(
         timeout: Duration(seconds: 120),
-        phoneNumber: phone,
+        phoneNumber: "+966" + phone,
         verificationCompleted: (AuthCredential authCredential) {},
         verificationFailed: (error) {
           String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
@@ -374,7 +372,11 @@ class AuthController extends GetxController
           backgroundColor: Colors.red,
           colorText: Colors.white);
     }
+
+
+    update();
   }
+
 
   // Future<void> googleSignUpApp() async {
   //   try {
@@ -436,12 +438,13 @@ class AuthController extends GetxController
   void startTimer(int sec) {
     const duration = Duration(seconds: 1);
     remainSec = sec;
-    timer = Timer.periodic(duration, (Timer timer) {
+    timer = Timer.periodic(duration, (timer) {
       if (remainSec == 0) {
         timer.cancel();
+
         buttonDisable();
       } else {
-        int min = remainSec ~/ 60;
+        int min = (remainSec ~/ 60);
         int sec = (remainSec % 60);
         time.value = min.toString().padLeft(2, '0') +
             ':' +

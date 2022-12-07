@@ -52,7 +52,6 @@ class OTPScreen extends StatelessWidget {
           child: ListView(
             children: <Widget>[
               SizedBox(height: 4.1.h),
-
               SizedBox(height: 0.9.h),
               Center(
                 child: Padding(
@@ -84,7 +83,6 @@ class OTPScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -97,7 +95,6 @@ class OTPScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
               SizedBox(
                 height: 1.1.h,
               ),
@@ -144,27 +141,13 @@ class OTPScreen extends StatelessWidget {
                       },
                     )),
               ),
-
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              //   child: Text(
-              //     hasError ? "*Please fill up all the cells " : "",
-              //     style:  TextStyle(
-              //         color: Colors.red,
-              //         fontSize: 10.sp,
-              //         fontWeight: FontWeight.w400),
-              //   ),
-              // ),
               Container(
                 margin:
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 90),
                 // ignore: sort_child_properties_last
                 child: ButtonTheme(
-
-
-                    height: 32,
-                    child:  Column(
-
+                  height: 32,
+                  child: Column(
                     children: [
                       AuthButton(
                           onPressed: () {
@@ -177,22 +160,24 @@ class OTPScreen extends StatelessWidget {
                                 });
                           },
                           text: 'Verify code'),
-                      GetBuilder<AuthController>(builder: (_) {
-                        return TextButton(
-                          onPressed: controller.isbuttonDisable
-                              ? () async {
-                                  controller.reSendOTP(phone: phoneNumber);
-                                }
-                              : null,
-                          child: TextUtils(
-                            text: 'Resend code',
-                            color: isbuttonDisable ? Colors.green : mainColor,
-                            fontWeight: FontWeight.w400,
-                            fontsize: 11.sp,
-                            underLine: TextDecoration.underline,
-                          ),
-                        );
-                      })
+                      GetBuilder<AuthController>(
+                        builder: (_) {
+                          return TextButton(
+                            onPressed: controller.isbuttonDisable
+                                ? () async {
+                                    controller.reSendOTP(phone: phoneNumber);
+                                  }
+                                : null,
+                            child: TextUtils(
+                              text: 'Resend code',
+                              color: isbuttonDisable ? Colors.green : mainColor,
+                              fontWeight: FontWeight.w400,
+                              fontsize: 11.sp,
+                              underLine: TextDecoration.underline,
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -214,4 +199,3 @@ class OTPScreen extends StatelessWidget {
 
 
 
-// https://pub.dev/packages/pin_code_fields 
