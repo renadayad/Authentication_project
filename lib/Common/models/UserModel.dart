@@ -7,14 +7,16 @@ String UserModelToJson(UserModel data) => json.encode(data.toJson());
 class UserModel {
   String? uid;
   String name;
-  String email;
+  String? email;
+  String? phone;
   String password;
   String? image;
 
   UserModel({
     this.uid,
     required this.name,
-    required this.email,
+    this.email,
+    this.phone,
     required this.password,
     this.image,
   });
@@ -23,6 +25,7 @@ class UserModel {
         uid: json['id'],
         name: json['name'],
         email: json['email'],
+        phone: json['phone'],
         password: json['password'],
         image: json['image'],
       );
@@ -31,6 +34,7 @@ class UserModel {
         'uid': uid,
         'name': name,
         'email': email,
+        'phone': phone,
         'image': image,
         'password': ""
       };

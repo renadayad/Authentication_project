@@ -15,10 +15,6 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
   SignUp_Phone_Number_Form({super.key});
 
   final formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController rePasswordController = TextEditingController();
   final controller = Get.find<AuthController>();
 
   @override
@@ -41,7 +37,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             height: 1.1.h,
           ),
           AuthTextFromField(
-            controller: nameController,
+            controller: controller.nameController,
             obscureText: false,
             prefixIcon: const Icon(
               Icons.person_outline,
@@ -70,7 +66,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             height: 1.1.h,
           ),
           AuthTextFromField(
-            controller: phoneNumberController,
+            controller: controller.phoneNumberController,
             numCode: "+966 ",
             obscureText: false,
             prefixIcon: const Icon(
@@ -103,7 +99,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             builder: (_) {
               return AuthTextFromField(
                 maxLines: 1,
-                controller: passwordController,
+                controller: controller.passwordController,
                 prefixIcon: const Icon(
                   Icons.lock_outline,
                   color: mainColor,
@@ -152,7 +148,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             builder: (_) {
               return AuthTextFromField(
                 maxLines: 1,
-                controller: rePasswordController,
+                controller: controller.rePasswordController,
                 prefixIcon: const Icon(
                   Icons.lock_outline,
                   color: mainColor,
@@ -175,7 +171,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                 ),
                 obscureText: controller.isVisibiltyRePassword ? false : true,
                 validator: (value) {
-                  if (value != passwordController.text) {
+                  if (value != controller.passwordController.text) {
                     return 'The entered password does not match.';
                   } else {
                     return null;
@@ -196,11 +192,11 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         controller.verifyPhone(
-                            phone: phoneNumberController.text.trim(),
-                            password: passwordController.text);
+                            phone: controller.phoneNumberController.text.trim(),
+                            password: controller.passwordController.text);
 
                         await Get.to(OTPScreen(
-                          phoneNumber: phoneNumberController.text,
+                          phoneNumber: controller.phoneNumberController.text,
                         ));
                       }
                     },

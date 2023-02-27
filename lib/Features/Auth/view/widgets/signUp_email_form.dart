@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../Common/models/UserModel.dart';
 import '../../logic/controller/auth_controller.dart';
 import '../../../../Core/routes/routes.dart';
