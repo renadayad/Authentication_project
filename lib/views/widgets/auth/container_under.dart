@@ -1,5 +1,5 @@
-import 'package:auth_app/utils/text_utils.dart';
-import 'package:auth_app/utils/theme.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
+import 'package:auth_app/Common/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 

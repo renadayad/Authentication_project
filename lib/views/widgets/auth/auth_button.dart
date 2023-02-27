@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../utils/text_utils.dart';
-import '../../../utils/theme.dart';
+import '../../../Common/widgets/text_utils.dart';
+import '../../../Common/utils/theme.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;

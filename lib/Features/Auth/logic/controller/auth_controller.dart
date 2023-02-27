@@ -6,11 +6,115 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../model/userModel.dart';
-import '../../routes.dart';
+import '../../../../Common/models/UserModel.dart';
+import '../../../../Core/routes/routes.dart';
 
-class AuthController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class AuthController extends GetxController {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController rePasswordController = TextEditingController();
+
+  var isSignedIn = false;
+  final GetStorage authBox = GetStorage();
+  bool isCheckBox = false;
+
+  bool isVisibiltyPassword = false;
+  bool isVisibiltyRePassword = false;
+
+  void VisibiltyPassword() {
+    isVisibiltyPassword = !isVisibiltyPassword;
+    update();
+  }
+
+  void VisibiltyRePassword() {
+    isVisibiltyRePassword = !isVisibiltyRePassword;
+    update();
+  }
+
+  void CheckBox() {
+    isCheckBox = !isCheckBox;
+    update();
+    if (isCheckBox) {
+      GetStorage().write("email", emailController.text);
+      emailController.text = GetStorage().read("email");
+      GetStorage().write("checKBox", true);
+    } else {
+      emailController.text = '';
+      passwordController.text = '';
+      GetStorage().write("email", emailController.text);
+      GetStorage().write("checKBox", false);
+    }
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    emailController.text =
+        GetStorage().read("email") == null ? '' : GetStorage().read("email");
+    isCheckBox = GetStorage().read("checKBox") == null
+        ? false
+        : GetStorage().read("checKBox");
+  }
+
+  void signUpUsingFirebase({required UserModel userModel}) async {
+    try {
+      await auth
+          .createUserWithEmailAndPassword(
+              email: userModel.email.toString(),
+              password: userModel.password.toString())
+          .then((value) {
+        final fierbaseStoreRefrence =
+            FirebaseFirestore.instance.collection("users").doc(userModel.email);
+        final data = userModel.toJson();
+        fierbaseStoreRefrence.set(data).whenComplete(() {
+          update();
+          clearController();
+          Get.snackbar("", "Add successfully");
+          isSignedIn = false;
+          authBox.remove("auth");
+          Get.offNamed(Routes.loginScreen);
+        });
+      });
+    } on FirebaseAuthException catch (e) {
+      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
+      String message = '';
+
+      if (e.code == 'email-already-in-use') {
+        message = 'Email already used';
+      } else {
+        message = e.message.toString();
+      }
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  // clear Controller
+  void clearController() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    rePasswordController.clear();
+  }
+
+  //#####################################################################
+
   final Rx<UserModel> _userModel =
       UserModel(email: '', name: '', uid: '', password: '', image: '').obs;
 
@@ -18,11 +122,6 @@ class AuthController extends GetxController
 
   set user(UserModel value) => _userModel.value = value;
 
-  bool isVisibilty = false;
-  bool isCheckBox = false;
-  bool isVisibilty2 = false;
-
-  late TabController tabController;
   var displayUserName = ''.obs;
   var displayUserPhoto = ''.obs;
   var displayUserEmail = ''.obs;
@@ -32,10 +131,6 @@ class AuthController extends GetxController
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-  var isSignedIn = false;
-  final GetStorage authBox = GetStorage();
   User? get userProfile => auth.currentUser;
   var authState = ''.obs;
   String verificationId = '';
@@ -44,19 +139,6 @@ class AuthController extends GetxController
   int remainSec = 1;
   var time = '00:00'.obs;
   var isbuttonDisable = false;
-
-  @override
-  void onInit() {
-    displayUserPhoto.value =
-        (userProfile != null ? userProfile!.photoURL : "") ?? "";
-
-    displayUserEmail.value =
-        (userProfile != null ? userProfile!.email : "") ?? "";
-
-    tabController = TabController(length: 2, vsync: this);
-
-    super.onInit();
-  }
 
   @override
   void onReady() {
@@ -70,21 +152,6 @@ class AuthController extends GetxController
       timer!.cancel();
     }
     super.onClose();
-  }
-
-  void Visibilty() {
-    isVisibilty = !isVisibilty;
-    update();
-  }
-
-  void Visibilty2() {
-    isVisibilty2 = !isVisibilty2;
-    update();
-  }
-
-  void CheckBox() {
-    isCheckBox = !isCheckBox;
-    update();
   }
 
   loginUsingFierbase({
@@ -222,71 +289,10 @@ class AuthController extends GetxController
     }
   }
 
-  void signUpUsingFirebase({
-    required String email,
-    required String name,
-    required String password,
-  }) async {
-    try {
-      await auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        displayUserName.value = name;
-        auth.currentUser!.updateDisplayName(name);
-        print(" this is username ${displayUserName.value}");
-        print(" this is userprofile ${userProfile!.displayName}");
-        displayUserEmail.value = email;
-      });
-
-      DocumentReference doc =
-          FirebaseFirestore.instance.collection("users").doc(email);
-
-      doc.set({
-        "email": email,
-        "password": password,
-        "displayName": name,
-        "image": "",
-        "description": "",
-      });
-
-      update();
-      Get.offNamed(Routes.profileScreen);
-      // getEmailDoc();
-    } on FirebaseAuthException catch (e) {
-      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
-      String message = '';
-
-      if (e.code == 'email-already-in-use') {
-        message = 'Email already used';
-      } else {
-        message = e.message.toString();
-      }
-
-      Get.snackbar(
-        title,
-        message,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red[400],
-        colorText: Colors.white,
-      );
-    } catch (error) {
-      Get.snackbar(
-        'Error!',
-        error.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red[400],
-        colorText: Colors.white,
-      );
-    }
-  }
-
   verifyPhone({required String phone, required String password}) {
     try {
       auth.verifyPhoneNumber(
-
-
         timeout: Duration(seconds: 60),
-
         phoneNumber: "+966" + phone,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
@@ -298,7 +304,6 @@ class AuthController extends GetxController
             message = 'No user found for that phone Number.';
           } else if (error.code == 'wrong-password') {
             message = 'Wrong Password ';
-
           } else {
             Get.snackbar('Error!', error.toString(),
                 snackPosition: SnackPosition.TOP,
@@ -373,10 +378,8 @@ class AuthController extends GetxController
           colorText: Colors.white);
     }
 
-
     update();
   }
-
 
   // Future<void> googleSignUpApp() async {
   //   try {
@@ -465,7 +468,7 @@ class AuthController extends GetxController
           await FirebaseFirestore.instance.collection("users").doc(uid).get();
       var map = userData.data();
       //debugPrint(map!['email']);
-      return UserModel.fromData(userData.data());
+
     } on FirebaseException catch (e) {
       return e.message;
     }

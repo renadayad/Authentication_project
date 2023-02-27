@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../logic/controllers/auth_controller.dart';
+import '../../../Features/Auth/logic/controller/auth_controller.dart';
 import '../../screens/forgot_password_screen.dart';
-
-
-
 
 class ChangePassword extends StatelessWidget {
   ChangePassword({super.key});
@@ -20,12 +17,12 @@ class ChangePassword extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Get.to(()=> ForgotPasswordScreen());
+            Get.to(() => ForgotPasswordScreen());
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Text(
+              Text(
                 "Change Password",
                 style: TextStyle(
                     fontSize: 12.sp,
@@ -43,8 +40,6 @@ class ChangePassword extends StatelessWidget {
                   color: Colors.black26,
                 ),
               ),
-
-
             ],
           ),
         ),

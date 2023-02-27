@@ -1,10 +1,10 @@
-import 'package:auth_app/utils/text_utils.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/views/widgets/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../logic/controllers/auth_controller.dart';
+import '../../../Features/Auth/logic/controller/auth_controller.dart';
 import '../../../logic/controllers/setting_controller.dart';
 import '../../widgets/settings/change_password.dart';
 import '../../widgets/settings/edit_profile.dart';

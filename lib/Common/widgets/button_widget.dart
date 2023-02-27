@@ -1,15 +1,15 @@
-import 'package:auth_app/utils/text_utils.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class IconWidget extends StatelessWidget {
-  final String image;
+class ButtonWidget extends StatelessWidget {
+  String? image;
   final Function() onPressed;
   final String textUtils;
   final Color conternierColor;
 
-  const IconWidget(
-      {required this.image,
+  ButtonWidget(
+      {this.image,
       required this.textUtils,
       required this.onPressed,
       required this.conternierColor,
@@ -28,7 +28,7 @@ class IconWidget extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(
-                  image,
+                  image!,
                   width: 5.85.w,
                   height: 2.81.h,
                 ),

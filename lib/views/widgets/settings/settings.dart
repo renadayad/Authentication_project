@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../logic/controllers/auth_controller.dart';
-import '../../../routes.dart';
-
-
-
+import '../../../Features/Auth/logic/controller/auth_controller.dart';
+import '../../../Core/routes/routes.dart';
 
 class SettingsWidget extends StatelessWidget {
   SettingsWidget({super.key});
@@ -44,8 +41,6 @@ class SettingsWidget extends StatelessWidget {
                   color: Colors.black26,
                 ),
               ),
-
-
             ],
           ),
         ),

@@ -1,5 +1,5 @@
-import 'package:auth_app/logic/controllers/auth_controller.dart';
-import 'package:auth_app/utils/text_utils.dart';
+import 'package:auth_app/Features/Auth/logic/controller/auth_controller.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';

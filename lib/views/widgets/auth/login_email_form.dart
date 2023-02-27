@@ -1,8 +1,8 @@
-import 'package:auth_app/logic/controllers/auth_controller.dart';
-import 'package:auth_app/routes.dart';
-import 'package:auth_app/utils/my_string.dart';
-import 'package:auth_app/utils/text_utils.dart';
-import 'package:auth_app/utils/theme.dart';
+import 'package:auth_app/Features/Auth/logic/controller/auth_controller.dart';
+import 'package:auth_app/Core/routes/routes.dart';
+import 'package:auth_app/Common/utils/my_string.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
+import 'package:auth_app/Common/utils/theme.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:auth_app/views/widgets/auth/check_widget.dart';
 import 'package:auth_app/views/widgets/auth/container_under.dart';
@@ -75,7 +75,7 @@ class Login_Email_Form extends StatelessWidget {
             return AuthTextFromField(
               maxLines: 1,
               controller: passwordController,
-              obscureText: controller.isVisibilty ? false : true,
+              obscureText: controller.isVisibiltyPassword ? false : true,
               validator: (value) {
                 if (value.toString().length < 6) {
                   return " Worng password";
@@ -89,9 +89,9 @@ class Login_Email_Form extends StatelessWidget {
               ),
               suffixIcon: IconButton(
                 onPressed: () {
-                  controller.Visibilty();
+                  controller.VisibiltyPassword();
                 },
-                icon: controller.isVisibilty
+                icon: controller.isVisibiltyPassword
                     ? Icon(Icons.visibility_outlined,
                         color: labalColor, size: 20)
                     : Icon(Icons.visibility_off_outlined,

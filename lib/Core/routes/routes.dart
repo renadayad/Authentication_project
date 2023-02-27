@@ -3,10 +3,10 @@ import 'package:auth_app/views/screens/login_screen.dart';
 import 'package:auth_app/views/screens/setting/edit_profile_screen.dart';
 import 'package:auth_app/views/screens/setting/profile.dart';
 import 'package:auth_app/views/screens/setting/settings_screen.dart';
-import 'package:auth_app/views/screens/signup_screen.dart';
+import 'package:auth_app/Features/Auth/view/screens/signup_screen.dart';
 import 'package:get/route_manager.dart';
 
-import 'logic/bindings/auth_binding.dart';
+import '../../Features/Auth/logic/bindings/auth_binding.dart';
 
 class AppRoutes {
   static const login = Routes.loginScreen;

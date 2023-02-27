@@ -2,13 +2,13 @@ import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/Common/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../Features/Auth/view/widgets/header_widget.dart';
-import '../../Features/Auth/view/widgets/onTap_widget.dart';
-import '../widgets/auth/login_email_form.dart';
-import '../widgets/auth/login_phone_number.dart';
+import '../widgets/header_widget.dart';
+import '../widgets/onTap_widget.dart';
+import '../widgets/signUp_email_form.dart';
+import '../widgets/signUp_phone_number_form.dart';
 
-class Login_Screen extends StatelessWidget {
-  const Login_Screen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +32,9 @@ class Login_Screen extends StatelessWidget {
                 height: 2.3.h,
               ),
               TabWidget(
-                firstTap: Login_Email_Form(),
-                secandTap: Login_PhoneNumber_Form(),
-              ),
+                firstTap: SignUp_Email_Form(),
+                secandTap: SignUp_Phone_Number_Form(),
+              )
             ],
           ),
         ),

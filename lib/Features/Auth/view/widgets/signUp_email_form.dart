@@ -2,23 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../logic/controllers/auth_controller.dart';
-import '../../../routes.dart';
-import '../../../utils/my_string.dart';
-import '../../../utils/text_utils.dart';
-import '../../../utils/theme.dart';
-import '../../screens/otp_screen.dart';
-import 'auth_button.dart';
-import 'text_form_field.dart';
+import '../../../../Common/models/UserModel.dart';
+import '../../logic/controller/auth_controller.dart';
+import '../../../../Core/routes/routes.dart';
+import '../../../../Common/utils/my_string.dart';
+import '../../../../Common/widgets/text_utils.dart';
+import '../../../../Common/utils/theme.dart';
+import '../../../../views/widgets/auth/auth_button.dart';
+import '../../../../views/widgets/auth/text_form_field.dart';
 
-class SignUp_Phone_Number_Form extends StatelessWidget {
-  SignUp_Phone_Number_Form({super.key});
+class SignUp_Email_Form extends StatelessWidget {
+  SignUp_Email_Form({super.key});
 
   final formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController rePasswordController = TextEditingController();
   final controller = Get.find<AuthController>();
 
   @override
@@ -28,8 +24,8 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 1.8.h,
+          const SizedBox(
+            height: 16,
           ),
           TextUtils(
               text: 'Name',
@@ -41,7 +37,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             height: 1.1.h,
           ),
           AuthTextFromField(
-            controller: nameController,
+            controller: controller.nameController,
             obscureText: false,
             prefixIcon: const Icon(
               Icons.person_outline,
@@ -61,7 +57,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             height: 1.7.h,
           ),
           TextUtils(
-              text: 'Phone number',
+              text: 'E-mail',
               fontsize: 11.sp,
               fontWeight: FontWeight.normal,
               color: mainColor,
@@ -70,22 +66,21 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             height: 1.1.h,
           ),
           AuthTextFromField(
-            controller: phoneNumberController,
-            numCode: "+966 ",
+            controller: controller.emailController,
             obscureText: false,
             prefixIcon: const Icon(
-              Icons.phone_outlined,
+              Icons.email_outlined,
               color: mainColor,
             ),
             suffixIcon: const Text(''),
             validator: (value) {
-              if (!RegExp(validationNumber).hasMatch(value)) {
-                return 'Invalid phone number';
+              if (!RegExp(validationEmail).hasMatch(value)) {
+                return 'Invalid Email';
               } else {
                 return null;
               }
             },
-            hintText: '53*******',
+            hintText: 'Enter your E-mail',
           ),
           SizedBox(
             height: 1.7.h,
@@ -103,16 +98,16 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             builder: (_) {
               return AuthTextFromField(
                 maxLines: 1,
-                controller: passwordController,
+                controller: controller.passwordController,
                 prefixIcon: const Icon(
                   Icons.lock_outline,
                   color: mainColor,
                 ),
                 suffixIcon: IconButton(
                   onPressed: () {
-                    controller.Visibilty();
+                    controller.VisibiltyPassword();
                   },
-                  icon: controller.isVisibilty
+                  icon: controller.isVisibiltyPassword
                       ? Icon(
                           Icons.visibility_outlined,
                           color: mainColor,
@@ -124,7 +119,7 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                           size: 2.3.h,
                         ),
                 ),
-                obscureText: controller.isVisibilty ? false : true,
+                obscureText: controller.isVisibiltyPassword ? false : true,
                 validator: (value) {
                   if (!RegExp(validationPassword).hasMatch(value)) {
                     return 'Password length must be 8 and contain a number,\n a special symbol, and an uppercase letter.';
@@ -152,16 +147,16 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             builder: (_) {
               return AuthTextFromField(
                 maxLines: 1,
-                controller: rePasswordController,
+                controller: controller.rePasswordController,
                 prefixIcon: const Icon(
                   Icons.lock_outline,
                   color: mainColor,
                 ),
                 suffixIcon: IconButton(
                   onPressed: () {
-                    controller.Visibilty2();
+                    controller.VisibiltyRePassword();
                   },
-                  icon: controller.isVisibilty2
+                  icon: controller.isVisibiltyRePassword
                       ? Icon(
                           Icons.visibility_outlined,
                           color: mainColor,
@@ -173,9 +168,9 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
                           size: 2.3.h,
                         ),
                 ),
-                obscureText: controller.isVisibilty ? false : true,
+                obscureText: controller.isVisibiltyRePassword ? false : true,
                 validator: (value) {
-                  if (value != passwordController.text) {
+                  if (value != controller.passwordController.text) {
                     return 'The entered password does not match.';
                   } else {
                     return null;
@@ -193,20 +188,24 @@ class SignUp_Phone_Number_Form extends StatelessWidget {
             child: GetBuilder<AuthController>(
               builder: (_) {
                 return AuthButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        controller.verifyPhone(
-                            phone: phoneNumberController.text.trim(),
-                            password: passwordController.text);
-
-
-                    await    Get.to(OTPScreen(
-
-                          phoneNumber: phoneNumberController.text,
+                        controller.signUpUsingFirebase(
+                            userModel: UserModel(
+                          name: controller.nameController.text,
+                          email: controller.emailController.text,
+                          password: controller.passwordController.text,
                         ));
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(child: CircularProgressIndicator());
+                          },
+                        );
                       }
                     },
-                    text: 'Sign Up');
+                    text: 'sgin up');
               },
             ),
           ),

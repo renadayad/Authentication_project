@@ -1,9 +1,7 @@
-import 'package:auth_app/utils/text_utils.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
-
 
 class NotificationWidget extends StatelessWidget {
   NotificationWidget({Key? key}) : super(key: key);

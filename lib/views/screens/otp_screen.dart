@@ -1,13 +1,14 @@
 import 'dart:async';
 
-import 'package:auth_app/logic/controllers/auth_controller.dart';
-import 'package:auth_app/utils/text_utils.dart';
-import 'package:auth_app/utils/theme.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
+import 'package:auth_app/Common/utils/theme.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../Features/Auth/logic/controller/auth_controller.dart';
 
 class OTPScreen extends StatelessWidget {
   String phoneNumber;
@@ -193,9 +194,3 @@ class OTPScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

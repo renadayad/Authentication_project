@@ -4,10 +4,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../logic/controllers/auth_controller.dart';
-import '../../../routes.dart';
-import '../../../utils/text_utils.dart';
-import '../../../utils/theme.dart';
+import '../../../Features/Auth/logic/controller/auth_controller.dart';
+import '../../../Core/routes/routes.dart';
+import '../../../Common/widgets/text_utils.dart';
+import '../../../Common/utils/theme.dart';
 
 class CheckWidget extends StatelessWidget {
   CheckWidget({super.key});

@@ -1,5 +1,5 @@
-import 'package:auth_app/logic/bindings/auth_binding.dart';
-import 'package:auth_app/routes.dart';
+import 'package:auth_app/Features/Auth/logic/bindings/auth_binding.dart';
+import 'package:auth_app/Core/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +27,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(fontFamily: 'Ubuntu'),
 
-
-          initialRoute: FirebaseAuth.instance.currentUser != null ||
-                  GetStorage().read<bool>("auth") == true
+          initialRoute: GetStorage().read<bool>("auth") == true
               ? Routes.profileScreen
               : AppRoutes.login,
 
-        //  initialRoute: Routes.loginScreen,
+          //  initialRoute: Routes.loginScreen,
 
           getPages: AppRoutes.routes,
           initialBinding: AuthBinding(),

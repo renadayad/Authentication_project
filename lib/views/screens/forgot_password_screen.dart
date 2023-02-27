@@ -1,10 +1,9 @@
-import 'package:auth_app/utils/text_utils.dart';
+import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../logic/controllers/auth_controller.dart';
-import '../../utils/my_string.dart';
+import '../../Common/utils/my_string.dart';
+import '../../Features/Auth/logic/controller/auth_controller.dart';
 import '../widgets/auth/auth_button.dart';
 import '../widgets/auth/text_form_field.dart';
 
@@ -31,20 +30,20 @@ class ForgotPasswordScreen extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black45,),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black45,
+          ),
         ),
       ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(
-              30
-            ),
+            padding: const EdgeInsets.all(30),
             child: Column(
               children: [
-
-                 SizedBox(
+                SizedBox(
                   height: 2.3.h,
                 ),
                 const Text(
@@ -52,7 +51,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(color: Colors.black),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: 2.3.h,
                 ),
                 const Align(
@@ -63,7 +62,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: 2.3.h,
                 ),
                 AuthTextFromField(
@@ -79,7 +78,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   suffixIcon: const Text(""),
                   hintText: 'Email',
                 ),
-                 SizedBox(
+                SizedBox(
                   height: 5.8.h,
                 ),
                 GetBuilder<AuthController>(builder: (_) {
