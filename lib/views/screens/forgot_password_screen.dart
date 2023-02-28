@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import '../../Common/utils/my_string.dart';
 import '../../Features/Auth/logic/controller/auth_controller.dart';
 import '../widgets/auth/auth_button.dart';
-import '../widgets/auth/text_form_field.dart';
+import '../../Common/widgets/text_form_field.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});

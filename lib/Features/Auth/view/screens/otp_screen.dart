@@ -10,30 +10,17 @@ import 'package:sizer/sizer.dart';
 
 import '../../logic/controller/auth_controller.dart';
 
-
 class OTPScreen extends StatelessWidget {
   String phoneNumber;
   OTPScreen({super.key, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController otpController = TextEditingController();
     StreamController<ErrorAnimationType>? errorController;
-    bool hasError = false;
-    String currentText = "";
+
     final formKey = GlobalKey<FormState>();
     final controller = Get.find<AuthController>();
     var isbuttonDisable = controller.isbuttonDisable;
-
-    // @override
-    // void initState() {
-    //   errorController = StreamController<ErrorAnimationType>();
-    // }
-
-    // @override
-    // void dispose() {
-    //   errorController!.close();
-    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -107,9 +94,7 @@ class OTPScreen extends StatelessWidget {
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
                       appContext: context,
-
                       length: 6,
-
                       blinkWhenObscuring: true,
                       animationType: AnimationType.fade,
                       validator: (value) {},
@@ -126,21 +111,12 @@ class OTPScreen extends StatelessWidget {
                       animationDuration: const Duration(milliseconds: 300),
                       enableActiveFill: false,
                       errorAnimationController: errorController,
-                      controller: otpController,
+                      controller: controller.otpController,
                       keyboardType: TextInputType.number,
-
                       onCompleted: (v) {
                         debugPrint("Completed");
                       },
-                      // onTap: () {
-                      //   print("Pressed");
-                      // },
-                      onChanged: (value) {
-                        // debugPrint(value);
-                        // setState(() {
-                        //   currentText = value;
-                        // });
-                      },
+                      onChanged: (value) {},
                     )),
               ),
               Container(
@@ -153,7 +129,7 @@ class OTPScreen extends StatelessWidget {
                     children: [
                       AuthButton(
                           onPressed: () {
-                            controller.verifyOTP(otpController.text);
+                            controller.verifyOTP(controller.otpController.text);
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -168,6 +144,7 @@ class OTPScreen extends StatelessWidget {
                             onPressed: controller.isbuttonDisable
                                 ? () async {
                                     controller.reSendOTP(phone: phoneNumber);
+                                    controller.startTimer(60);
                                   }
                                 : null,
                             child: TextUtils(

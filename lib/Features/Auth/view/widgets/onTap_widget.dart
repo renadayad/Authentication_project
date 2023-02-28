@@ -1,5 +1,3 @@
-import 'package:auth_app/Features/Auth/view/widgets/signUp_email_form.dart';
-import 'package:auth_app/Features/Auth/view/widgets/signUp_phone_number_form.dart';
 import 'package:flutter/material.dart';
 import '../../../../Common/utils/theme.dart';
 
@@ -7,7 +5,11 @@ class TabWidget extends StatelessWidget {
   Widget firstTap;
   Widget secandTap;
   double height;
-  TabWidget({super.key, required this.firstTap, required this.secandTap, required this.height});
+  TabWidget(
+      {super.key,
+      required this.firstTap,
+      required this.secandTap,
+      required this.height});
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -43,9 +45,6 @@ class TabWidget extends StatelessWidget {
               child: TabBarView(children: [
                 firstTap,
                 secandTap,
-
-                // SignUp_Email_Form(),
-                // SignUp_Phone_Number_Form(),
               ]),
             ),
           ],

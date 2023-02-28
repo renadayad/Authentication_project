@@ -32,8 +32,9 @@ class SignUpScreen extends StatelessWidget {
                 height: 2.3.h,
               ),
               TabWidget(
-                firstTap: SignUp_Email_Form(),
-                secandTap: SignUp_Phone_Number_Form(), height: 650,
+                firstTap: SignUpEmailForm(),
+                secandTap: SignUpPhoneNumberForm(),
+                height: 650,
               )
             ],
           ),

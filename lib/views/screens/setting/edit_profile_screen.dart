@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:auth_app/Common/widgets/text_utils.dart';
-import 'package:auth_app/views/widgets/auth/text_form_field.dart';
+import 'package:auth_app/Common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';

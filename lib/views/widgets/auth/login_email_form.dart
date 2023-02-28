@@ -6,7 +6,7 @@ import 'package:auth_app/Common/utils/theme.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:auth_app/views/widgets/auth/check_widget.dart';
 import 'package:auth_app/views/widgets/auth/container_under.dart';
-import 'package:auth_app/views/widgets/auth/text_form_field.dart';
+import 'package:auth_app/Common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

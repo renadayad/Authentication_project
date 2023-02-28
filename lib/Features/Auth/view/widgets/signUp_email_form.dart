@@ -8,10 +8,10 @@ import '../../../../Common/utils/my_string.dart';
 import '../../../../Common/widgets/text_utils.dart';
 import '../../../../Common/utils/theme.dart';
 import '../../../../views/widgets/auth/auth_button.dart';
-import '../../../../views/widgets/auth/text_form_field.dart';
+import '../../../../Common/widgets/text_form_field.dart';
 
-class SignUp_Email_Form extends StatelessWidget {
-  SignUp_Email_Form({super.key});
+class SignUpEmailForm extends StatelessWidget {
+  SignUpEmailForm({super.key});
 
   final formKey = GlobalKey<FormState>();
   final controller = Get.find<AuthController>();

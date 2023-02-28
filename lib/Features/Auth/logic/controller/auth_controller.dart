@@ -16,7 +16,7 @@ class AuthController extends GetxController {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
-
+  final TextEditingController otpController = TextEditingController();
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
   bool isCheckBox = false;
@@ -60,6 +60,7 @@ class AuthController extends GetxController {
         : GetStorage().read("checKBox");
   }
 
+  // *************Sgin up with email*****************
   void signUpUsingFirebase({required UserModel userModel}) async {
     try {
       await auth
@@ -106,6 +107,128 @@ class AuthController extends GetxController {
     }
   }
 
+  // *************Sgin up and Sgin in with phone number and otp function*****************
+
+  String verificationId = '';
+  Timer? timer;
+  int remainSec = 1;
+  var time = '00:00'.obs;
+  var isbuttonDisable = false;
+
+  verifyPhone({required String phone, required String password}) {
+    try {
+      auth.verifyPhoneNumber(
+        timeout: Duration(seconds: 60),
+        phoneNumber: "+966" + phone,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+        },
+        verificationFailed: (error) {
+          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
+          String message = '';
+          if (error.code == 'invalid-phone-number') {
+            message = 'No user found for that phone Number.';
+          } else if (error.code == 'wrong-password') {
+            message = 'Wrong Password ';
+          } else {
+            Get.snackbar('Error!', error.toString(),
+                snackPosition: SnackPosition.TOP,
+                backgroundColor: Colors.red,
+                colorText: Colors.white);
+          }
+        },
+        codeSent: (String id, int? resendToken) {
+          this.verificationId = id;
+        },
+        codeAutoRetrievalTimeout: (String id) {
+          this.verificationId = id;
+        },
+      );
+    } catch (error) {
+      Get.snackbar('Error!', error.toString(),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    }
+  }
+
+  verifyOTP(String otp) async {
+    try {
+      var credential = await auth.signInWithCredential(
+          PhoneAuthProvider.credential(
+              verificationId: this.verificationId, smsCode: otp));
+
+      if (credential.user != null) {
+        Get.offNamed(Routes.settingsScreen);
+      }
+    } catch (error) {
+      Get.snackbar('Error !', error.toString(),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    }
+  }
+
+  reSendOTP({required String phone}) async {
+    try {
+      await auth.verifyPhoneNumber(
+        timeout: Duration(seconds: 120),
+        phoneNumber: "+966" + phone,
+        verificationCompleted: (AuthCredential authCredential) {},
+        verificationFailed: (error) {
+          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
+          String message = '';
+          if (error.code == 'user-not-found') {
+            message = 'No user found for that phone Number.';
+          } else {
+            message = error.message.toString();
+          }
+          Get.snackbar(title, message,
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.red,
+              colorText: Colors.white);
+        },
+        codeSent: (String id, int? resendToken) {
+          this.verificationId = id;
+        },
+        codeAutoRetrievalTimeout: (String id) {
+          this.verificationId = id;
+        },
+      );
+    } catch (error) {
+      Get.snackbar('Error!', error.toString(),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    }
+
+    update();
+  }
+
+  void startTimer(int sec) {
+    const duration = Duration(seconds: 1);
+    remainSec = sec;
+    timer = Timer.periodic(duration, (timer) {
+      if (remainSec == 0) {
+        timer.cancel();
+
+        buttonDisable();
+      } else {
+        int min = (remainSec ~/ 60);
+        int sec = (remainSec % 60);
+        time.value = min.toString().padLeft(2, '0') +
+            ':' +
+            sec.toString().padLeft(2, '0');
+        remainSec--;
+      }
+    });
+  }
+
+  void buttonDisable() {
+    isbuttonDisable = !isbuttonDisable;
+    update();
+  }
+
   // clear Controller
   void clearController() {
     nameController.clear();
@@ -133,27 +256,20 @@ class AuthController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   User? get userProfile => auth.currentUser;
-  var authState = ''.obs;
-  String verificationId = '';
 
-  Timer? timer;
-  int remainSec = 1;
-  var time = '00:00'.obs;
-  var isbuttonDisable = false;
+  // @override
+  // void onReady() {
+  //   startTimer(60);
+  //   super.onReady();
+  // }
 
-  @override
-  void onReady() {
-    startTimer(60);
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    if (timer != null) {
-      timer!.cancel();
-    }
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   if (timer != null) {
+  //     timer!.cancel();
+  //   }
+  //   super.onClose();
+  // }
 
   loginUsingFierbase({
     required String email,
@@ -290,98 +406,6 @@ class AuthController extends GetxController {
     }
   }
 
-  verifyPhone({required String phone, required String password}) {
-    try {
-      auth.verifyPhoneNumber(
-        timeout: Duration(seconds: 60),
-        phoneNumber: "+966" + phone,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
-        },
-        verificationFailed: (error) {
-          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
-          String message = '';
-          if (error.code == 'invalid-phone-number') {
-            message = 'No user found for that phone Number.';
-          } else if (error.code == 'wrong-password') {
-            message = 'Wrong Password ';
-          } else {
-            Get.snackbar('Error!', error.toString(),
-                snackPosition: SnackPosition.TOP,
-                backgroundColor: Colors.red,
-                colorText: Colors.white);
-          }
-        },
-        codeSent: (String id, int? resendToken) {
-          this.verificationId = id;
-          authState.value = "login Success";
-        },
-        codeAutoRetrievalTimeout: (String id) {
-          this.verificationId = id;
-        },
-      );
-    } catch (error) {
-      Get.snackbar('Error!', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    }
-  }
-
-  verifyOTP(String otp) async {
-    try {
-      var credential = await auth.signInWithCredential(
-          PhoneAuthProvider.credential(
-              verificationId: this.verificationId, smsCode: otp));
-
-      if (credential.user != null) {
-        Get.offNamed(Routes.settingsScreen);
-      }
-    } catch (error) {
-      Get.snackbar('Error !', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    }
-  }
-
-  reSendOTP({required String phone}) async {
-    try {
-      await auth.verifyPhoneNumber(
-        timeout: Duration(seconds: 120),
-        phoneNumber: "+966" + phone,
-        verificationCompleted: (AuthCredential authCredential) {},
-        verificationFailed: (error) {
-          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
-          String message = '';
-          if (error.code == 'user-not-found') {
-            message = 'No user found for that phone Number.';
-          } else {
-            message = error.message.toString();
-          }
-          Get.snackbar(title, message,
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
-        },
-        codeSent: (String id, int? resendToken) {
-          this.verificationId = id;
-          authState.value = "Resend Success";
-        },
-        codeAutoRetrievalTimeout: (String id) {
-          this.verificationId = id;
-        },
-      );
-    } catch (error) {
-      Get.snackbar('Error!', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    }
-
-    update();
-  }
-
   // Future<void> googleSignUpApp() async {
   //   try {
   //     final googleUser = await googleSign.signIn();
@@ -437,30 +461,6 @@ class AuthController extends GetxController {
         colorText: Colors.white,
       );
     }
-  }
-
-  void startTimer(int sec) {
-    const duration = Duration(seconds: 1);
-    remainSec = sec;
-    timer = Timer.periodic(duration, (timer) {
-      if (remainSec == 0) {
-        timer.cancel();
-
-        buttonDisable();
-      } else {
-        int min = (remainSec ~/ 60);
-        int sec = (remainSec % 60);
-        time.value = min.toString().padLeft(2, '0') +
-            ':' +
-            sec.toString().padLeft(2, '0');
-        remainSec--;
-      }
-    });
-  }
-
-  void buttonDisable() {
-    isbuttonDisable = !isbuttonDisable;
-    update();
   }
 
   Future getUserFromDB(String uid) async {
