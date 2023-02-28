@@ -20,7 +20,7 @@ class OTPScreen extends StatelessWidget {
 
     final formKey = GlobalKey<FormState>();
     final controller = Get.find<AuthController>();
-    var isbuttonDisable = controller.isbuttonDisable;
+ var isbuttonDisable = controller.isButtonDisableResendCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -127,25 +127,31 @@ class OTPScreen extends StatelessWidget {
                   height: 32,
                   child: Column(
                     children: [
-                      AuthButton(
-                          onPressed: () {
-                            controller.verifyOTP(controller.otpController.text);
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                });
-                          },
-                          text: 'Verify code'),
+                      GetBuilder<AuthController>(builder: (_){
+                        return    AuthButton(
+                            onPressed: controller.isButtonDisableVerifyCode ?() async {
+
+                              controller.verifyOTP(controller.otpController.text);
+                              controller.buttonDisableVerifyCode();
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  });
+                            } : null,
+                            text: 'Verify code');
+
+                      }),
+
                       GetBuilder<AuthController>(
                         builder: (_) {
                           return TextButton(
-                            onPressed: controller.isbuttonDisable
+                            onPressed: controller.isButtonDisableResendCode
                                 ? () async {
                                     controller.reSendOTP(phone: phoneNumber);
                                     controller.startTimer(60);
-                                   controller.buttonDisable();
+                                   controller.buttonDisableResendCode();
                                   }
                                 : null,
                             child: TextUtils(

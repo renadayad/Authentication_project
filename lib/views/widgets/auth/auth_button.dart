@@ -7,7 +7,7 @@ import '../../../Common/utils/theme.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
-  final Function() onPressed;
+  final Function()? onPressed;
   const AuthButton({required this.onPressed, required this.text, Key? key})
       : super(key: key);
 

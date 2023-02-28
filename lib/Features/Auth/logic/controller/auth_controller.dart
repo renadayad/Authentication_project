@@ -23,7 +23,8 @@ class AuthController extends GetxController {
 
   bool isVisibiltyPassword = false;
   bool isVisibiltyRePassword = false;
-
+  var isButtonDisableResendCode = false;
+  var isButtonDisableVerifyCode = true;
   void VisibiltyPassword() {
     isVisibiltyPassword = !isVisibiltyPassword;
     update();
@@ -34,6 +35,16 @@ class AuthController extends GetxController {
     update();
   }
 
+
+  void buttonDisableResendCode() {
+    isButtonDisableResendCode = !isButtonDisableResendCode;
+    update();
+  }
+
+  void buttonDisableVerifyCode() {
+    isButtonDisableVerifyCode = !isButtonDisableVerifyCode;
+    update();
+  }
   void CheckBox() {
     isCheckBox = !isCheckBox;
     update();
@@ -113,7 +124,7 @@ class AuthController extends GetxController {
   Timer? timer;
   int remainSec = 1;
   var time = '00:00'.obs;
-  var isbuttonDisable = false;
+  // var isbuttonDisable = false;
 
   verifyPhone({required String phone, required String password}) {
     try {
@@ -212,22 +223,22 @@ class AuthController extends GetxController {
       if (remainSec == 0) {
         timer.cancel();
 
-        buttonDisable();
+        buttonDisableResendCode();
+        buttonDisableVerifyCode();
       } else {
+
         int min = (remainSec ~/ 60);
         int sec = (remainSec % 60);
         time.value = min.toString().padLeft(2, '0') +
             ':' +
             sec.toString().padLeft(2, '0');
         remainSec--;
+
       }
     });
   }
 
-  void buttonDisable() {
-    isbuttonDisable = !isbuttonDisable;
-    update();
-  }
+
 
   // clear Controller
   void clearController() {
