@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../../../Common/models/UserModel.dart';
 import '../../../../Core/routes/routes.dart';
 import '../../../../Common/utils/my_string.dart';
 import '../../../../Common/widgets/text_utils.dart';
@@ -194,10 +195,16 @@ class SignUpPhoneNumberForm extends StatelessWidget {
                             phone: controller.phoneNumberController.text.trim(),
                             password: controller.passwordController.text);
                         controller.startTimer(60);
-
-                        await Get.to(OTPScreen(
-                          phoneNumber: controller.phoneNumberController.text,
-                        ));
+                        await Get.to(
+                          OTPScreen(
+                            userModel: UserModel(
+                                email: "",
+                                name: controller.nameController.text,
+                                phone: controller.phoneNumberController.text,
+                                password: "",
+                                image: ""),
+                          ),
+                        );
                       }
                     },
                     text: 'Sign Up');

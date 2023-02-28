@@ -45,8 +45,8 @@ class EditProfileScreen extends StatelessWidget {
               actions: [
                 TextButton(
                     onPressed: () async {
-                      controller.getNameField();
-                      controller.getDescriptionFeild();
+                      // controller.getNameField();
+                      // controller.getDescriptionFeild();
                       if (nameController.text.isNotEmpty ||
                           descriptionController.text.isNotEmpty ||
                           authController.displayUserPhoto.value.isNotEmpty) {
@@ -188,7 +188,7 @@ class EditProfileScreen extends StatelessWidget {
   }
 
   _onPictureSelection() async {
-    await controller.getImageFeild();
+    // await controller.getImageFeild();
     await controller.getImage();
   }
 }

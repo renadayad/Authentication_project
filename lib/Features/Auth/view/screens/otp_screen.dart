@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sizer/sizer.dart';
+import '../../../../Common/models/UserModel.dart';
 import '../../logic/controller/auth_controller.dart';
 
 class OTPScreen extends StatelessWidget {
-  String phoneNumber;
-  OTPScreen({super.key, required this.phoneNumber});
+  UserModel userModel;
+  OTPScreen({super.key, required this.userModel});
   final TextEditingController otpController = TextEditingController();
 
   @override
@@ -19,7 +20,7 @@ class OTPScreen extends StatelessWidget {
 
     final formKey = GlobalKey<FormState>();
     final controller = Get.find<AuthController>();
- var isbuttonDisable = controller.isButtonDisableResendCode;
+    var isbuttonDisable = controller.isButtonDisableResendCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +62,7 @@ class OTPScreen extends StatelessWidget {
                       text: "sent to ",
                       children: [
                         TextSpan(
-                            text: "$phoneNumber",
+                            text: "${userModel.phone}",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
@@ -126,31 +127,33 @@ class OTPScreen extends StatelessWidget {
                   height: 32,
                   child: Column(
                     children: [
-                      GetBuilder<AuthController>(builder: (_){
-                        return    AuthButton(
-                            onPressed: controller.isButtonDisableVerifyCode ?() async {
-
-                              controller.verifyOTP(otpController.text);
-                              controller.buttonDisableVerifyCode();
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  });
-                            } : null,
+                      GetBuilder<AuthController>(builder: (_) {
+                        return AuthButton(
+                            onPressed: controller.isButtonDisableVerifyCode
+                                ? () async {
+                                    controller.verifyOTP(
+                                        otpController.text, userModel);
+                                    controller.buttonDisableVerifyCode();
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        });
+                                  }
+                                : null,
                             text: 'Verify code');
-
                       }),
-
                       GetBuilder<AuthController>(
                         builder: (_) {
                           return TextButton(
                             onPressed: controller.isButtonDisableResendCode
                                 ? () async {
-                                    controller.reSendOTP(phone: phoneNumber);
+                                    controller.reSendOTP(
+                                        phone: userModel.phone.toString());
                                     controller.startTimer(60);
-                                   controller.buttonDisableResendCode();
+                                    controller.buttonDisableResendCode();
                                   }
                                 : null,
                             child: TextUtils(

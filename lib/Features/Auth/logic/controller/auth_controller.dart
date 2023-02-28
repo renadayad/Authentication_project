@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import '../../../../Common/models/UserModel.dart';
 import '../../../../Core/routes/routes.dart';
 
@@ -17,10 +16,9 @@ class AuthController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
 
-  var isSignedIn = false;
   final GetStorage authBox = GetStorage();
+  var isSignedIn = false;
   bool isCheckBox = false;
-
   bool isVisibiltyPassword = false;
   bool isVisibiltyRePassword = false;
   var isButtonDisableResendCode = false;
@@ -35,7 +33,6 @@ class AuthController extends GetxController {
     update();
   }
 
-
   void buttonDisableResendCode() {
     isButtonDisableResendCode = !isButtonDisableResendCode;
     update();
@@ -45,6 +42,7 @@ class AuthController extends GetxController {
     isButtonDisableVerifyCode = !isButtonDisableVerifyCode;
     update();
   }
+
   void CheckBox() {
     isCheckBox = !isCheckBox;
     update();
@@ -87,7 +85,7 @@ class AuthController extends GetxController {
           clearController();
           Get.snackbar("", "Add successfully");
           isSignedIn = false;
-          authBox.remove("auth");
+          //authBox.remove("auth");
           Get.offNamed(Routes.loginScreen);
         });
       });
@@ -163,12 +161,30 @@ class AuthController extends GetxController {
     }
   }
 
-  verifyOTP(String otp) async {
+  verifyOTP(String otp, UserModel userModel) async {
     try {
-      var credential = await auth.signInWithCredential(
-          PhoneAuthProvider.credential(
-              verificationId: this.verificationId, smsCode: otp));
-
+      var credential = await auth
+          .signInWithCredential(PhoneAuthProvider.credential(
+              verificationId: this.verificationId, smsCode: otp))
+          .whenComplete(() {
+        userModel = UserModel(
+            name: userModel.name,
+            phone: userModel.phone,
+            password: "",
+            email: "",
+            image: "");
+        final fierbaseStoreRefrence =
+            FirebaseFirestore.instance.collection("users").doc(userModel.phone);
+        final data = userModel.toJson();
+        fierbaseStoreRefrence.set(data).whenComplete(() {
+          update();
+          clearController();
+          Get.snackbar("", "Add successfully");
+          isSignedIn = false;
+          //authBox.remove("auth");
+          Get.offNamed(Routes.settingsScreen);
+        });
+      });
       if (credential.user != null) {
         Get.offNamed(Routes.settingsScreen);
       }
@@ -226,19 +242,59 @@ class AuthController extends GetxController {
         buttonDisableResendCode();
         buttonDisableVerifyCode();
       } else {
-
         int min = (remainSec ~/ 60);
         int sec = (remainSec % 60);
         time.value = min.toString().padLeft(2, '0') +
             ':' +
             sec.toString().padLeft(2, '0');
         remainSec--;
-
       }
     });
   }
 
+  //***************Sign in with google***************************
+  Future<void> loginUsinggoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await googleSign.signIn();
+      if (googleUser != null) {
+        GoogleSignInAuthentication signInAuthentication =
+            await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+            idToken: signInAuthentication.idToken,
+            accessToken: signInAuthentication.accessToken);
+        await auth.signInWithCredential(credential).whenComplete(() {
+          UserModel userModel = UserModel(
+              name: googleUser.displayName.toString(),
+              password: '',
+              email: googleUser.email,
+              image: googleUser.photoUrl,
+              phone: '');
+          final fierbaseStoreRefrence = FirebaseFirestore.instance
+              .collection("users")
+              .doc(googleUser.email);
+          final data = userModel.toJson();
+          fierbaseStoreRefrence.set(data).whenComplete(() {
+            update();
+            clearController();
+            Get.snackbar("", "Add successfully");
+            isSignedIn = false;
+            //authBox.remove("auth");
+            Get.offNamed(Routes.loginScreen);
+          });
+        });
+      }
+      isSignedIn = true;
+      update();
+      authBox.write("auth", isSignedIn);
 
+      Get.offNamed(Routes.profileScreen);
+    } catch (error) {
+      Get.snackbar('Error!', error.toString(),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    }
+  }
 
   // clear Controller
   void clearController() {
@@ -362,37 +418,6 @@ class AuthController extends GetxController {
       Get.snackbar("Error!", e.toString(),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.grey,
-          colorText: Colors.white);
-    }
-  }
-
-  Future<void> loginUsinggoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await googleSign.signIn();
-      if (googleUser != null) {
-        GoogleSignInAuthentication signInAuthentication =
-            await googleUser.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-            idToken: signInAuthentication.idToken,
-            accessToken: signInAuthentication.accessToken);
-        await auth.signInWithCredential(credential);
-      }
-      displayUserName.value = googleUser!.displayName!;
-      displayUserName.value =
-          (userProfile != null ? userProfile!.displayName : "") ?? "";
-      displayUserEmail.value = googleUser.email;
-      displayUserPhoto.value = googleUser.photoUrl!;
-
-      isSignedIn = true;
-
-      update();
-      authBox.write("auth", isSignedIn);
-
-      Get.offNamed(Routes.profileScreen);
-    } catch (error) {
-      Get.snackbar('Error!', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
           colorText: Colors.white);
     }
   }

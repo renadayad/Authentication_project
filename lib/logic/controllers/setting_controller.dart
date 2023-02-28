@@ -19,9 +19,9 @@ class SettingController extends GetxController {
 
   @override
   void onInit() async {
-    await getImageFeild();
-    await getNameField();
-    await getDescriptionFeild();
+    // await getImageFeild();
+    // await getNameField();
+    // await getDescriptionFeild();
 
     super.onInit();
   }
@@ -73,53 +73,53 @@ class SettingController extends GetxController {
     }
   }
 
-  getImageFeild() async {
-    if (authController.displayUserPhoto.value != null) {
-      var doc1 = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(authController.displayUserEmail.value)
-          .get();
-      authController.displayUserPhoto.value = doc1['image'];
-      print(
-          "display image in controller ${authController.displayUserPhoto.value}");
+  // getImageFeild() async {
+  //   if (authController.displayUserPhoto.value != null) {
+  //     var doc1 = await FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(authController.displayUserEmail.value)
+  //         .get();
+  //     authController.displayUserPhoto.value = doc1['image'];
+  //     print(
+  //         "display image in controller ${authController.displayUserPhoto.value}");
 
-      return authController.displayUserPhoto.value;
-    } else {
-      final GoogleSignInAccount? googleUser = await googleSign.signIn();
+  //     return authController.displayUserPhoto.value;
+  //   } else {
+  //     final GoogleSignInAccount? googleUser = await googleSign.signIn();
 
-      return authController.displayUserPhoto.value = googleUser!.photoUrl!;
-    }
-  }
+  //     return authController.displayUserPhoto.value = googleUser!.photoUrl!;
+  //   }
+  // }
 
-  Future getNameField() async {
-    if (authController.displayUserName.value != null) {
-      var docData = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(authController.displayUserEmail.value)
-          .get();
-      authController.displayUserName.value = docData['displayName'];
-      return authController.displayUserName.value;
-    } else {
-      final GoogleSignInAccount? googleUser = await googleSign.signIn();
+  // Future getNameField() async {
+  //   if (authController.displayUserName.value != null) {
+  //     var docData = await FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(authController.displayUserEmail.value)
+  //         .get();
+  //     authController.displayUserName.value = docData['displayName'];
+  //     return authController.displayUserName.value;
+  //   } else {
+  //     final GoogleSignInAccount? googleUser = await googleSign.signIn();
 
-      return authController.displayUserName.value = googleUser!.displayName!;
-    }
-  }
+  //     return authController.displayUserName.value = googleUser!.displayName!;
+  //   }
+  // }
 
-  Future getDescriptionFeild() async {
-    if (authController.displayDescription.value.isNotEmpty ||
-        authController.displayDescription.value == "") {
-      var doc1 = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(authController.displayUserEmail.value)
-          .get();
-      authController.displayDescription.value = doc1["description"];
+  // Future getDescriptionFeild() async {
+  //   if (authController.displayDescription.value.isNotEmpty ||
+  //       authController.displayDescription.value == "") {
+  //     var doc1 = await FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(authController.displayUserEmail.value)
+  //         .get();
+  //     authController.displayDescription.value = doc1["description"];
 
-      print("display description ${authController.displayDescription.value}");
+  //     print("display description ${authController.displayDescription.value}");
 
-      return authController.displayDescription.value;
-    } else {
-      return "";
-    }
-  }
+  //     return authController.displayDescription.value;
+  //   } else {
+  //     return "";
+  //   }
+  // }
 }
