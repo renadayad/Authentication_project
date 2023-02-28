@@ -6,10 +6,11 @@ import '../../../../Core/routes/routes.dart';
 import '../../../../Common/utils/my_string.dart';
 import '../../../../Common/widgets/text_utils.dart';
 import '../../../../Common/utils/theme.dart';
-import '../../../../views/screens/otp_screen.dart';
+
 import '../../../../views/widgets/auth/auth_button.dart';
 import '../../../../views/widgets/auth/text_form_field.dart';
 import '../../logic/controller/auth_controller.dart';
+import '../screens/otp_screen.dart';
 
 class SignUp_Phone_Number_Form extends StatelessWidget {
   SignUp_Phone_Number_Form({super.key});

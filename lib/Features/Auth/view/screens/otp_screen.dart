@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../Features/Auth/logic/controller/auth_controller.dart';
+import '../../logic/controller/auth_controller.dart';
+
 
 class OTPScreen extends StatelessWidget {
   String phoneNumber;

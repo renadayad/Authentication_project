@@ -6,7 +6,8 @@ import '../../../../Common/utils/theme.dart';
 class TabWidget extends StatelessWidget {
   Widget firstTap;
   Widget secandTap;
-  TabWidget({super.key, required this.firstTap, required this.secandTap});
+  double height;
+  TabWidget({super.key, required this.firstTap, required this.secandTap, required this.height});
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -38,7 +39,7 @@ class TabWidget extends StatelessWidget {
               ),
             ),
             Container(
-              height: 650,
+              height: height,
               child: TabBarView(children: [
                 firstTap,
                 secandTap,

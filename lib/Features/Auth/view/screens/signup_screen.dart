@@ -15,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding:
-              const EdgeInsets.only(top: 90, bottom: 363, right: 40, left: 50),
+              const EdgeInsets.only(top: 90, bottom: 163, right: 40, left: 50),
           child: Column(
             children: [
               HeaderWidget(),
@@ -33,7 +33,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               TabWidget(
                 firstTap: SignUp_Email_Form(),
-                secandTap: SignUp_Phone_Number_Form(),
+                secandTap: SignUp_Phone_Number_Form(), height: 650,
               )
             ],
           ),

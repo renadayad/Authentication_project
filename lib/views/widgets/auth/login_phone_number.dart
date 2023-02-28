@@ -3,7 +3,7 @@ import 'package:auth_app/Core/routes/routes.dart';
 import 'package:auth_app/Common/utils/my_string.dart';
 import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/Common/utils/theme.dart';
-import 'package:auth_app/views/screens/otp_screen.dart';
+
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:auth_app/views/widgets/auth/check_widget%20copy.dart';
 import 'package:auth_app/views/widgets/auth/check_widget.dart';
@@ -14,6 +14,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../Features/Auth/view/screens/otp_screen.dart';
 
 class Login_PhoneNumber_Form extends StatelessWidget {
   Login_PhoneNumber_Form({super.key});
