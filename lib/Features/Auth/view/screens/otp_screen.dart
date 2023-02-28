@@ -13,6 +13,7 @@ import '../../logic/controller/auth_controller.dart';
 class OTPScreen extends StatelessWidget {
   String phoneNumber;
   OTPScreen({super.key, required this.phoneNumber});
+  final TextEditingController otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,7 @@ class OTPScreen extends StatelessWidget {
                       animationDuration: const Duration(milliseconds: 300),
                       enableActiveFill: false,
                       errorAnimationController: errorController,
-                      controller: controller.otpController,
+                      controller: otpController,
                       keyboardType: TextInputType.number,
                       onCompleted: (v) {
                         debugPrint("Completed");
@@ -131,7 +132,7 @@ class OTPScreen extends StatelessWidget {
                         return    AuthButton(
                             onPressed: controller.isButtonDisableVerifyCode ?() async {
 
-                              controller.verifyOTP(controller.otpController.text);
+                              controller.verifyOTP(otpController.text);
                               controller.buttonDisableVerifyCode();
                               showDialog(
                                   context: context,

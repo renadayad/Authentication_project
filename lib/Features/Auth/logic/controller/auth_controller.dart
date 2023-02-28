@@ -16,7 +16,7 @@ class AuthController extends GetxController {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
-  final TextEditingController otpController = TextEditingController();
+
   var isSignedIn = false;
   final GetStorage authBox = GetStorage();
   bool isCheckBox = false;
