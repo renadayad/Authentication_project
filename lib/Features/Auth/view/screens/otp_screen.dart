@@ -145,6 +145,7 @@ class OTPScreen extends StatelessWidget {
                                 ? () async {
                                     controller.reSendOTP(phone: phoneNumber);
                                     controller.startTimer(60);
+                                   controller.buttonDisable();
                                   }
                                 : null,
                             child: TextUtils(

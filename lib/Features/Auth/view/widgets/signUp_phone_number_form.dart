@@ -194,6 +194,7 @@ class SignUpPhoneNumberForm extends StatelessWidget {
                             phone: controller.phoneNumberController.text.trim(),
                             password: controller.passwordController.text);
                         controller.startTimer(60);
+
                         await Get.to(OTPScreen(
                           phoneNumber: controller.phoneNumberController.text,
                         ));
