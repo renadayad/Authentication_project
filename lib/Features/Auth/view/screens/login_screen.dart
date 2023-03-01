@@ -2,10 +2,10 @@ import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/Common/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../Features/Auth/view/widgets/header_widget.dart';
-import '../../Features/Auth/view/widgets/onTap_widget.dart';
-import '../widgets/auth/login_email_form.dart';
-import '../widgets/auth/login_phone_number.dart';
+import '../widgets/header_widget.dart';
+import '../widgets/onTap_widget.dart';
+import '../widgets/login_email_form.dart';
+import '../../../../views/widgets/auth/login_phone_number.dart';
 
 class Login_Screen extends StatelessWidget {
   const Login_Screen({super.key});
@@ -32,7 +32,7 @@ class Login_Screen extends StatelessWidget {
                 height: 2.3.h,
               ),
               TabWidget(
-                firstTap: Login_Email_Form(),
+                firstTap: LoginEmailForm(),
                 secandTap: Login_PhoneNumber_Form(), height: 450,
               ),
             ],

@@ -69,6 +69,59 @@ class AuthController extends GetxController {
         : GetStorage().read("checKBox");
   }
 
+
+
+  // *************log in with email*****************
+
+
+
+  loginUsingFierbase({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        isSignedIn = true;
+        await auth.currentUser!.updateDisplayName(email);
+        authBox.write("auth", isSignedIn);
+        update();
+        clearController();
+        if (isCheckBox) {
+          emailController.text = GetStorage().read("email");
+        } else {
+          emailController.clear();
+        }
+        Get.snackbar("", "login successfully");
+
+        Get.offNamed(Routes.profileScreen);
+      });
+    } on FirebaseAuthException catch (error) {
+      String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
+      String message = '';
+      if (error.code == 'Wrong E-mail') {
+        message = 'Wrong E-mail';
+      } else if (error.code == 'wrong-password') {
+        message = 'Wrong password ';
+      } else {
+        message = error.message.toString();
+      }
+      Get.snackbar(title, message,
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+
   // *************Sgin up with email*****************
   void signUpUsingFirebase({required UserModel userModel}) async {
     try {
@@ -338,63 +391,63 @@ class AuthController extends GetxController {
   //   super.onClose();
   // }
 
-  loginUsingFierbase({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      print("in auth $email");
-      print("in auth controller var $displayUserEmail");
-      print("in auth controller var $displayUserName");
-      await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        DocumentSnapshot userDoc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(displayUserEmail.value)
-            .get();
-        Map<String, dynamic> docData = userDoc.data() as Map<String, dynamic>;
-        displayUserName.value = docData['displayName'];
-        displayUserEmail.value = docData['email'];
-        displayDescription.value = docData['description'];
-        displayUserPhoto.value = docData['image'];
-      });
-
-      // showDialog(
-      //   context: context,
-      //   builder: (context) {
-      //     return CircularProgressIndicator();
-      //   },
-      // );
-
-      isSignedIn = true;
-      authBox.write("auth", isSignedIn);
-      update();
-      Get.offNamed(Routes.profileScreen);
-      //getEmailDoc();
-    } on FirebaseAuthException catch (error) {
-      String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
-      String message = '';
-      if (error.code == 'Wrong E-mail') {
-        message = 'Wrong E-mail';
-      } else if (error.code == 'wrong-password') {
-        message = 'Wrong password ';
-      } else {
-        message = error.message.toString();
-      }
-      Get.snackbar(title, message,
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    } catch (error) {
-      Get.snackbar(
-        'Error!',
-        error.toString(),
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-      );
-    }
-  }
+  // loginUsingFierbase({
+  //   required String email,
+  //   required String password,
+  // }) async {
+  //   try {
+  //     print("in auth $email");
+  //     print("in auth controller var $displayUserEmail");
+  //     print("in auth controller var $displayUserName");
+  //     await auth
+  //         .signInWithEmailAndPassword(email: email, password: password)
+  //         .then((value) async {
+  //       DocumentSnapshot userDoc = await FirebaseFirestore.instance
+  //           .collection('users')
+  //           .doc(displayUserEmail.value)
+  //           .get();
+  //       Map<String, dynamic> docData = userDoc.data() as Map<String, dynamic>;
+  //       displayUserName.value = docData['displayName'];
+  //       displayUserEmail.value = docData['email'];
+  //       displayDescription.value = docData['description'];
+  //       displayUserPhoto.value = docData['image'];
+  //     });
+  //
+  //     // showDialog(
+  //     //   context: context,
+  //     //   builder: (context) {
+  //     //     return CircularProgressIndicator();
+  //     //   },
+  //     // );
+  //
+  //     isSignedIn = true;
+  //     authBox.write("auth", isSignedIn);
+  //     update();
+  //     Get.offNamed(Routes.profileScreen);
+  //     //getEmailDoc();
+  //   } on FirebaseAuthException catch (error) {
+  //     String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
+  //     String message = '';
+  //     if (error.code == 'Wrong E-mail') {
+  //       message = 'Wrong E-mail';
+  //     } else if (error.code == 'wrong-password') {
+  //       message = 'Wrong password ';
+  //     } else {
+  //       message = error.message.toString();
+  //     }
+  //     Get.snackbar(title, message,
+  //         snackPosition: SnackPosition.TOP,
+  //         backgroundColor: Colors.red,
+  //         colorText: Colors.white);
+  //   } catch (error) {
+  //     Get.snackbar(
+  //       'Error!',
+  //       error.toString(),
+  //       snackPosition: SnackPosition.TOP,
+  //       backgroundColor: Colors.red,
+  //     );
+  //   }
+  // }
 
   void resetPassword(String email) async {
     try {

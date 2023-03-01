@@ -13,11 +13,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-class Login_Email_Form extends StatelessWidget {
-  Login_Email_Form({super.key});
+class LoginEmailForm extends StatelessWidget {
+  LoginEmailForm({super.key});
   final formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+
   final controller = Get.find<AuthController>();
 
   @override
@@ -40,7 +39,7 @@ class Login_Email_Form extends StatelessWidget {
             height: 1.17.h,
           ),
           AuthTextFromField(
-            controller: emailController,
+            controller: controller.emailController,
             obscureText: false,
             validator: (value) {
               if (!RegExp(validationEmail).hasMatch(value)) {
@@ -74,7 +73,7 @@ class Login_Email_Form extends StatelessWidget {
           GetBuilder<AuthController>(builder: (_) {
             return AuthTextFromField(
               maxLines: 1,
-              controller: passwordController,
+              controller: controller.passwordController,
               obscureText: controller.isVisibiltyPassword ? false : true,
               validator: (value) {
                 if (value.toString().length < 6) {
@@ -108,28 +107,25 @@ class Login_Email_Form extends StatelessWidget {
           SizedBox(
             height: 3.75.h,
           ),
-          GetBuilder<AuthController>(builder: (_) {
-            return AuthButton(
-              onPressed: () async {
-                if (formKey.currentState!.validate()) {
-                  String email = emailController.text.trim();
-                  String password = passwordController.text;
-                  print("dubg: ${email}");
-                  controller.displayUserEmail.value = email;
-                  controller.loginUsingFierbase(
-                      email: email, password: password);
-                  // show loding page after press login in button
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Center(child: CircularProgressIndicator());
-                    },
-                  );
-                }
-              },
-              text: "Log In",
-            );
-          }),
+          AuthButton(
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                String email = controller.emailController.text.trim();
+                String password = controller.passwordController.text;
+                //print("dubg: ${email}");
+                // controller.displayUserEmail.value = email;
+                controller.loginUsingFierbase(email: email, password: password);
+                // show loding page after press login in button
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Center(child: CircularProgressIndicator());
+                  },
+                );
+              }
+            },
+            text: "Log In",
+          ),
           SizedBox(
             height: 1.17.h,
           ),

@@ -1,5 +1,5 @@
 import 'package:auth_app/views/screens/forgot_password_screen.dart';
-import 'package:auth_app/views/screens/login_screen.dart';
+import 'package:auth_app/Features/Auth/view/screens/login_screen.dart';
 import 'package:auth_app/views/screens/setting/edit_profile_screen.dart';
 import 'package:auth_app/views/screens/setting/profile.dart';
 import 'package:auth_app/views/screens/setting/settings_screen.dart';
