@@ -191,6 +191,9 @@ class SignUpPhoneNumberForm extends StatelessWidget {
                 return AuthButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+
+                        controller.isButtonDisableVerifyCode = true;
+                        controller.isButtonDisableResendCode= false ;
                         controller.verifyPhone(
                             phone: controller.phoneNumberController.text.trim(),
                             password: controller.passwordController.text);
