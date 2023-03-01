@@ -3,8 +3,9 @@ import 'package:auth_app/Core/routes/routes.dart';
 import 'package:auth_app/Common/utils/my_string.dart';
 import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/Common/utils/theme.dart';
+import 'package:auth_app/Features/Auth/view/widgets/check_widget.dart';
 import 'package:auth_app/views/widgets/auth/auth_button.dart';
-import 'package:auth_app/views/widgets/auth/check_widget.dart';
+
 import 'package:auth_app/views/widgets/auth/container_under.dart';
 import 'package:auth_app/Common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,32 @@ class LoginEmailForm extends StatelessWidget {
           SizedBox(
             height: 1.17.h,
           ),
-          CheckWidget(),
+     GetBuilder<AuthController>(builder: (_) {
+          return   CheckWidget(isChecked: controller.isCheckBoxEmail ,
+
+               function: controller.CheckBoxEmail,
+
+
+            Align(
+              alignment: Alignment.center,
+              child: TextButton(
+                onPressed: (() {
+                  Get.toNamed(Routes.forgotpasswordScreen);
+                }),
+                child: TextUtils(
+                    text: "Don't remember the password? ",
+                    color: labalColor,
+                    fontWeight: FontWeight.normal,
+                    fontsize: 7.sp,
+                    underLine: TextDecoration.underline),
+              ),
+            ),
+
+
+          );
+    }),
+
+          // CheckWidget(),
           SizedBox(
             height: 3.75.h,
           ),

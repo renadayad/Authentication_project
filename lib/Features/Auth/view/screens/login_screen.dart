@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import '../widgets/header_widget.dart';
 import '../widgets/onTap_widget.dart';
 import '../widgets/login_email_form.dart';
-import '../../../../views/widgets/auth/login_phone_number.dart';
+import '../widgets/login_phone_number.dart';
 
 class Login_Screen extends StatelessWidget {
   const Login_Screen({super.key});

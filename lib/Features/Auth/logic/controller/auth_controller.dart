@@ -18,7 +18,8 @@ class AuthController extends GetxController {
 
   final GetStorage authBox = GetStorage();
   var isSignedIn = false;
-  bool isCheckBox = false;
+  bool isCheckBoxEmail = false;
+  bool isCheckBoxPhone= false;
   bool isVisibiltyPassword = false;
   bool isVisibiltyRePassword = false;
   var isButtonDisableResendCode = false;
@@ -43,10 +44,10 @@ class AuthController extends GetxController {
     update();
   }
 
-  void CheckBox() {
-    isCheckBox = !isCheckBox;
+  void CheckBoxEmail() {
+    isCheckBoxEmail = !isCheckBoxEmail;
     update();
-    if (isCheckBox) {
+    if (isCheckBoxEmail) {
       GetStorage().write("email", emailController.text);
       emailController.text = GetStorage().read("email");
       GetStorage().write("checKBox", true);
@@ -58,18 +59,52 @@ class AuthController extends GetxController {
     }
   }
 
+  void CheckBoxPhone() {
+    isCheckBoxPhone = !isCheckBoxPhone;
+    update();
+    if (isCheckBoxPhone) {
+      GetStorage().write("phone", phoneNumberController.text);
+      phoneNumberController.text = GetStorage().read("phone");
+      GetStorage().write("checKBoxPhone", true);
+    } else {
+      phoneNumberController.text = '';
+      passwordController.text = '';
+      GetStorage().write("phone", phoneNumberController.text);
+      GetStorage().write("checKBoxPhone", false);
+    }
+  }
+
+
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     emailController.text =
         GetStorage().read("email") == null ? '' : GetStorage().read("email");
-    isCheckBox = GetStorage().read("checKBox") == null
+    isCheckBoxEmail = GetStorage().read("checKBox") == null
         ? false
         : GetStorage().read("checKBox");
+
+
+
+
+
+    // GetStorageCheckBoxPhone();
+
   }
 
 
+
+
+// void GetStorageCheckBoxPhone(){
+//   phoneNumberController.text =
+//   GetStorage().read("phone") == null ? '' : GetStorage().read("phone");
+//   isCheckBoxEmail = GetStorage().read("checKBoxPhone") == null
+//       ? false
+//       : GetStorage().read("checKBoxPhone");
+//
+// }
 
   // *************log in with email*****************
 
@@ -88,7 +123,7 @@ class AuthController extends GetxController {
         authBox.write("auth", isSignedIn);
         update();
         clearController();
-        if (isCheckBox) {
+        if (isCheckBoxEmail) {
           emailController.text = GetStorage().read("email");
         } else {
           emailController.clear();
