@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginEmailForm extends StatelessWidget {
@@ -22,6 +23,10 @@ class LoginEmailForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //***********************
+    controller.isCheckBoxEmail = GetStorage().read("checKBox");
+    print(controller.isCheckBoxEmail );
+    //*******************************************
     return Form(
       key: formKey,
       child: Column(

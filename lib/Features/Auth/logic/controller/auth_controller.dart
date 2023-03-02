@@ -43,6 +43,28 @@ class AuthController extends GetxController {
     isButtonDisableVerifyCode = !isButtonDisableVerifyCode;
     update();
   }
+  @override
+  Future<void> onInit() async {
+    // TODO: implement onInit
+    super.onInit();
+    emailController.text =
+    GetStorage().read("email") == null ? '' : GetStorage().read("email");
+    //****************************
+    // isCheckBoxEmail = await GetStorage().read("checKBox") == null
+    //     ? false
+    //     : GetStorage().read("checKBox");
+
+    //******************************************
+
+    phoneNumberController.text =
+    GetStorage().read("phone") == null ? '' : GetStorage().read("phone");
+//***************************************
+    // isCheckBoxEmail = GetStorage().read("checKBoxPhone") == null
+    //     ? false
+    //     : GetStorage().read("checKBoxPhone");
+    //  *****************************************************
+
+  }
 
   void CheckBoxEmail() {
     isCheckBoxEmail = !isCheckBoxEmail;
@@ -66,6 +88,8 @@ class AuthController extends GetxController {
       GetStorage().write("phone", phoneNumberController.text);
       phoneNumberController.text = GetStorage().read("phone");
       GetStorage().write("checKBoxPhone", true);
+
+
     } else {
       phoneNumberController.text = '';
       passwordController.text = '';
@@ -76,35 +100,10 @@ class AuthController extends GetxController {
 
 
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    emailController.text =
-        GetStorage().read("email") == null ? '' : GetStorage().read("email");
-    isCheckBoxEmail = GetStorage().read("checKBox") == null
-        ? false
-        : GetStorage().read("checKBox");
 
 
 
 
-
-    // GetStorageCheckBoxPhone();
-
-  }
-
-
-
-
-// void GetStorageCheckBoxPhone(){
-//   phoneNumberController.text =
-//   GetStorage().read("phone") == null ? '' : GetStorage().read("phone");
-//   isCheckBoxEmail = GetStorage().read("checKBoxPhone") == null
-//       ? false
-//       : GetStorage().read("checKBoxPhone");
-//
-// }
 
   // *************log in with email*****************
 

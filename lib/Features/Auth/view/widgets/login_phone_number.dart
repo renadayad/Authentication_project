@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
 import '../screens/otp_screen.dart';
@@ -26,6 +27,11 @@ class Login_PhoneNumber_Form extends StatelessWidget {
   final controller = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
+    //***********************
+    controller.isCheckBoxPhone = GetStorage().read("checKBoxPhone");
+    print(controller.isCheckBoxEmail );
+    //*******************************************
+
     return Form(
       key: formKey,
       child: Column(
@@ -44,7 +50,7 @@ class Login_PhoneNumber_Form extends StatelessWidget {
             height: 1.17.h,
           ),
           AuthTextFromField(
-            controller: phoneController,
+            controller: controller.phoneNumberController,
             obscureText: false,
             validator: (value) {
               if (!RegExp(validationNumber).hasMatch(value)) {
@@ -111,10 +117,12 @@ class Login_PhoneNumber_Form extends StatelessWidget {
           ),
         GetBuilder<AuthController>(builder: (_) {
 
-          return  CheckWidget( isChecked: controller.isCheckBoxPhone, function: controller.CheckBoxPhone,Text(""));
+          return  CheckWidget( isChecked: controller.isCheckBoxPhone,
+              function: controller.CheckBoxPhone,
+              Text(""));
         }),
 
-          
+
 
           SizedBox(
             height: 3.75.h,
