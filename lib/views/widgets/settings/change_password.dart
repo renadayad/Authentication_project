@@ -1,14 +1,17 @@
+import 'package:auth_app/Features/Profile/logic/controller/profile_controller.dart';
+import 'package:auth_app/views/screens/setting/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../Features/Auth/logic/controller/auth_controller.dart';
+import '../../../Features/Profile/view/screens/change_password_page.dart';
 import '../../screens/forgot_password_screen.dart';
 
 class ChangePassword extends StatelessWidget {
   ChangePassword({super.key});
 
-  final controller = Get.put(AuthController());
+  final controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class ChangePassword extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Get.to(() => ForgotPasswordScreen());
+            Get.to(() => ChangePsswordPage());
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
