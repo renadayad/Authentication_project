@@ -96,7 +96,7 @@ class AuthController extends GetxController {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         isSignedIn = true;
-        await auth.currentUser!.updateDisplayName(email);
+        // await auth.currentUser!.updateDisplayName(email);
         authBox.write("auth", isSignedIn);
         update();
         clearController();
@@ -141,13 +141,13 @@ class AuthController extends GetxController {
               email: userModel.email.toString(),
               password: userModel.password.toString())
           .then((value) {
-        final fierbaseStoreRefrence =
-            FirebaseFirestore.instance.collection("users").doc(userModel.email);
+        final fierbaseStoreRefrence = FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid);
         final data = userModel.toJson();
         fierbaseStoreRefrence.set(data).whenComplete(() {
           update();
           clearController();
-          Get.snackbar("", "Add successfully");
           isSignedIn = false;
           //authBox.remove("auth");
           Get.offNamed(Routes.loginScreen);
@@ -237,21 +237,21 @@ class AuthController extends GetxController {
             password: "",
             email: "",
             image: "");
-        final fierbaseStoreRefrence =
-            FirebaseFirestore.instance.collection("users").doc(userModel.phone);
+        final fierbaseStoreRefrence = FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid);
         final data = userModel.toJson();
         fierbaseStoreRefrence.set(data).whenComplete(() {
           update();
           clearController();
-          Get.snackbar("", "Add successfully");
-          isSignedIn = false;
-          //authBox.remove("auth");
+          isSignedIn = true;
+          update();
           authBox.write("auth", isSignedIn);
           Get.offNamed(Routes.profileScreen);
         });
       });
       if (credential.user != null) {
-        Get.offNamed(Routes.settingsScreen);
+        Get.offNamed(Routes.profileScreen);
       }
     } catch (error) {
       Get.snackbar('Error !', error.toString(),
@@ -318,6 +318,7 @@ class AuthController extends GetxController {
   }
 
   //***************Sign in with google***************************
+  GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
   Future<void> loginUsinggoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
@@ -336,7 +337,7 @@ class AuthController extends GetxController {
               phone: '');
           final fierbaseStoreRefrence = FirebaseFirestore.instance
               .collection("users")
-              .doc(googleUser.email);
+              .doc(FirebaseAuth.instance.currentUser!.uid);
           final data = userModel.toJson();
           fierbaseStoreRefrence.set(data).whenComplete(() {
             update();
@@ -359,106 +360,6 @@ class AuthController extends GetxController {
           colorText: Colors.white);
     }
   }
-
-  // clear Controller
-  void clearController() {
-    nameController.clear();
-    emailController.clear();
-    passwordController.clear();
-    rePasswordController.clear();
-  }
-
-  //#####################################################################
-
-  final Rx<UserModel> _userModel =
-      UserModel(email: '', name: '', uid: '', password: '', image: '').obs;
-
-  UserModel get user => _userModel.value;
-
-  set user(UserModel value) => _userModel.value = value;
-
-  var displayUserName = ''.obs;
-  var displayUserPhoto = ''.obs;
-  var displayUserEmail = ''.obs;
-  var displayDescription = ''.obs;
-
-  GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
-
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  User? get userProfile => auth.currentUser;
-
-  // @override
-  // void onReady() {
-  //   startTimer(60);
-  //   super.onReady();
-  // }
-
-  // @override
-  // void onClose() {
-  //   if (timer != null) {
-  //     timer!.cancel();
-  //   }
-  //   super.onClose();
-  // }
-
-  // loginUsingFierbase({
-  //   required String email,
-  //   required String password,
-  // }) async {
-  //   try {
-  //     print("in auth $email");
-  //     print("in auth controller var $displayUserEmail");
-  //     print("in auth controller var $displayUserName");
-  //     await auth
-  //         .signInWithEmailAndPassword(email: email, password: password)
-  //         .then((value) async {
-  //       DocumentSnapshot userDoc = await FirebaseFirestore.instance
-  //           .collection('users')
-  //           .doc(displayUserEmail.value)
-  //           .get();
-  //       Map<String, dynamic> docData = userDoc.data() as Map<String, dynamic>;
-  //       displayUserName.value = docData['displayName'];
-  //       displayUserEmail.value = docData['email'];
-  //       displayDescription.value = docData['description'];
-  //       displayUserPhoto.value = docData['image'];
-  //     });
-  //
-  //     // showDialog(
-  //     //   context: context,
-  //     //   builder: (context) {
-  //     //     return CircularProgressIndicator();
-  //     //   },
-  //     // );
-  //
-  //     isSignedIn = true;
-  //     authBox.write("auth", isSignedIn);
-  //     update();
-  //     Get.offNamed(Routes.profileScreen);
-  //     //getEmailDoc();
-  //   } on FirebaseAuthException catch (error) {
-  //     String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
-  //     String message = '';
-  //     if (error.code == 'Wrong E-mail') {
-  //       message = 'Wrong E-mail';
-  //     } else if (error.code == 'wrong-password') {
-  //       message = 'Wrong password ';
-  //     } else {
-  //       message = error.message.toString();
-  //     }
-  //     Get.snackbar(title, message,
-  //         snackPosition: SnackPosition.TOP,
-  //         backgroundColor: Colors.red,
-  //         colorText: Colors.white);
-  //   } catch (error) {
-  //     Get.snackbar(
-  //       'Error!',
-  //       error.toString(),
-  //       snackPosition: SnackPosition.TOP,
-  //       backgroundColor: Colors.red,
-  //     );
-  //   }
-  // }
 
   void resetPassword(String email) async {
     try {
@@ -490,10 +391,6 @@ class AuthController extends GetxController {
     try {
       await auth.signOut();
       await googleSign.signOut();
-      displayUserName.value = "";
-      displayUserPhoto.value = '';
-      displayUserEmail.value = '';
-      displayDescription.value = '';
       isSignedIn = false;
       authBox.remove("auth");
       update();
@@ -506,72 +403,12 @@ class AuthController extends GetxController {
     }
   }
 
-  // Future<void> googleSignUpApp() async {
-  //   try {
-  //     final googleUser = await googleSign.signIn();
-
-  //     isSignedIn = true;
-  //     update();
-  //     Get.offNamed(Routes.profileScreen);
-  //   } catch (error) {
-  //     Get.snackbar(
-  //       'Error!',
-  //       error.toString(),
-  //       snackPosition: SnackPosition.TOP,
-  //       backgroundColor: Colors.red[400],
-  //       colorText: Colors.white,
-  //     );
-  //   }
-  // }
-
-  Future updateFields(TextEditingController value, TextEditingController value1,
-      String imageUrl) async {
-    try {
-      // value is the email user inputs in a textfield and is validated
-      DocumentReference doc = FirebaseFirestore.instance
-          .collection("users")
-          .doc(displayUserEmail.value);
-      if (value.text.isNotEmpty) {
-        await doc.update({"displayName": value.text});
-        displayUserName.value = value.text;
-      }
-      if (value1.text.isNotEmpty) {
-        await doc.update({"description": value1.text});
-        displayDescription.value = value1.text;
-      }
-      if (imageUrl.isNotEmpty) {
-        await doc.update({"image": imageUrl});
-        displayUserPhoto.value = imageUrl;
-      }
-      print(displayUserEmail.value);
-
-      Get.snackbar(
-        'Success!',
-        "Updated successfully!",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.greenAccent,
-        colorText: Colors.white,
-      );
-    } catch (error) {
-      Get.snackbar(
-        'Error!',
-        error.toString(),
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red[400],
-        colorText: Colors.white,
-      );
-    }
-  }
-
-  Future getUserFromDB(String uid) async {
-    try {
-      var userData =
-          await FirebaseFirestore.instance.collection("users").doc(uid).get();
-      var map = userData.data();
-      //debugPrint(map!['email']);
-
-    } on FirebaseException catch (e) {
-      return e.message;
-    }
+  // clear Controller
+  void clearController() {
+    nameController.clear();
+    emailController.clear();
+    phoneNumberController.clear();
+    passwordController.clear();
+    rePasswordController.clear();
   }
 }

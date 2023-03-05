@@ -39,19 +39,12 @@ class ProfileController extends GetxController {
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.topRight,
-                //*******
-                // child: AlertEditpass(),
-                //  **********
               ),
             ).whenComplete(() => Get.back());
             Get.snackbar("title", "successfully",
                 snackPosition: SnackPosition.TOP,
                 backgroundColor: Colors.white,
                 colorText: Colors.white);
-            //********
-            // clearController();
-
-            //  *****************
           });
         } catch (error) {
           Get.snackbar(
@@ -81,7 +74,7 @@ class ProfileController extends GetxController {
       if (FirebaseAuth.instance.currentUser != null) {
         var docData = await FirebaseFirestore.instance
             .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.displayName)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
         name = docData['name'];
 
@@ -90,7 +83,6 @@ class ProfileController extends GetxController {
         return '';
       }
     } catch (error) {
-      print("############################");
       print(error);
     }
   }
@@ -100,7 +92,7 @@ class ProfileController extends GetxController {
       if (FirebaseAuth.instance.currentUser != null) {
         var docData = await FirebaseFirestore.instance
             .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.displayName)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
         image = docData['image'];
         print(docData['image']);
@@ -112,5 +104,11 @@ class ProfileController extends GetxController {
     } catch (error) {
       print(error);
     }
+  }
+
+  void clearController() {
+    passController.clear();
+    newPassController.clear();
+    rePasswordController.clear();
   }
 }

@@ -26,6 +26,7 @@ class ChangePsswordPage extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () {
+            controller.clearController();
             Get.back();
           },
           icon: Icon(
