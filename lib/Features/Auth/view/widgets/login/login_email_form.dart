@@ -30,6 +30,7 @@ class LoginEmailForm extends StatelessWidget {
     print("############################");
     print("Hyyyyyy ${controller.isCheckBoxEmail}");
     //*******************************************
+
     return Form(
       key: formKey,
       child: Column(

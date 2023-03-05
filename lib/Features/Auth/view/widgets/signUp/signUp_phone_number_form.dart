@@ -16,7 +16,6 @@ class SignUpPhoneNumberForm extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
   final controller = Get.find<AuthController>();
-
   @override
   Widget build(BuildContext context) {
     return Form(
