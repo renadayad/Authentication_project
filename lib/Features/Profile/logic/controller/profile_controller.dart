@@ -16,6 +16,7 @@ class ProfileController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getNameField();
+    getImageField();
   }
 
   changePassword(
@@ -95,7 +96,8 @@ class ProfileController extends GetxController {
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.displayName)
           .get();
-      name = docData['image'];
+      image = docData['image'];
+      print(docData['image']);
 
       update();
     } else {

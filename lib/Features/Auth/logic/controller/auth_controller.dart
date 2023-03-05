@@ -96,7 +96,7 @@ class AuthController extends GetxController {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         isSignedIn = true;
-        // await auth.currentUser!.updateDisplayName(email);
+        await auth.currentUser!.updateDisplayName(email);
         authBox.write("auth", isSignedIn);
         update();
         clearController();

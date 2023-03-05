@@ -1,10 +1,9 @@
 import 'package:auth_app/Common/widgets/text_utils.dart';
-import 'package:auth_app/Features/Profile/view/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../Common/utils/theme.dart';
+import '../../../../Common/widgets/auth_button_widget.dart';
 import '../../../../Common/widgets/text_form_field.dart';
 import '../../../Auth/logic/controller/auth_controller.dart';
 import '../../logic/controller/profile_controller.dart';
@@ -141,25 +140,19 @@ class ChangePsswordPage extends StatelessWidget {
                       height: 5.3.h,
                     ),
                     Container(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                controller.changePassword(
-                                  oldPassword: controller.passController.text,
-                                  newPassword:
-                                      controller.newPassController.text,
-                                );
-                              }
-                              // Get.back();
-                            },
-                            child: TextUtils(
-                              text: "Edit",
-                              fontWeight: FontWeight.w500,
-                              fontsize: 10.sp,
-                              color: Colors.black,
-                              underLine: TextDecoration.underline,
-                            ))),
+                      alignment: Alignment.center,
+                      child: AuthButton(
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            controller.changePassword(
+                              oldPassword: controller.passController.text,
+                              newPassword: controller.newPassController.text,
+                            );
+                          }
+                        },
+                        text: 'Edit',
+                      ),
+                    ),
                   ]),
             ),
           ),

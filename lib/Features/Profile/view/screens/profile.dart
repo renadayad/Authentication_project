@@ -2,7 +2,6 @@ import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../Auth/logic/controller/auth_controller.dart';
 import '../../logic/controller/profile_controller.dart';
 import '../widgets/change_password_widget.dart';
@@ -16,7 +15,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(profileController.name);
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -30,80 +28,62 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           body: GetBuilder<AuthController>(builder: (_) {
-            return Obx(() => Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Align(
+                      alignment: Alignment.center,
+                      child: GetBuilder<ProfileController>(builder: (_) {
+                        return Container(
                           height: 100,
                           width: 100,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: authController.displayUserPhoto.value == ""
+                              image: profileController.image == null
                                   ? const AssetImage("assets/images/avtar.png")
                                       as ImageProvider
                                   : NetworkImage(
-                                      authController.displayUserPhoto.value,
+                                      profileController.image,
                                     ),
                               fit: BoxFit.cover,
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2.5.h,
-                      ),
-                      Align(
-                          alignment: Alignment.center,
-                          child: GetBuilder<ProfileController>(builder: (_) {
-                            return TextUtils(
-                              text: profileController.name,
-                              color: Colors.black,
-                              fontsize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                            );
-                          })),
-                      SizedBox(
-                        height: 0.6.h,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextUtils(
-                          fontsize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          text: "Account",
-                          color: Colors.grey.shade700,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2.5.h,
-                      ),
-                      Divider(
-                        color: Colors.grey.shade300,
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 0.5.h,
-                      ),
-                      ChangePaswwordWidget(),
-                      Divider(
-                        color: Colors.grey.shade300,
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 0.5.h,
-                      ),
-                      LogOut(),
-                    ],
+                        );
+                      })),
+                  SizedBox(
+                    height: 2.5.h,
                   ),
-                ));
+                  Align(
+                      alignment: Alignment.center,
+                      child: GetBuilder<ProfileController>(builder: (_) {
+                        return TextUtils(
+                          text: profileController.name,
+                          color: Colors.black,
+                          fontsize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        );
+                      })),
+                  SizedBox(
+                    height: 0.6.h,
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  ChangePaswwordWidget(),
+                  Divider(
+                    color: Colors.grey.shade300,
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 0.5.h,
+                  ),
+                  LogOut(),
+                ],
+              ),
+            );
           })),
     );
   }
