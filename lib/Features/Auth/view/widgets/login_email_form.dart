@@ -25,7 +25,7 @@ class LoginEmailForm extends StatelessWidget {
   Widget build(BuildContext context) {
     //***********************
     controller.isCheckBoxEmail = GetStorage().read("checKBox");
-    print(controller.isCheckBoxEmail );
+    print(controller.isCheckBoxEmail);
     //*******************************************
     return Form(
       key: formKey,
@@ -109,30 +109,35 @@ class LoginEmailForm extends StatelessWidget {
           SizedBox(
             height: 1.17.h,
           ),
-     GetBuilder<AuthController>(builder: (_) {
-          return   CheckWidget(isChecked: controller.isCheckBoxEmail ,
+          Row(
+            children: [
+              Expanded(
 
-               function: controller.CheckBoxEmail,
+                child: GetBuilder<AuthController>(builder: (_) {
+                  return CheckWidget(
+                    isChecked: controller.isCheckBoxEmail,
+                    function: controller.CheckBoxEmail,
 
-
-            Align(
-              alignment: Alignment.center,
-              child: TextButton(
-                onPressed: (() {
-                  Get.toNamed(Routes.forgotpasswordScreen);
+                  );
                 }),
-                child: TextUtils(
-                    text: "Don't remember the password? ",
-                    color: labalColor,
-                    fontWeight: FontWeight.normal,
-                    fontsize: 7.sp,
-                    underLine: TextDecoration.underline),
               ),
-            ),
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: (() {
+                    Get.toNamed(Routes.forgotpasswordScreen);
+                  }),
+                  child: TextUtils(
+                      text: "Don't remember the password? ",
+                      color: labalColor,
+                      fontWeight: FontWeight.normal,
+                      fontsize: 7.sp,
+                      underLine: TextDecoration.underline),
+                ),
+              ),
 
-
-          );
-    }),
+            ],
+          ),
 
           // CheckWidget(),
           SizedBox(
