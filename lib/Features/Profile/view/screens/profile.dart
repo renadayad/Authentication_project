@@ -42,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                             color: Colors.white,
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: profileController.image == null
+                              image: profileController.image == ""
                                   ? const AssetImage("assets/images/avtar.png")
                                       as ImageProvider
                                   : NetworkImage(

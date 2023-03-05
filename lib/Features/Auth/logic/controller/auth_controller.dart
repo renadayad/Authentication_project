@@ -246,7 +246,8 @@ class AuthController extends GetxController {
           Get.snackbar("", "Add successfully");
           isSignedIn = false;
           //authBox.remove("auth");
-          Get.offNamed(Routes.settingsScreen);
+          authBox.write("auth", isSignedIn);
+          Get.offNamed(Routes.profileScreen);
         });
       });
       if (credential.user != null) {

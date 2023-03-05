@@ -1,3 +1,4 @@
+import 'package:auth_app/Common/models/UserModel.dart';
 import 'package:auth_app/Features/Auth/logic/controller/auth_controller.dart';
 import 'package:auth_app/Core/routes/routes.dart';
 import 'package:auth_app/Common/utils/my_string.dart';
@@ -127,13 +128,22 @@ class Login_PhoneNumber_Form extends StatelessWidget {
             return AuthButton(
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
-                  String phone = phoneController.text;
-                  String password = passwordController.text;
-
-                  //controller.verifyPhone(phone: phone, password: password);
-                  // Get.to(OTPScreen(
-                  //   phoneNumber: phoneController.text,
-                  // ));
+                  controller.isButtonDisableVerifyCode = true;
+                  controller.isButtonDisableResendCode = false;
+                  controller.verifyPhone(
+                      phone: controller.phoneNumberController.text.trim(),
+                      password: controller.passwordController.text);
+                  controller.startTimer(60);
+                  await Get.to(
+                    OTPScreen(
+                      userModel: UserModel(
+                          email: "",
+                          name: controller.nameController.text,
+                          phone: controller.phoneNumberController.text,
+                          password: "",
+                          image: ""),
+                    ),
+                  );
                 }
               },
               text: "Log In",
