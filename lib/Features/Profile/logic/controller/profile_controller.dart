@@ -77,31 +77,40 @@ class ProfileController extends GetxController {
   }
 
   Future getNameField() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      var docData = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.displayName)
-          .get();
-      name = docData['name'];
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        var docData = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.displayName)
+            .get();
+        name = docData['name'];
 
-      update();
-    } else {
-      return '';
+        update();
+      } else {
+        return '';
+      }
+    } catch (error) {
+      print("############################");
+      print(error);
     }
   }
 
   Future getImageField() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      var docData = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.displayName)
-          .get();
-      image = docData['image'];
-      print(docData['image']);
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        var docData = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.displayName)
+            .get();
+        image = docData['image'];
+        print(docData['image']);
 
-      update();
-    } else {
-      return '';
+        update();
+      } else {
+        return '';
+      }
+    } catch (error) {
+      print(error);
     }
   }
 }
