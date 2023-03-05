@@ -1,15 +1,15 @@
-import 'package:auth_app/views/screens/forgot_password_screen.dart';
 import 'package:auth_app/Features/Auth/view/screens/login_screen.dart';
-import 'package:auth_app/views/screens/setting/edit_profile_screen.dart';
-import 'package:auth_app/views/screens/setting/profile.dart';
-import 'package:auth_app/views/screens/setting/settings_screen.dart';
+import 'package:auth_app/Features/Profile/view/screens/profile.dart';
 import 'package:auth_app/Features/Auth/view/screens/signup_screen.dart';
 import 'package:get/route_manager.dart';
 
 import '../../Features/Auth/logic/bindings/auth_binding.dart';
+import '../../Features/Auth/view/screens/forget_password.dart';
+import '../../Features/Profile/logic/bindings/profile_binding.dart';
+import '../../Features/Profile/view/screens/change_password_page.dart';
 
 class AppRoutes {
-  static const login = Routes.loginScreen;
+  //static const login = Routes.loginScreen;
 
   static final routes = [
     GetPage(
@@ -29,13 +29,9 @@ class AppRoutes {
         page: () => ProfileScreen(),
         binding: AuthBinding()),
     GetPage(
-        name: Routes.editProfileScreen,
-        page: () => EditProfileScreen(),
-        binding: AuthBinding()),
-    GetPage(
-        name: Routes.settingsScreen,
-        page: () => SettingScreen(),
-        binding: AuthBinding()),
+        name: Routes.changePassword,
+        page: () => ChangePsswordPage(),
+        binding: ProfileBinding()),
   ];
 }
 
@@ -46,4 +42,5 @@ class Routes {
   static const profileScreen = '/profileScreen';
   static const editProfileScreen = '/editProfileScreen';
   static const settingsScreen = '/settingsScreen';
+  static const changePassword = '/ChangePsswordPage';
 }

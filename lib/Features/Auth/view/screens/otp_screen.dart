@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/Common/utils/theme.dart';
-import 'package:auth_app/views/widgets/auth/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../Common/models/UserModel.dart';
+import '../../../../Common/widgets/auth_button_widget.dart';
 import '../../logic/controller/auth_controller.dart';
 
 class OTPScreen extends StatelessWidget {
@@ -150,13 +150,12 @@ class OTPScreen extends StatelessWidget {
                           return TextButton(
                             onPressed: controller.isButtonDisableResendCode
                                 ? () async {
-                              controller.isButtonDisableResendCode = false ;
-                              controller.isButtonDisableVerifyCode = true;
-                              controller.startTimer(60);
+                                    controller.isButtonDisableResendCode =
+                                        false;
+                                    controller.isButtonDisableVerifyCode = true;
+                                    controller.startTimer(60);
                                     controller.reSendOTP(
                                         phone: userModel.phone.toString());
-
-
                                   }
                                 : null,
                             child: TextUtils(

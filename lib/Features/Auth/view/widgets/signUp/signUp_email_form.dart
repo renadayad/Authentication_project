@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../Common/models/UserModel.dart';
+import '../../../../Common/widgets/auth_button_widget.dart';
+import '../../logic/controller/auth_controller.dart';
 import '../../../../Core/routes/routes.dart';
 import '../../../../Common/utils/my_string.dart';
 import '../../../../Common/widgets/text_utils.dart';
 import '../../../../Common/utils/theme.dart';
-import '../../../../views/widgets/auth/auth_button.dart';
 import '../../../../Common/widgets/text_form_field.dart';
-import '../../logic/controller/auth_controller.dart';
-import '../screens/otp_screen.dart';
 
-class SignUpPhoneNumberForm extends StatelessWidget {
-  SignUpPhoneNumberForm({super.key});
+class SignUpEmailForm extends StatelessWidget {
+  SignUpEmailForm({super.key});
 
   final formKey = GlobalKey<FormState>();
   final controller = Get.find<AuthController>();
@@ -24,8 +23,8 @@ class SignUpPhoneNumberForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 1.8.h,
+          const SizedBox(
+            height: 16,
           ),
           TextUtils(
               text: 'Name',
@@ -57,7 +56,7 @@ class SignUpPhoneNumberForm extends StatelessWidget {
             height: 1.7.h,
           ),
           TextUtils(
-              text: 'Phone number',
+              text: 'E-mail',
               fontsize: 11.sp,
               fontWeight: FontWeight.normal,
               color: mainColor,
@@ -66,22 +65,21 @@ class SignUpPhoneNumberForm extends StatelessWidget {
             height: 1.1.h,
           ),
           AuthTextFromField(
-            controller: controller.phoneNumberController,
-            numCode: "+966 ",
+            controller: controller.emailController,
             obscureText: false,
             prefixIcon: const Icon(
-              Icons.phone_outlined,
+              Icons.email_outlined,
               color: mainColor,
             ),
             suffixIcon: const Text(''),
             validator: (value) {
-              if (!RegExp(validationNumber).hasMatch(value)) {
-                return 'Invalid phone number';
+              if (!RegExp(validationEmail).hasMatch(value)) {
+                return 'Invalid Email';
               } else {
                 return null;
               }
             },
-            hintText: '53*******',
+            hintText: 'Enter your E-mail',
           ),
           SizedBox(
             height: 1.7.h,
@@ -189,28 +187,24 @@ class SignUpPhoneNumberForm extends StatelessWidget {
             child: GetBuilder<AuthController>(
               builder: (_) {
                 return AuthButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (formKey.currentState!.validate()) {
-
-                        controller.isButtonDisableVerifyCode = true;
-                        controller.isButtonDisableResendCode= false ;
-                        controller.verifyPhone(
-                            phone: controller.phoneNumberController.text.trim(),
-                            password: controller.passwordController.text);
-                        controller.startTimer(60);
-                        await Get.to(
-                          OTPScreen(
+                        controller.signUpUsingFirebase(
                             userModel: UserModel(
-                                email: "",
-                                name: controller.nameController.text,
-                                phone: controller.phoneNumberController.text,
-                                password: "",
-                                image: ""),
-                          ),
+                          name: controller.nameController.text,
+                          email: controller.emailController.text,
+                          password: controller.passwordController.text,
+                        ));
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(child: CircularProgressIndicator());
+                          },
                         );
                       }
                     },
-                    text: 'Sign Up');
+                    text: 'sgin up');
               },
             ),
           ),

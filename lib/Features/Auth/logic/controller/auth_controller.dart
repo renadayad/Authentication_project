@@ -19,7 +19,7 @@ class AuthController extends GetxController {
   final GetStorage authBox = GetStorage();
   var isSignedIn = false;
   bool isCheckBoxEmail = false;
-  bool isCheckBoxPhone= false;
+  bool isCheckBoxPhone = false;
   bool isVisibiltyPassword = false;
   bool isVisibiltyRePassword = false;
   var isButtonDisableResendCode = false;
@@ -43,27 +43,16 @@ class AuthController extends GetxController {
     isButtonDisableVerifyCode = !isButtonDisableVerifyCode;
     update();
   }
+
   @override
   Future<void> onInit() async {
     // TODO: implement onInit
     super.onInit();
     emailController.text =
-    GetStorage().read("email") == null ? '' : GetStorage().read("email");
-    //****************************
-    // isCheckBoxEmail = await GetStorage().read("checKBox") == null
-    //     ? false
-    //     : GetStorage().read("checKBox");
-
-    //******************************************
+        GetStorage().read("email") == null ? '' : GetStorage().read("email");
 
     phoneNumberController.text =
-    GetStorage().read("phone") == null ? '' : GetStorage().read("phone");
-//***************************************
-    // isCheckBoxEmail = GetStorage().read("checKBoxPhone") == null
-    //     ? false
-    //     : GetStorage().read("checKBoxPhone");
-    //  *****************************************************
-
+        GetStorage().read("phone") == null ? '' : GetStorage().read("phone");
   }
 
   void CheckBoxEmail() {
@@ -88,8 +77,6 @@ class AuthController extends GetxController {
       GetStorage().write("phone", phoneNumberController.text);
       phoneNumberController.text = GetStorage().read("phone");
       GetStorage().write("checKBoxPhone", true);
-
-
     } else {
       phoneNumberController.text = '';
       passwordController.text = '';
@@ -98,16 +85,7 @@ class AuthController extends GetxController {
     }
   }
 
-
-
-
-
-
-
-
   // *************log in with email*****************
-
-
 
   loginUsingFierbase({
     required String email,
@@ -154,7 +132,6 @@ class AuthController extends GetxController {
       );
     }
   }
-
 
   // *************Sgin up with email*****************
   void signUpUsingFirebase({required UserModel userModel}) async {
@@ -363,10 +340,9 @@ class AuthController extends GetxController {
           fierbaseStoreRefrence.set(data).whenComplete(() {
             update();
             clearController();
-            Get.snackbar("", "Add successfully");
             isSignedIn = false;
             //authBox.remove("auth");
-            Get.offNamed(Routes.loginScreen);
+            Get.offNamed(Routes.profileScreen);
           });
         });
       }

@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../Common/models/UserModel.dart';
-import '../../logic/controller/auth_controller.dart';
+import '../../../../Common/widgets/auth_button_widget.dart';
 import '../../../../Core/routes/routes.dart';
 import '../../../../Common/utils/my_string.dart';
 import '../../../../Common/widgets/text_utils.dart';
 import '../../../../Common/utils/theme.dart';
-import '../../../../views/widgets/auth/auth_button.dart';
 import '../../../../Common/widgets/text_form_field.dart';
+import '../../logic/controller/auth_controller.dart';
+import '../screens/otp_screen.dart';
 
-class SignUpEmailForm extends StatelessWidget {
-  SignUpEmailForm({super.key});
+class SignUpPhoneNumberForm extends StatelessWidget {
+  SignUpPhoneNumberForm({super.key});
 
   final formKey = GlobalKey<FormState>();
   final controller = Get.find<AuthController>();
@@ -23,8 +24,8 @@ class SignUpEmailForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 16,
+          SizedBox(
+            height: 1.8.h,
           ),
           TextUtils(
               text: 'Name',
@@ -56,7 +57,7 @@ class SignUpEmailForm extends StatelessWidget {
             height: 1.7.h,
           ),
           TextUtils(
-              text: 'E-mail',
+              text: 'Phone number',
               fontsize: 11.sp,
               fontWeight: FontWeight.normal,
               color: mainColor,
@@ -65,21 +66,22 @@ class SignUpEmailForm extends StatelessWidget {
             height: 1.1.h,
           ),
           AuthTextFromField(
-            controller: controller.emailController,
+            controller: controller.phoneNumberController,
+            numCode: "+966 ",
             obscureText: false,
             prefixIcon: const Icon(
-              Icons.email_outlined,
+              Icons.phone_outlined,
               color: mainColor,
             ),
             suffixIcon: const Text(''),
             validator: (value) {
-              if (!RegExp(validationEmail).hasMatch(value)) {
-                return 'Invalid Email';
+              if (!RegExp(validationNumber).hasMatch(value)) {
+                return 'Invalid phone number';
               } else {
                 return null;
               }
             },
-            hintText: 'Enter your E-mail',
+            hintText: '53*******',
           ),
           SizedBox(
             height: 1.7.h,
@@ -187,24 +189,27 @@ class SignUpEmailForm extends StatelessWidget {
             child: GetBuilder<AuthController>(
               builder: (_) {
                 return AuthButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        controller.signUpUsingFirebase(
+                        controller.isButtonDisableVerifyCode = true;
+                        controller.isButtonDisableResendCode = false;
+                        controller.verifyPhone(
+                            phone: controller.phoneNumberController.text.trim(),
+                            password: controller.passwordController.text);
+                        controller.startTimer(60);
+                        await Get.to(
+                          OTPScreen(
                             userModel: UserModel(
-                          name: controller.nameController.text,
-                          email: controller.emailController.text,
-                          password: controller.passwordController.text,
-                        ));
-
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Center(child: CircularProgressIndicator());
-                          },
+                                email: "",
+                                name: controller.nameController.text,
+                                phone: controller.phoneNumberController.text,
+                                password: "",
+                                image: ""),
+                          ),
                         );
                       }
                     },
-                    text: 'sgin up');
+                    text: 'Sign Up');
               },
             ),
           ),

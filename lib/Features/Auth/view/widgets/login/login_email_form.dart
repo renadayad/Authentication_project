@@ -4,9 +4,6 @@ import 'package:auth_app/Common/utils/my_string.dart';
 import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/Common/utils/theme.dart';
 import 'package:auth_app/Features/Auth/view/widgets/check_widget.dart';
-import 'package:auth_app/views/widgets/auth/auth_button.dart';
-
-import 'package:auth_app/views/widgets/auth/container_under.dart';
 import 'package:auth_app/Common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -14,6 +11,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../Common/widgets/auth_button_widget.dart';
+import '../../../../Common/widgets/container_under_widget.dart';
 
 class LoginEmailForm extends StatelessWidget {
   LoginEmailForm({super.key});
@@ -24,8 +24,11 @@ class LoginEmailForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //***********************
-    controller.isCheckBoxEmail = GetStorage().read("checKBox");
-    print(controller.isCheckBoxEmail);
+    controller.isCheckBoxEmail = GetStorage().read("checKBox") == null
+        ? false
+        : GetStorage().read("checKBox");
+    print("############################");
+    print("Hyyyyyy ${controller.isCheckBoxEmail}");
     //*******************************************
     return Form(
       key: formKey,
@@ -112,12 +115,10 @@ class LoginEmailForm extends StatelessWidget {
           Row(
             children: [
               Expanded(
-
                 child: GetBuilder<AuthController>(builder: (_) {
                   return CheckWidget(
                     isChecked: controller.isCheckBoxEmail,
                     function: controller.CheckBoxEmail,
-
                   );
                 }),
               ),
@@ -135,7 +136,6 @@ class LoginEmailForm extends StatelessWidget {
                       underLine: TextDecoration.underline),
                 ),
               ),
-
             ],
           ),
 

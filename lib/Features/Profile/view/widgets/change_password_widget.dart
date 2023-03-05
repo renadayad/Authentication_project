@@ -1,13 +1,12 @@
-import 'package:auth_app/views/screens/setting/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../Features/Auth/logic/controller/auth_controller.dart';
-import '../../../Core/routes/routes.dart';
+import '../../../Auth/logic/controller/auth_controller.dart';
+import '../../../../Core/routes/routes.dart';
 
-class SettingsWidget extends StatelessWidget {
-  SettingsWidget({super.key});
+class ChangePaswwordWidget extends StatelessWidget {
+  ChangePaswwordWidget({super.key});
 
   final controller = Get.put(AuthController());
 
@@ -18,13 +17,13 @@ class SettingsWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Get.toNamed(Routes.settingsScreen);
+            Get.toNamed(Routes.changePassword);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Settings",
+                "Change password",
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,

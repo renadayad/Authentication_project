@@ -4,11 +4,6 @@ import 'package:auth_app/Common/utils/my_string.dart';
 import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:auth_app/Common/utils/theme.dart';
 import 'package:auth_app/Features/Auth/view/widgets/check_widget.dart';
-
-import 'package:auth_app/views/widgets/auth/auth_button.dart';
-import 'package:auth_app/views/widgets/auth/check_widget%20copy.dart';
-import 'package:auth_app/views/widgets/auth/check_widget.dart';
-import 'package:auth_app/views/widgets/auth/container_under.dart';
 import 'package:auth_app/Common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -17,6 +12,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../Common/widgets/auth_button_widget.dart';
+import '../../../../Common/widgets/container_under_widget.dart';
 import '../screens/otp_screen.dart';
 
 class Login_PhoneNumber_Form extends StatelessWidget {
@@ -28,8 +25,10 @@ class Login_PhoneNumber_Form extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //***********************
-    controller.isCheckBoxPhone = GetStorage().read("checKBoxPhone");
-    print(controller.isCheckBoxEmail );
+    controller.isCheckBoxPhone = GetStorage().read("checKBoxPhone") == null
+        ? false
+        : GetStorage().read("checKBoxPhone");
+    print(controller.isCheckBoxPhone);
     //*******************************************
 
     return Form(
@@ -115,15 +114,12 @@ class Login_PhoneNumber_Form extends StatelessWidget {
           SizedBox(
             height: 1.17.h,
           ),
-        GetBuilder<AuthController>(builder: (_) {
-
-          return  CheckWidget( isChecked: controller.isCheckBoxPhone,
+          GetBuilder<AuthController>(builder: (_) {
+            return CheckWidget(
+              isChecked: controller.isCheckBoxPhone,
               function: controller.CheckBoxPhone,
-             );
-        }),
-
-
-
+            );
+          }),
           SizedBox(
             height: 3.75.h,
           ),

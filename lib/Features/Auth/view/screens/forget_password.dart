@@ -1,11 +1,11 @@
-import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../Common/utils/my_string.dart';
-import '../../Features/Auth/logic/controller/auth_controller.dart';
-import '../widgets/auth/auth_button.dart';
-import '../../Common/widgets/text_form_field.dart';
+import '../../../../Common/utils/my_string.dart';
+import '../../../../Common/widgets/auth_button_widget.dart';
+import '../../../../Common/widgets/text_form_field.dart';
+import '../../../../Common/widgets/text_utils.dart';
+import '../../logic/controller/auth_controller.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 
           initialRoute: GetStorage().read<bool>("auth") == true
               ? Routes.profileScreen
-              : AppRoutes.login,
+              : Routes.loginScreen,
 
           //  initialRoute: Routes.loginScreen,
 

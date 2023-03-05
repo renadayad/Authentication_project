@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../Features/Auth/logic/controller/auth_controller.dart';
+import '../../../Auth/logic/controller/auth_controller.dart';
 
 class LogOut extends StatelessWidget {
   LogOut({super.key});
