@@ -12,9 +12,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../Common/widgets/auth_button_widget.dart';
-import '../../../../Common/widgets/container_under_widget.dart';
-import '../screens/otp_screen.dart';
+import '../../../../../Common/widgets/auth_button_widget.dart';
+import '../../../../../Common/widgets/container_under_widget.dart';
+import '../../screens/otp_screen.dart';
 
 class Login_PhoneNumber_Form extends StatelessWidget {
   Login_PhoneNumber_Form({super.key});

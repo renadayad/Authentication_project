@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../Common/models/UserModel.dart';
-import '../../../../Common/widgets/auth_button_widget.dart';
-import '../../../../Core/routes/routes.dart';
-import '../../../../Common/utils/my_string.dart';
-import '../../../../Common/widgets/text_utils.dart';
-import '../../../../Common/utils/theme.dart';
-import '../../../../Common/widgets/text_form_field.dart';
-import '../../logic/controller/auth_controller.dart';
-import '../screens/otp_screen.dart';
+import '../../../../../Common/models/UserModel.dart';
+import '../../../../../Common/widgets/auth_button_widget.dart';
+import '../../../../../Core/routes/routes.dart';
+import '../../../../../Common/utils/my_string.dart';
+import '../../../../../Common/widgets/text_utils.dart';
+import '../../../../../Common/utils/theme.dart';
+import '../../../../../Common/widgets/text_form_field.dart';
+import '../../../logic/controller/auth_controller.dart';
+import '../../screens/otp_screen.dart';
 
 class SignUpPhoneNumberForm extends StatelessWidget {
   SignUpPhoneNumberForm({super.key});

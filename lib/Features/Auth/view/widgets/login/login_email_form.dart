@@ -12,8 +12,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../Common/widgets/auth_button_widget.dart';
-import '../../../../Common/widgets/container_under_widget.dart';
+import '../../../../../Common/widgets/auth_button_widget.dart';
+import '../../../../../Common/widgets/container_under_widget.dart';
 
 class LoginEmailForm extends StatelessWidget {
   LoginEmailForm({super.key});

@@ -1,19 +1,22 @@
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
-
-
-
-
   final TextEditingController passController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
 
+  String name = '';
+  String image = '';
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getNameField();
+  }
 
   changePassword(
       {required String oldPassword, required String newPassword}) async {
@@ -37,7 +40,7 @@ class ProfileController extends GetxController {
                 alignment: Alignment.topRight,
                 //*******
                 // child: AlertEditpass(),
-              //  **********
+                //  **********
               ),
             ).whenComplete(() => Get.back());
             Get.snackbar("title", "successfully",
@@ -47,7 +50,7 @@ class ProfileController extends GetxController {
             //********
             // clearController();
 
-          //  *****************
+            //  *****************
           });
         } catch (error) {
           Get.snackbar(
@@ -72,4 +75,31 @@ class ProfileController extends GetxController {
     }
   }
 
+  Future getNameField() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      var docData = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.displayName)
+          .get();
+      name = docData['name'];
+
+      update();
+    } else {
+      return '';
+    }
+  }
+
+  Future getImageField() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      var docData = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.displayName)
+          .get();
+      name = docData['image'];
+
+      update();
+    } else {
+      return '';
+    }
+  }
 }

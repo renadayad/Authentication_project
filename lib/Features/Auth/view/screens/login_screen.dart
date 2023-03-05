@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../widgets/header_widget.dart';
 import '../widgets/onTap_widget.dart';
-import '../widgets/login_email_form.dart';
-import '../widgets/login_phone_number.dart';
+import '../widgets/login/login_email_form.dart';
+import '../widgets/login/login_phone_number.dart';
 
 class Login_Screen extends StatelessWidget {
   const Login_Screen({super.key});
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -34,7 +33,8 @@ class Login_Screen extends StatelessWidget {
               ),
               TabWidget(
                 firstTap: LoginEmailForm(),
-                secandTap: Login_PhoneNumber_Form(), height: 450,
+                secandTap: Login_PhoneNumber_Form(),
+                height: 450,
               ),
             ],
           ),

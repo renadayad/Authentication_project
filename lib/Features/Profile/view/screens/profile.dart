@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../Auth/logic/controller/auth_controller.dart';
+import '../../logic/controller/profile_controller.dart';
 import '../widgets/change_password_widget.dart';
 import '../widgets/logout_widget.dart';
 
@@ -11,9 +12,11 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
 
   final authController = Get.find<AuthController>();
+  final profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
+    print(profileController.name);
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -55,14 +58,15 @@ class ProfileScreen extends StatelessWidget {
                         height: 2.5.h,
                       ),
                       Align(
-                        alignment: Alignment.center,
-                        child: TextUtils(
-                          text: authController.displayUserName.value,
-                          color: Colors.black,
-                          fontsize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                          alignment: Alignment.center,
+                          child: GetBuilder<ProfileController>(builder: (_) {
+                            return TextUtils(
+                              text: profileController.name,
+                              color: Colors.black,
+                              fontsize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                            );
+                          })),
                       SizedBox(
                         height: 0.6.h,
                       ),
