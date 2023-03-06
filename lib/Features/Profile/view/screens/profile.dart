@@ -37,37 +37,56 @@ class ProfileScreen extends StatelessWidget {
                   Align(
                       alignment: Alignment.center,
                       child: GetBuilder<ProfileController>(builder: (_) {
-                        return Container(
+
+
+                       return Stack(children: [
+                           Container(
                           height: 100,
                           width: 100,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: profileController.image == ""
+                              image: profileController.image == "" || profileController.image == null
                                   ? const AssetImage("assets/images/avtar.png")
-                                      as ImageProvider
+                              as ImageProvider
                                   : NetworkImage(
-                                      profileController.image,
-                                    ),
+                                profileController.image,
+                              ),
                               fit: BoxFit.cover,
                             ),
                           ),
-                        );
+                        ),
+
+                        Positioned(
+                        bottom: -2, right: -1, //give the values according to your requirement
+                        child: IconButton( onPressed: () {
+                        // _onPictureSelection();
+                        }, icon: const Icon(Icons.camera_alt_outlined,),),
+                        ),
+                        ],);
+
                       })),
                   SizedBox(
                     height: 2.5.h,
                   ),
-                  Align(
-                      alignment: Alignment.center,
-                      child: GetBuilder<ProfileController>(builder: (_) {
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GetBuilder<ProfileController>(builder: (_) {
                         return TextUtils(
                           text: profileController.name,
                           color: Colors.black,
                           fontsize: 12.sp,
                           fontWeight: FontWeight.bold,
                         );
-                      })),
+                      }),
+
+                      IconButton(icon: Icon(Icons.edit), onPressed: (){},)
+
+
+                    ],
+                  ),
                   SizedBox(
                     height: 0.6.h,
                   ),
