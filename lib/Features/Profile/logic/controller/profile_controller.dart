@@ -3,11 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../Core/routes/routes.dart';
+import '../../../Auth/logic/controller/auth_controller.dart';
+
 class ProfileController extends GetxController {
   final TextEditingController passController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
-
+  final controller = Get.find<AuthController>();
   String name = '';
   String image = '';
 
@@ -103,6 +106,27 @@ class ProfileController extends GetxController {
       }
     } catch (error) {
       print(error);
+    }
+  }
+
+
+
+
+
+  void signOut() async {
+    try {
+      await controller.auth.signOut();
+      await controller.googleSign.signOut();
+      controller.isSignedIn = false;
+      controller.authBox.remove("auth");
+
+      update();
+      Get.offNamed(Routes.loginScreen);
+    } catch (e) {
+      Get.snackbar("Error!", e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.grey,
+          colorText: Colors.white);
     }
   }
 

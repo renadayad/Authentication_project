@@ -12,16 +12,14 @@ import '../../logic/controller/auth_controller.dart';
 class OTPScreen extends StatelessWidget {
   UserModel userModel;
   OTPScreen({super.key, required this.userModel});
-  final TextEditingController otpController = TextEditingController();
+  final controller = Get.find<AuthController>();
+
+  StreamController<ErrorAnimationType>? errorController;
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    StreamController<ErrorAnimationType>? errorController;
-
-    final formKey = GlobalKey<FormState>();
-    final controller = Get.find<AuthController>();
     var isbuttonDisable = controller.isButtonDisableResendCode;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -111,7 +109,7 @@ class OTPScreen extends StatelessWidget {
                       animationDuration: const Duration(milliseconds: 300),
                       enableActiveFill: false,
                       errorAnimationController: errorController,
-                      controller: otpController,
+                      controller: controller.otpController,
                       keyboardType: TextInputType.number,
                       onCompleted: (v) {
                         debugPrint("Completed");
@@ -132,7 +130,7 @@ class OTPScreen extends StatelessWidget {
                             onPressed: controller.isButtonDisableVerifyCode
                                 ? () async {
                                     controller.verifyOTP(
-                                        otpController.text, userModel);
+                                        controller.otpController.text, userModel);
                                     controller.buttonDisableVerifyCode();
                                     showDialog(
                                         context: context,

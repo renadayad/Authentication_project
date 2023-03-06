@@ -15,6 +15,7 @@ class AuthController extends GetxController {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
 
   final GetStorage authBox = GetStorage();
   var isSignedIn = false;
@@ -387,21 +388,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void signOut() async {
-    try {
-      await auth.signOut();
-      await googleSign.signOut();
-      isSignedIn = false;
-      authBox.remove("auth");
-      update();
-      Get.offNamed(Routes.loginScreen);
-    } catch (e) {
-      Get.snackbar("Error!", e.toString(),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.grey,
-          colorText: Colors.white);
-    }
-  }
+
 
   // clear Controller
   void clearController() {

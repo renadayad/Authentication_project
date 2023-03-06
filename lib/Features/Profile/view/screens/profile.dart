@@ -15,6 +15,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    profileController.getNameField();
+    profileController.getImageField();
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(

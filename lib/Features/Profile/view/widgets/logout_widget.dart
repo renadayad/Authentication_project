@@ -1,3 +1,4 @@
+import 'package:auth_app/Features/Profile/logic/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -7,7 +8,7 @@ import '../../../Auth/logic/controller/auth_controller.dart';
 class LogOut extends StatelessWidget {
   LogOut({super.key});
 
-  final controller = Get.put(AuthController());
+  final controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
