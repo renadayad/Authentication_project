@@ -7,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../Common/utils/theme.dart';
 import '../../../Auth/logic/controller/auth_controller.dart';
 import '../../logic/controller/profile_controller.dart';
+import '../widgets/change_Language_widget.dart';
 import '../widgets/change_password_widget.dart';
 import '../widgets/logout_widget.dart';
 
@@ -22,42 +23,48 @@ class ProfileScreen extends StatelessWidget {
     profileController.getImageField();
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
-            centerTitle: true,
-            elevation: 0,
-            automaticallyImplyLeading: false,
-            title: Text(
-              'Profile',
-              style: TextStyle(color: Colors.black),
-            ),
+        appBar: AppBar(
+          backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
+          centerTitle: true,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: Text(
+            'Profile',
+            style: TextStyle(color: Colors.black),
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                HeaderWidet(),
-                SizedBox(
-                  height: 0.6.h,
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                ChangePaswwordWidget(),
-                Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 1,
-                ),
-                SizedBox(
-                  height: 0.5.h,
-                ),
-                LogOut(),
-                  ],
-                ),
-
-
-            ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              HeaderWidet(),
+              SizedBox(
+                height: 0.6.h,
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              ChangePaswwordWidget(),
+              Divider(
+                color: Colors.grey.shade300,
+                thickness: 1,
+              ),
+              SizedBox(
+                height: 0.5.h,
+              ),
+              ChangeLanguageWidget(),
+              Divider(
+                color: Colors.grey.shade300,
+                thickness: 1,
+              ),
+              SizedBox(
+                height: 0.5.h,
+              ),
+              LogOut(),
+            ],
           ),
+        ),
+      ),
     );
   }
 }

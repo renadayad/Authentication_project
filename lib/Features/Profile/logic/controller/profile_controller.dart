@@ -129,53 +129,35 @@ class ProfileController extends GetxController {
   }
 
   Future<void> TakePhoto(ImageSource sourse) async {
-
-    try{
-
-
+    try {
       final pickedImage =
-      await imagePicker.pickImage(source: sourse, imageQuality: 100);
+          await imagePicker.pickImage(source: sourse, imageQuality: 100);
 
       pickedFile = File(pickedImage!.path);
-
-
-
-
-        print("..............");
-        print(pickedFile);
-        print("..............");
-        editImageProfile();
-
-    }catch(e){
-
-     print(e);
-
-
+      print("..............");
+      print(pickedFile);
+      print("..............");
+      editImageProfile();
+    } catch (e) {
+      print(e);
     }
-
-
-
-
-
-
-
   }
 
-  Future <void> editImageProfile() async {
-
-
-    final ref =   FirebaseStorage.instance.ref().child("productImage").child("${FirebaseAuth.instance.currentUser!.uid}" + ".jpg");
-    if (pickedFile == null ) {
+  Future<void> editImageProfile() async {
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child("productImage")
+        .child("${FirebaseAuth.instance.currentUser!.uid}" + ".jpg");
+    if (pickedFile == null) {
     } else {
       await ref.putFile(pickedFile!);
       image = await ref.getDownloadURL();
     }
 
-
-
-    final docProduct = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
+    final docProduct = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
     docProduct.update({
-
       'image': image.toString(),
     }).whenComplete(() {
       print("update done");
@@ -185,40 +167,28 @@ class ProfileController extends GetxController {
       // Get.toNamed(Routes.stockScreen);
     });
 
-
-
-
-  }
-
-
-
-
-
-
-
-
-
-  void signOut() async {
-    try {
-      await controller.auth.signOut();
-      await controller.googleSign.signOut();
-      controller.isSignedIn = false;
-      controller.authBox.remove("auth");
-      image = "";
-      name ="";
-      update();
-      Get.offNamed(Routes.loginScreen);
-    } catch (e) {
-      Get.snackbar("Error!", e.toString(),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.grey,
-          colorText: Colors.white);
+    void signOut() async {
+      try {
+        await controller.auth.signOut();
+        await controller.googleSign.signOut();
+        controller.isSignedIn = false;
+        controller.authBox.remove("auth");
+        image = "";
+        name = "";
+        update();
+        Get.offNamed(Routes.loginScreen);
+      } catch (e) {
+        Get.snackbar("Error!", e.toString(),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.grey,
+            colorText: Colors.white);
+      }
     }
-  }
 
-  void clearController() {
-    passController.clear();
-    newPassController.clear();
-    rePasswordController.clear();
+    void clearController() {
+      passController.clear();
+      newPassController.clear();
+      rePasswordController.clear();
+    }
   }
 }
