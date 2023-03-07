@@ -1,6 +1,7 @@
 import 'package:auth_app/Common/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../Common/utils/theme.dart';
 import '../../../Auth/logic/controller/auth_controller.dart';
@@ -64,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                                 -1, //give the values according to your requirement
                             child: IconButton(
                               onPressed: () {
-                                // _onPictureSelection();
+                                profileController.TakePhoto(ImageSource.gallery);
                               },
                               icon: const Icon(
                                 Icons.camera_alt_outlined,

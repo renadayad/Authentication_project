@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../Core/routes/routes.dart';
 import '../../../Auth/logic/controller/auth_controller.dart';
 
@@ -13,6 +17,8 @@ class ProfileController extends GetxController {
   final controller = Get.find<AuthController>();
   String name = '';
   String image = '';
+  final imagePicker = ImagePicker();
+  File? pickedFile;
 
   @override
   void onInit() {
@@ -122,12 +128,56 @@ class ProfileController extends GetxController {
     });
   }
 
+
+  Future<void> TakePhoto(ImageSource sourse) async {
+    final pickedImage =
+    await imagePicker.pickImage(source: sourse, imageQuality: 100);
+
+    pickedFile = File(pickedImage!.path);
+    print("..............");
+    print(pickedFile);
+    print("..............");
+
+
+
+    final ref =   FirebaseStorage.instance.ref().child("productImage").child("${FirebaseAuth.instance.currentUser!.uid}" + ".jpg");
+    if (pickedFile == null) {
+    } else {
+      await ref.putFile(pickedFile!);
+      image = await ref.getDownloadURL();
+    }
+
+
+
+    final docProduct = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
+    docProduct.update({
+
+      'image': image.toString(),
+    }).whenComplete(() {
+      print("update done");
+      Get.snackbar("", "Update successfully..");
+      // clearController();
+      update();
+      // Get.toNamed(Routes.stockScreen);
+    });
+
+  }
+
+
+
+
+
+
+
+
   void signOut() async {
     try {
       await controller.auth.signOut();
       await controller.googleSign.signOut();
       controller.isSignedIn = false;
       controller.authBox.remove("auth");
+      image = "";
+      name ="";
       update();
       Get.offNamed(Routes.loginScreen);
     } catch (e) {
