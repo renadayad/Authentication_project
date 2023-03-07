@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../Core/routes/routes.dart';
 import '../../../Auth/logic/controller/auth_controller.dart';
 
@@ -10,6 +9,7 @@ class ProfileController extends GetxController {
   final TextEditingController passController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
+  final TextEditingController updateNameController = TextEditingController();
   final controller = Get.find<AuthController>();
   String name = '';
   String image = '';
@@ -25,8 +25,7 @@ class ProfileController extends GetxController {
   changePassword(
       {required String oldPassword, required String newPassword}) async {
     final user = await FirebaseAuth.instance.currentUser;
-
-// you should check here that email is not empty
+    // you should check here that email is not empty
     final credential = await EmailAuthProvider.credential(
       email: user!.email!,
       password: oldPassword,
@@ -80,7 +79,6 @@ class ProfileController extends GetxController {
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
         name = docData['name'];
-
         update();
       } else {
         return '';
@@ -98,8 +96,6 @@ class ProfileController extends GetxController {
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
         image = docData['image'];
-        print(docData['image']);
-
         update();
       } else {
         return '';
@@ -109,9 +105,22 @@ class ProfileController extends GetxController {
     }
   }
 
-
-
-
+  Future updateName(String updateName) async {
+    var user = FirebaseAuth.instance.currentUser;
+    user?.updateProfile(displayName: updateName).then((value) {
+      print("Profile has been changed successfully");
+      final docData = FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({"name": updateName}).whenComplete(() {
+        name = updateName;
+        update();
+        updateNameController.clear();
+      });
+    }).catchError((e) {
+      print("There was an error updating profile");
+    });
+  }
 
   void signOut() async {
     try {
@@ -119,7 +128,6 @@ class ProfileController extends GetxController {
       await controller.googleSign.signOut();
       controller.isSignedIn = false;
       controller.authBox.remove("auth");
-
       update();
       Get.offNamed(Routes.loginScreen);
     } catch (e) {
