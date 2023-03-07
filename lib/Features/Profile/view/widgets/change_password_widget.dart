@@ -23,7 +23,7 @@ class ChangePaswwordWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Change password",
+                "Change password".tr,
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,

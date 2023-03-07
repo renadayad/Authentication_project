@@ -11,7 +11,7 @@ class ChangeLanguageWidget extends StatelessWidget {
     return Row(
       children: [
         Text(
-          "Language",
+          "Language".tr,
           style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w300,

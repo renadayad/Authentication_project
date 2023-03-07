@@ -51,7 +51,7 @@ class LogOut extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Logout",
+                "Logout".tr,
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,

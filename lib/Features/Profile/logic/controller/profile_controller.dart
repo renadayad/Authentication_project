@@ -166,29 +166,29 @@ class ProfileController extends GetxController {
       update();
       // Get.toNamed(Routes.stockScreen);
     });
+  }
 
-    void signOut() async {
-      try {
-        await controller.auth.signOut();
-        await controller.googleSign.signOut();
-        controller.isSignedIn = false;
-        controller.authBox.remove("auth");
-        image = "";
-        name = "";
-        update();
-        Get.offNamed(Routes.loginScreen);
-      } catch (e) {
-        Get.snackbar("Error!", e.toString(),
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.grey,
-            colorText: Colors.white);
-      }
+  void signOut() async {
+    try {
+      await controller.auth.signOut();
+      await controller.googleSign.signOut();
+      controller.isSignedIn = false;
+      controller.authBox.remove("auth");
+      image = "";
+      name = "";
+      update();
+      Get.offNamed(Routes.loginScreen);
+    } catch (e) {
+      Get.snackbar("Error!", e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.grey,
+          colorText: Colors.white);
     }
+  }
 
-    void clearController() {
-      passController.clear();
-      newPassController.clear();
-      rePasswordController.clear();
-    }
+  void clearController() {
+    passController.clear();
+    newPassController.clear();
+    rePasswordController.clear();
   }
 }

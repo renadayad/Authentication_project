@@ -1,4 +1,8 @@
 const Map<String, String> en = {
-  "setting": "setting",
-  "settingLanguage": "setting language"
+  "Profile": "Profile",
+  "Change password": "Change password",
+  "Language": "Language",
+  "English": "English",
+  "Arabic": "Arabic",
+  "Logout": "Logout"
 };

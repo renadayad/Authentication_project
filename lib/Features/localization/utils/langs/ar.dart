@@ -1,4 +1,8 @@
 const Map<String, String> ar = {
-  "setting": "الاعدادت",
-  "settingLanguage": "اعدادات اللغه"
+  "Profile": "الصفحه الرئيسية",
+  "Change password": "تغير الرقم السري",
+  "Language": "اللغه",
+  "English": "انجليزي",
+  "Arabic": "عربي",
+  "Logout": "تسجيل خروج",
 };

@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
           elevation: 0,
           automaticallyImplyLeading: false,
           title: Text(
-            'Profile',
+            'Profile'.tr,
             style: TextStyle(color: Colors.black),
           ),
         ),
