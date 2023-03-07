@@ -128,20 +128,44 @@ class ProfileController extends GetxController {
     });
   }
 
-
   Future<void> TakePhoto(ImageSource sourse) async {
-    final pickedImage =
-    await imagePicker.pickImage(source: sourse, imageQuality: 100);
 
-    pickedFile = File(pickedImage!.path);
-    print("..............");
-    print(pickedFile);
-    print("..............");
+    try{
 
+
+      final pickedImage =
+      await imagePicker.pickImage(source: sourse, imageQuality: 100);
+
+      pickedFile = File(pickedImage!.path);
+
+
+
+
+        print("..............");
+        print(pickedFile);
+        print("..............");
+        editImageProfile();
+
+    }catch(e){
+
+     print(e);
+
+
+    }
+
+
+
+
+
+
+
+  }
+
+  Future <void> editImageProfile() async {
 
 
     final ref =   FirebaseStorage.instance.ref().child("productImage").child("${FirebaseAuth.instance.currentUser!.uid}" + ".jpg");
-    if (pickedFile == null) {
+    if (pickedFile == null ) {
     } else {
       await ref.putFile(pickedFile!);
       image = await ref.getDownloadURL();
@@ -161,7 +185,11 @@ class ProfileController extends GetxController {
       // Get.toNamed(Routes.stockScreen);
     });
 
+
+
+
   }
+
 
 
 
