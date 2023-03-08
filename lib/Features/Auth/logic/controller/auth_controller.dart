@@ -348,6 +348,8 @@ class AuthController extends GetxController {
             Get.offNamed(Routes.profileScreen);
           });
         });
+      }else{
+        return;
       }
       isSignedIn = true;
       update();
