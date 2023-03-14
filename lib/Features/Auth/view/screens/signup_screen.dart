@@ -36,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
               TabWidget(
                 firstTap: SignUpEmailForm(),
                 secandTap: SignUpPhoneNumberForm(),
-                height: 650,
+                height: 750,
               )
             ],
           ),

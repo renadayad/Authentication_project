@@ -23,6 +23,7 @@ class HeaderWidget extends StatelessWidget {
           height: 3.7.h,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ButtonWidget(
               conternierColor: googleColor,

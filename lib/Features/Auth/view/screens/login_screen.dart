@@ -34,7 +34,7 @@ class Login_Screen extends StatelessWidget {
               TabWidget(
                 firstTap: LoginEmailForm(),
                 secandTap: Login_PhoneNumber_Form(),
-                height: 450,
+                height: 550,
               ),
             ],
           ),

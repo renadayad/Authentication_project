@@ -35,33 +35,35 @@ class ProfileScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              HeaderWidet(),
-              SizedBox(
-                height: 0.6.h,
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              ChangePaswwordWidget(),
-              Divider(
-                color: Colors.grey.shade300,
-                thickness: 1,
-              ),
-              SizedBox(
-                height: 0.5.h,
-              ),
-              ChangeLanguageWidget(),
-              Divider(
-                color: Colors.grey.shade300,
-                thickness: 1,
-              ),
-              SizedBox(
-                height: 0.5.h,
-              ),
-              LogOut(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                HeaderWidet(),
+                SizedBox(
+                  height: 0.6.h,
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                ChangePaswwordWidget(),
+                Divider(
+                  color: Colors.grey.shade300,
+                  thickness: 1,
+                ),
+                SizedBox(
+                  height: 0.5.h,
+                ),
+                ChangeLanguageWidget(),
+                Divider(
+                  color: Colors.grey.shade300,
+                  thickness: 1,
+                ),
+                SizedBox(
+                  height: 0.5.h,
+                ),
+                LogOut(),
+              ],
+            ),
           ),
         ),
       ),
