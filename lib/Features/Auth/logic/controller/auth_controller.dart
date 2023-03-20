@@ -94,9 +94,14 @@ class AuthController extends GetxController {
               email: userModel.email.toString(),
               password: userModel.password.toString())
           .then((value) {
+        var user = FirebaseAuth.instance.currentUser;
+        user?.updateDisplayName(userModel.name).then((value) {
+          print("Profile has been changed successfully");
+        }).catchError((e) {
+          print("There was an error updating profile");
+        });
         update();
         clearController();
-        isSignedIn = false;
         Get.offNamed(Routes.loginScreen);
       });
     } on FirebaseAuthException catch (error) {

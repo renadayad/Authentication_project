@@ -39,7 +39,6 @@ class HeaderWidet extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-
                   bottom: -11,
                   right: -11, //give the values according to your requirement
                   child: IconButton(
@@ -47,7 +46,8 @@ class HeaderWidet extends StatelessWidget {
                       profileController.TakePhoto(ImageSource.gallery);
                     },
                     icon: const Icon(
-                      Icons.camera_alt_rounded,color: Colors.black,
+                      Icons.camera_alt_rounded,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -62,7 +62,7 @@ class HeaderWidet extends StatelessWidget {
         children: [
           GetBuilder<ProfileController>(builder: (_) {
             return TextUtils(
-              text: profileController.name,
+              text: profileController.updateNameController.text,
               color: Colors.black,
               fontsize: 12.sp,
               fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class HeaderWidet extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         maxLines: 1,
                         decoration: const InputDecoration(
-                            labelText: 'Update Name',
+                            //labelText: "${profileController.name}",
                             hintMaxLines: 1,
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -113,8 +113,7 @@ class HeaderWidet extends StatelessWidget {
                       )
                     ],
                   ),
-                  radius: 10.0
-              );
+                  radius: 10.0);
             },
           ),
         ],

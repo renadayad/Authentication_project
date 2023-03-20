@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +13,7 @@ class ProfileController extends GetxController {
   final TextEditingController rePasswordController = TextEditingController();
   final TextEditingController updateNameController = TextEditingController();
   final controller = Get.find<AuthController>();
-  String name = '';
+  //String name = '';
   String image = '';
   final imagePicker = ImagePicker();
   File? pickedFile;
@@ -26,6 +24,85 @@ class ProfileController extends GetxController {
     super.onInit();
     getNameField();
     getImageField();
+  }
+
+  Future getNameField() async {
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        updateNameController.text =
+            FirebaseAuth.instance.currentUser!.displayName.toString();
+      } else {
+        return '';
+      }
+    } on FirebaseAuthException catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  Future getImageField() async {
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        image = FirebaseAuth.instance.currentUser!.photoURL.toString();
+      } else {
+        return '';
+      }
+    } on FirebaseAuthException catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  Future updateName(String updateName) async {
+    var user = FirebaseAuth.instance.currentUser;
+    user?.updateDisplayName(updateName).then((value) {
+      print("Profile has been changed successfully");
+      updateNameController.text = updateName;
+      update();
+    }).catchError((e) {
+      print("There was an error updating profile");
+    });
+  }
+
+  Future<void> TakePhoto(ImageSource sourse) async {
+    try {
+      final pickedImage =
+          await imagePicker.pickImage(source: sourse, imageQuality: 100);
+      pickedFile = File(pickedImage!.path);
+      print("..............");
+      print(pickedFile);
+      print("..............");
+      updateImageProfile();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateImageProfile() async {
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child("productImage")
+        .child("${FirebaseAuth.instance.currentUser!.uid}" + ".jpg");
+    if (pickedFile == null) {
+    } else {
+      await ref.putFile(pickedFile!);
+      image = await ref.getDownloadURL();
+    }
+    var user = FirebaseAuth.instance.currentUser;
+    await user?.updatePhotoURL(image).then((value) {
+      print("Profile has been changed successfully");
+      update();
+    }).catchError((e) {
+      print("There was an error updating profile");
+    });
   }
 
   changePassword(
@@ -42,13 +119,7 @@ class ProfileController extends GetxController {
           FirebaseAuth.instance.currentUser!
               .updatePassword(newPassController.text)
               .whenComplete(() {
-            Get.dialog(
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                alignment: Alignment.topRight,
-              ),
-            ).whenComplete(() => Get.back());
+            Get.back();
             Get.snackbar("title", "successfully",
                 snackPosition: SnackPosition.TOP,
                 backgroundColor: Colors.white,
@@ -77,97 +148,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future getNameField() async {
-    try {
-      if (FirebaseAuth.instance.currentUser != null) {
-        var docData = await FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get();
-        name = docData['name'];
-        update();
-      } else {
-        return '';
-      }
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  Future getImageField() async {
-    try {
-      if (FirebaseAuth.instance.currentUser != null) {
-        var docData = await FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get();
-        image = docData['image'];
-        update();
-      } else {
-        return '';
-      }
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  Future updateName(String updateName) async {
-    var user = FirebaseAuth.instance.currentUser;
-    user?.updateProfile(displayName: updateName).then((value) {
-      print("Profile has been changed successfully");
-      final docData = FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({"name": updateName}).whenComplete(() {
-        name = updateName;
-        update();
-        updateNameController.clear();
-      });
-    }).catchError((e) {
-      print("There was an error updating profile");
-    });
-  }
-
-  Future<void> TakePhoto(ImageSource sourse) async {
-    try {
-      final pickedImage =
-          await imagePicker.pickImage(source: sourse, imageQuality: 100);
-
-      pickedFile = File(pickedImage!.path);
-      print("..............");
-      print(pickedFile);
-      print("..............");
-      updateImageProfile();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> updateImageProfile() async {
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child("productImage")
-        .child("${FirebaseAuth.instance.currentUser!.uid}" + ".jpg");
-    if (pickedFile == null) {
-    } else {
-      await ref.putFile(pickedFile!);
-      image = await ref.getDownloadURL();
-    }
-
-    final docProduct = FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-    docProduct.update({
-      'image': image.toString(),
-    }).whenComplete(() {
-      print("update done");
-      Get.snackbar("", "Update successfully..");
-      // clearController();
-      update();
-      // Get.toNamed(Routes.stockScreen);
-    });
-  }
-
   void signOut() async {
     try {
       await controller.auth.signOut();
@@ -175,7 +155,7 @@ class ProfileController extends GetxController {
       controller.isSignedIn = false;
       controller.authBox.remove("auth");
       image = "";
-      name = "";
+      updateNameController.text = "";
       update();
       Get.offNamed(Routes.loginScreen);
     } catch (e) {
