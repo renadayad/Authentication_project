@@ -28,7 +28,7 @@ class TabWidget extends StatelessWidget {
                 indicatorColor: Colors.black,
                 labelColor: Colors.black,
                 unselectedLabelColor: mainColor,
-                tabs: [
+                tabs: const [
                   Tab(
                     child: Text(
                       'Email',

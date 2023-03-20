@@ -137,13 +137,13 @@ class ProfileController extends GetxController {
       print("..............");
       print(pickedFile);
       print("..............");
-      editImageProfile();
+      updateImageProfile();
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> editImageProfile() async {
+  Future<void> updateImageProfile() async {
     final ref = FirebaseStorage.instance
         .ref()
         .child("productImage")

@@ -6,12 +6,9 @@ import 'package:auth_app/Common/utils/theme.dart';
 import 'package:auth_app/Features/Auth/view/widgets/check_widget.dart';
 import 'package:auth_app/Common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../../Common/widgets/auth_button_widget.dart';
 import '../../../../../Common/widgets/container_under_widget.dart';
 
@@ -30,7 +27,6 @@ class LoginEmailForm extends StatelessWidget {
     print("############################");
     print("Hyyyyyy ${controller.isCheckBoxEmail}");
     //*******************************************
-
     return Form(
       key: formKey,
       child: Column(
@@ -139,8 +135,6 @@ class LoginEmailForm extends StatelessWidget {
               ),
             ],
           ),
-
-          // CheckWidget(),
           SizedBox(
             height: 3.75.h,
           ),
@@ -149,10 +143,7 @@ class LoginEmailForm extends StatelessWidget {
               if (formKey.currentState!.validate()) {
                 String email = controller.emailController.text.trim();
                 String password = controller.passwordController.text;
-                //print("dubg: ${email}");
-                // controller.displayUserEmail.value = email;
                 controller.loginUsingFierbase(email: email, password: password);
-                // show loding page after press login in button
                 showDialog(
                   context: context,
                   builder: (context) {

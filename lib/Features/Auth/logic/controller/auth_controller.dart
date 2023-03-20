@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auth_app/Features/Auth/view/screens/otp_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -86,45 +86,20 @@ class AuthController extends GetxController {
     }
   }
 
-  // *************log in with email*****************
-
-  loginUsingFierbase({
-    required String email,
-    required String password,
-  }) async {
+  // *************Sgin up with email*****************
+  void signUpUsingFirebase({required UserModel userModel}) async {
     try {
       await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        isSignedIn = true;
-        // await auth.currentUser!.updateDisplayName(email);
-        authBox.write("auth", isSignedIn);
+          .createUserWithEmailAndPassword(
+              email: userModel.email.toString(),
+              password: userModel.password.toString())
+          .then((value) {
         update();
         clearController();
-        if (isCheckBoxEmail) {
-          emailController.text = GetStorage().read("email");
-        } else {
-          emailController.clear();
-        }
-        Get.snackbar("", "login successfully");
-
-        Get.offNamed(Routes.profileScreen);
+        isSignedIn = false;
+        Get.offNamed(Routes.loginScreen);
       });
     } on FirebaseAuthException catch (error) {
-      String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
-      String message = '';
-      if (error.code == 'Wrong E-mail') {
-        message = 'Wrong E-mail';
-      } else if (error.code == 'wrong-password') {
-        message = 'Wrong password ';
-      } else {
-        message = error.message.toString();
-      }
-      Get.snackbar(title, message,
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    } catch (error) {
       Get.snackbar(
         'Error!',
         error.toString(),
@@ -134,62 +109,44 @@ class AuthController extends GetxController {
     }
   }
 
-  // *************Sgin up with email*****************
-  void signUpUsingFirebase({required UserModel userModel}) async {
+  // *************login with email*****************
+  loginUsingFierbase({
+    required String email,
+    required String password,
+  }) async {
     try {
       await auth
-          .createUserWithEmailAndPassword(
-              email: userModel.email.toString(),
-              password: userModel.password.toString())
-          .then((value) {
-        final fierbaseStoreRefrence = FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid);
-        final data = userModel.toJson();
-        fierbaseStoreRefrence.set(data).whenComplete(() {
-          update();
-          clearController();
-          isSignedIn = false;
-          //authBox.remove("auth");
-          Get.offNamed(Routes.loginScreen);
-        });
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        isSignedIn = true;
+        authBox.write("auth", isSignedIn);
+        if (isCheckBoxEmail) {
+          emailController.text = GetStorage().read("email");
+        } else {
+          emailController.clear();
+        }
+        update();
+        clearController();
+        Get.snackbar("", "login successfully");
+        Get.offNamed(Routes.profileScreen);
       });
-    } on FirebaseAuthException catch (e) {
-      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
-      String message = '';
-
-      if (e.code == 'email-already-in-use') {
-        message = 'Email already used';
-      } else {
-        message = e.message.toString();
-      }
-      Get.snackbar(
-        title,
-        message,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red[400],
-        colorText: Colors.white,
-      );
-    } catch (error) {
+    } on FirebaseAuthException catch (error) {
       Get.snackbar(
         'Error!',
         error.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red[400],
-        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
       );
     }
   }
 
-  // *************Sgin up and Sgin in with phone number and otp function*****************
+  // ************* Sgin in with phone number and otp function*****************
 
   String verificationId = '';
   Timer? timer;
   int remainSec = 1;
   var time = '00:00'.obs;
-  // var isbuttonDisable = false;
-
-  verifyPhone({required String phone, required String password}) {
+  verifyPhone({required String phone}) {
     try {
       auth.verifyPhoneNumber(
         timeout: Duration(seconds: 60),
@@ -198,18 +155,12 @@ class AuthController extends GetxController {
           await auth.signInWithCredential(credential);
         },
         verificationFailed: (error) {
-          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
-          String message = '';
-          if (error.code == 'invalid-phone-number') {
-            message = 'No user found for that phone Number.';
-          } else if (error.code == 'wrong-password') {
-            message = 'Wrong Password ';
-          } else {
-            Get.snackbar('Error!', error.toString(),
-                snackPosition: SnackPosition.TOP,
-                backgroundColor: Colors.red,
-                colorText: Colors.white);
-          }
+          Get.snackbar(
+            'Error!',
+            error.toString(),
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red,
+          );
         },
         codeSent: (String id, int? resendToken) {
           this.verificationId = id;
@@ -218,83 +169,45 @@ class AuthController extends GetxController {
           this.verificationId = id;
         },
       );
-    } catch (error) {
-      Get.snackbar('Error!', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+    } on FirebaseAuthException catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
     }
   }
 
-  verifyOTP(String otp, UserModel userModel) async {
+  verifyOTP(String otp) async {
     try {
       var credential = await auth
           .signInWithCredential(PhoneAuthProvider.credential(
               verificationId: this.verificationId, smsCode: otp))
           .whenComplete(() {
-        userModel = UserModel(
-            name: userModel.name,
-            phone: userModel.phone,
-            password: "",
-            email: "",
-            image: "");
-        final fierbaseStoreRefrence = FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid);
-        final data = userModel.toJson();
-        fierbaseStoreRefrence.set(data).whenComplete(() {
-          update();
-          clearController();
-          isSignedIn = true;
-          update();
-          authBox.write("auth", isSignedIn);
-          Get.offNamed(Routes.profileScreen);
-        });
+        clearController();
+        isSignedIn = false;
       });
       if (credential.user != null) {
+        isSignedIn = true;
+        update();
+        authBox.write("auth", isSignedIn);
         Get.offNamed(Routes.profileScreen);
       }
-    } catch (error) {
-      Get.snackbar('Error !', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+    } on FirebaseAuthException catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
+      // isSignedIn = false;
+      Get.to(OTPScreen(phonenumber: phoneNumberController.text));
     }
   }
 
-  reSendOTP({required String phone}) async {
-    try {
-      await auth.verifyPhoneNumber(
-        timeout: Duration(seconds: 120),
-        phoneNumber: "+966" + phone,
-        verificationCompleted: (AuthCredential authCredential) {},
-        verificationFailed: (error) {
-          String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
-          String message = '';
-          if (error.code == 'user-not-found') {
-            message = 'No user found for that phone Number.';
-          } else {
-            message = error.message.toString();
-          }
-          Get.snackbar(title, message,
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
-        },
-        codeSent: (String id, int? resendToken) {
-          this.verificationId = id;
-        },
-        codeAutoRetrievalTimeout: (String id) {
-          this.verificationId = id;
-        },
-      );
-    } catch (error) {
-      Get.snackbar('Error!', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    }
-
+  reSendOTP({required String phoneNumber}) async {
+    verifyPhone(phone: phoneNumber);
     update();
   }
 
@@ -320,7 +233,7 @@ class AuthController extends GetxController {
 
   //***************Sign in with google***************************
   GoogleSignIn googleSign = GoogleSignIn(scopes: ['email']);
-  Future<void> loginUsinggoogle() async {
+  Future<void> loginUsingGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSign.signIn();
       if (googleUser != null) {
@@ -330,37 +243,21 @@ class AuthController extends GetxController {
             idToken: signInAuthentication.idToken,
             accessToken: signInAuthentication.accessToken);
         await auth.signInWithCredential(credential).whenComplete(() {
-          UserModel userModel = UserModel(
-              name: googleUser.displayName.toString(),
-              password: '',
-              email: googleUser.email,
-              image: googleUser.photoUrl,
-              phone: '');
-          final fierbaseStoreRefrence = FirebaseFirestore.instance
-              .collection("users")
-              .doc(FirebaseAuth.instance.currentUser!.uid);
-          final data = userModel.toJson();
-          fierbaseStoreRefrence.set(data).whenComplete(() {
-            update();
-            clearController();
-            isSignedIn = false;
-            //authBox.remove("auth");
-            Get.offNamed(Routes.profileScreen);
-          });
+          isSignedIn = true;
+          update();
+          authBox.write("auth", isSignedIn);
+          Get.offNamed(Routes.profileScreen);
         });
-      }else{
+      } else {
         return;
       }
-      isSignedIn = true;
-      update();
-      authBox.write("auth", isSignedIn);
-
-      Get.offNamed(Routes.profileScreen);
     } catch (error) {
-      Get.snackbar('Error!', error.toString(),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
     }
   }
 
@@ -369,28 +266,15 @@ class AuthController extends GetxController {
       await auth.sendPasswordResetEmail(email: email);
       update();
       Get.back();
-    } on FirebaseAuthException catch (e) {
-      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
-      String message = '';
-      if (e.code == 'user-not-found') {
-        message = "No user found for that $email";
-      } else {
-        message = e.message.toString();
-      }
-
-      Get.snackbar(title, message,
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.grey,
-          colorText: Colors.white);
-    } catch (e) {
-      Get.snackbar("Error!", e.toString(),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.grey,
-          colorText: Colors.white);
+    } on FirebaseAuthException catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
     }
   }
-
-
 
   // clear Controller
   void clearController() {

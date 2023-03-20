@@ -13,12 +13,6 @@ class HeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextUtils(
-            text: 'Sign Up by',
-            fontsize: 11.sp,
-            fontWeight: FontWeight.normal,
-            color: mainColor,
-            underLine: TextDecoration.none),
         SizedBox(
           height: 3.7.h,
         ),
@@ -28,8 +22,7 @@ class HeaderWidget extends StatelessWidget {
             ButtonWidget(
               conternierColor: googleColor,
               onPressed: () async {
-                await controller.loginUsinggoogle();
-
+                await controller.loginUsingGoogle();
               },
               textUtils: 'with Google',
               image: 'assets/images/image 14google.png',

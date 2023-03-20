@@ -7,8 +7,6 @@ import 'package:auth_app/Common/utils/theme.dart';
 import 'package:auth_app/Features/Auth/view/widgets/check_widget.dart';
 import 'package:auth_app/Common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
@@ -31,7 +29,6 @@ class Login_PhoneNumber_Form extends StatelessWidget {
         : GetStorage().read("checKBoxPhone");
     print(controller.isCheckBoxPhone);
     //*******************************************
-
     return Form(
       key: formKey,
       child: Column(
@@ -68,51 +65,6 @@ class Login_PhoneNumber_Form extends StatelessWidget {
             hintText: "53*******",
           ),
           SizedBox(
-            height: 1.76.h,
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: TextUtils(
-                text: 'Password',
-                color: labalColor,
-                fontWeight: FontWeight.w400,
-                fontsize: 11.sp,
-                underLine: TextDecoration.none),
-          ),
-          SizedBox(
-            height: 1.17.h,
-          ),
-          GetBuilder<AuthController>(builder: (_) {
-            return AuthTextFromField(
-              maxLines: 1,
-              controller: passwordController,
-              obscureText: controller.isVisibiltyPassword ? false : true,
-              validator: (value) {
-                if (value.toString().length < 6) {
-                  return " Worng password";
-                } else {
-                  return null;
-                }
-              },
-              prefixIcon: Icon(
-                Icons.lock_outline,
-                color: labalColor,
-              ),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  controller.VisibiltyPassword();
-                },
-                icon: controller.isVisibiltyPassword
-                    ? Icon(Icons.visibility_outlined,
-                        color: labalColor, size: 20)
-                    : Icon(Icons.visibility_off_outlined,
-                        color: labalColor, size: 20),
-                iconSize: 18,
-              ),
-              hintText: "Enter your password",
-            );
-          }),
-          SizedBox(
             height: 1.17.h,
           ),
           GetBuilder<AuthController>(builder: (_) {
@@ -131,17 +83,12 @@ class Login_PhoneNumber_Form extends StatelessWidget {
                   controller.isButtonDisableVerifyCode = true;
                   controller.isButtonDisableResendCode = false;
                   controller.verifyPhone(
-                      phone: controller.phoneNumberController.text.trim(),
-                      password: controller.passwordController.text);
+                    phone: controller.phoneNumberController.text.trim(),
+                  );
                   controller.startTimer(60);
                   await Get.to(
                     OTPScreen(
-                      userModel: UserModel(
-                          email: "",
-                          name: controller.nameController.text,
-                          phone: controller.phoneNumberController.text,
-                          password: "",
-                          image: ""),
+                      phonenumber: controller.phoneNumberController.text,
                     ),
                   );
                 }

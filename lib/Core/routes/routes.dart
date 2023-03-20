@@ -2,7 +2,6 @@ import 'package:auth_app/Features/Auth/view/screens/login_screen.dart';
 import 'package:auth_app/Features/Profile/view/screens/profile.dart';
 import 'package:auth_app/Features/Auth/view/screens/signup_screen.dart';
 import 'package:get/route_manager.dart';
-
 import '../../Features/Auth/logic/bindings/auth_binding.dart';
 import '../../Features/Auth/view/screens/forget_password.dart';
 import '../../Features/Profile/logic/bindings/profile_binding.dart';
@@ -28,6 +27,10 @@ class AppRoutes {
         name: Routes.profileScreen,
         page: () => ProfileScreen(),
         binding: AuthBinding()),
+    // GetPage(
+    //     name: Routes.oTPScreen,
+    //     page: () => OTPScreen(),
+    //     binding: AuthBinding()),
     GetPage(
         name: Routes.changePassword,
         page: () => ChangePsswordPage(),
@@ -43,4 +46,5 @@ class Routes {
   static const editProfileScreen = '/editProfileScreen';
   static const settingsScreen = '/settingsScreen';
   static const changePassword = '/ChangePsswordPage';
+  //static const oTPScreen = '/OTPScreen';
 }

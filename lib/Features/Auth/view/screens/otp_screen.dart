@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../Common/models/UserModel.dart';
 import '../../../../Common/widgets/auth_button_widget.dart';
 import '../../logic/controller/auth_controller.dart';
 
 class OTPScreen extends StatelessWidget {
-  UserModel userModel;
-  OTPScreen({super.key, required this.userModel});
+  String phonenumber;
+  OTPScreen({super.key, required this.phonenumber});
   final controller = Get.find<AuthController>();
 
   StreamController<ErrorAnimationType>? errorController;
@@ -60,7 +59,7 @@ class OTPScreen extends StatelessWidget {
                       text: "sent to ",
                       children: [
                         TextSpan(
-                            text: "${userModel.phone}",
+                            text: "${phonenumber}",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
@@ -130,7 +129,8 @@ class OTPScreen extends StatelessWidget {
                             onPressed: controller.isButtonDisableVerifyCode
                                 ? () async {
                                     controller.verifyOTP(
-                                        controller.otpController.text, userModel);
+                                      controller.otpController.text,
+                                    );
                                     controller.buttonDisableVerifyCode();
                                     showDialog(
                                         context: context,
@@ -153,7 +153,9 @@ class OTPScreen extends StatelessWidget {
                                     controller.isButtonDisableVerifyCode = true;
                                     controller.startTimer(60);
                                     controller.reSendOTP(
-                                        phone: userModel.phone.toString());
+                                        phoneNumber: controller
+                                            .phoneNumberController
+                                            .toString());
                                   }
                                 : null,
                             child: TextUtils(
@@ -169,7 +171,6 @@ class OTPScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../Core/routes/routes.dart';
 import '../../../Auth/logic/controller/auth_controller.dart';
 
 class LogOut extends StatelessWidget {
@@ -37,7 +38,7 @@ class LogOut extends StatelessWidget {
               textConfirm: " Log Out ",
               confirmTextColor: Colors.red,
               onCancel: () {
-                Get.back();
+                Get.toNamed(Routes.profileScreen);
               },
               onConfirm: () {
                 controller.signOut();
